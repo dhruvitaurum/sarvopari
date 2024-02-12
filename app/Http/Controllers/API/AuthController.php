@@ -24,10 +24,10 @@ class AuthController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'mobile' => 'required|min:10',
-            'role_type' => 'required||integer',
+            'role_type' => 'required|integer',
         ],
         [
             'mobile'=>'The mobile field must be at least 10 characters',
