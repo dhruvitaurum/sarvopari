@@ -46,4 +46,4 @@ Route::post('/institude/get-standard', [StandardController::class, 'get_standard
 Route::post('/institude/get-subject', [SubjectController::class, 'get_subject'])->name('institude.subject.post');
 Route::post('/institude/get-subject-chapter', [SubjectChapterController::class, 'get_subject_chapter'])->name('institude.subject_chapter.post');
 Route::post('/institude/get-subject-detail', [SubjectDetailController::class, 'get_subject_detail'])->name('institude.subject_detail.post');
-Route::get('/institude/get-institute-detail', [InstituteController::class, 'get_institute_reponse'])->name('institude.get');
+Route::post('/institude/get-institute-detail', [InstituteController::class, 'get_institute_reponse'])->name('institude.get');

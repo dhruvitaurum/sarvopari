@@ -10,6 +10,6 @@ class Institute_board extends Model
     use HasFactory;
     protected $table = 'institute_board';
     protected $fillable = [
-        'name', 'status', 'created_by', 'updated_by'
+        'name', 'status'
     ];
 }
