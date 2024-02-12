@@ -29,6 +29,10 @@ class AuthController extends Controller
             'mobile' => 'required|min:10',
             'role_type' => 'required||integer',
 
+        ],
+        [
+            'mobile'=>'The mobile field must be at least 10 characters',
+            'role_type'=>'select roleid'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -77,10 +81,11 @@ class AuthController extends Controller
             ->update([
                 'token' => $token
             ]);
+            $otp_reponse = array('OTP'=>$rndno);
          $responseData = [
-            'success' => 'TRUE',
+            'success' => '200',
             'message' => 'OTP Sent Successfully !',
-            'OTP' => $rndno,
+            'data'=> $otp_reponse,
 
         ];
 
@@ -198,7 +203,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         return response()->json([
-            'status' => 'success',
+            'status' => '200',
             'message' => 'Successfully logged out',
         ]);
     }
