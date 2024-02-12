@@ -114,10 +114,11 @@ class InstituteController extends Controller
         ]);
     
         if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
             return response()->json([
                 'success' => 400,
                 'message' => 'Validation error',
-                'errors' => $validator->errors(),
+                'errors' => $errorMessages,
             ], 400);
         }
     

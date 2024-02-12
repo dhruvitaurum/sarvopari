@@ -28,16 +28,17 @@ class AuthController extends Controller
             'password' => 'required|string|min:6',
             'mobile' => 'required|min:10',
             'role_type' => 'required||integer',
-
         ],
         [
             'mobile'=>'The mobile field must be at least 10 characters',
             'role_type'=>'select roleid'
         ]);
         if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+        
             return response()->json([
                 'status' => 400,
-                'errors' => $validator->errors(),
+                'errors' => $errorMessages,
             ], 400);
         }
 
