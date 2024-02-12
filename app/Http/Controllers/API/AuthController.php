@@ -22,20 +22,23 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'mobile' => 'required|min:10',
-            'role_type' => 'required|integer',
-        ],
-        [
-            'mobile'=>'The mobile field must be at least 10 characters',
-            'role_type'=>'select roleid'
-        ]);
+        $validator = \Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6',
+                'mobile' => 'required|min:10',
+                'role_type' => 'required|integer',
+            ],
+            [
+                'mobile' => 'The mobile field must be at least 10 characters',
+                'role_type' => 'select roleid'
+            ]
+        );
         if ($validator->fails()) {
             $errorMessages = array_values($validator->errors()->all());
-        
+
             return response()->json([
                 'status' => 400,
                 'errors' => $errorMessages,
@@ -85,16 +88,15 @@ class AuthController extends Controller
             ->update([
                 'token' => $token
             ]);
-            $otp_reponse = array('OTP'=>$rndno);
-         $responseData = [
+        $otp_reponse = array('OTP' => $rndno);
+        $responseData = [
             'success' => '200',
             'message' => 'OTP Sent Successfully !',
-            'data'=> $otp_reponse,
-
+            'data' => $otp_reponse,
         ];
 
         return response()->json($responseData);
-      }
+    }
     public function verify_otp(Request $request)
     {
         $phone = $request->input('mobile');
@@ -105,7 +107,7 @@ class AuthController extends Controller
         if ($user->count() > 0) {
 
             $otp_check = DB::table('users')->where('otp_num', $otp_num)->get();
-            
+
             if ($otp_check->isNotEmpty()) {
                 if (!empty($user->photo)) {
                     $photo = asset('profile/' . $user->image);
@@ -184,8 +186,9 @@ class AuthController extends Controller
             ], 200, [], JSON_NUMERIC_CHECK);
         } else {
             return response()->json([
-                 'status' => 400,
-                 'message' => 'Invalid credentials']);
+                'status' => 400,
+                'message' => 'Invalid credentials'
+            ]);
         }
     }
     protected function validateToken($user, $providedToken)

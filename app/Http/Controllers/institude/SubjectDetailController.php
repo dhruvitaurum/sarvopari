@@ -14,30 +14,30 @@ class SubjectDetailController extends Controller
         $token = $request->header('Authorization');
         if (strpos($token, 'Bearer ') === 0) {
             $token = substr($token, 7);
-        } 
-        
-        
+        }
+
+
         $existingUser = User::where('token', $token)->first();
-        if($existingUser){
-            $subject_detail =Subject_detail::where('subject_chapter_id', $request->input('subject_chapter_id'))->get();
+        if ($existingUser) {
+            $subject_detail = Subject_detail::where('subject_chapter_id', $request->input('subject_chapter_id'))->get();
             foreach ($subject_detail as $value) {
                 $data[] = array(
                     'topic_no' => $value->topic_no,
                     'topic_name' => $value->topic_name,
-                    'topic_video' => asset('video/'.$value->topic_video),
+                    'topic_video' => asset('video/' . $value->topic_video),
 
-                  );
+                );
             }
             return response()->json([
                 'status' => 200,
                 'message' => 'Successfully fetch data.',
                 'subject_detail' => $data,
-               ], 200, [], JSON_NUMERIC_CHECK);
-        }else{
+            ], 200, [], JSON_NUMERIC_CHECK);
+        } else {
             return response()->json([
                 'status' => 400,
                 'message' => 'Invalid token.',
-            ],400);        
+            ], 400);
         }
     }
 }
