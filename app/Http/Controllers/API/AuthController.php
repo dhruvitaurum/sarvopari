@@ -46,14 +46,14 @@ class AuthController extends Controller
 
             ]);
         }
-        $existingUser1 = User::where('mobile', $request->mobile)->first();
-        if ($existingUser1) {
-            return response()->json([
-                'status' => 400,
-                'message' => 'This mobile_no already exists.',
+        // $existingUser1 = User::where('mobile', $request->mobile)->first();
+        // if ($existingUser1) {
+        //     return response()->json([
+        //         'status' => 400,
+        //         'message' => 'This mobile_no already exists.',
 
-            ]);
-        }
+        //     ]);
+        // }
         if ($request->password != $request->confirm_password) {
             return response()->json([
                 'status' => 400,
