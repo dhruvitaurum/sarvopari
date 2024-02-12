@@ -26,7 +26,7 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|string|min:6',
-            'mobile' => 'required|min:10',
+            'mobile' => 'required|min:10|max:10',
             'role_type' => 'required||integer',
 
         ],
@@ -35,7 +35,13 @@ class AuthController extends Controller
             'role_type'=>'select roleid'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            $mobileError = $validator->errors()->first('mobile');
+            $roleTypeError = $validator->errors()->first('role_type');
+            return response()->json([
+                'status' => 400,
+                'errors' => array($mobileError,$roleTypeError)
+                ,
+            ], 400);
         }
 
         $existingUser = User::where('email', $request->email)->first();
@@ -44,7 +50,7 @@ class AuthController extends Controller
                 'status' => 400,
                 'message' => 'This email already exists.',
 
-            ]);
+            ],400);
         }
         // $existingUser1 = User::where('mobile', $request->mobile)->first();
         // if ($existingUser1) {
@@ -59,7 +65,7 @@ class AuthController extends Controller
                 'status' => 400,
                 'message' => 'Password and confirm_password does not match!',
 
-            ]);
+            ],400);
         }
         $phone = $request->input('mobile');
         $mobileNumber =  $phone;
@@ -82,14 +88,12 @@ class AuthController extends Controller
                 'token' => $token
             ]);
             $otp_reponse = array('OTP'=>$rndno);
-         $responseData = [
-            'success' => '200',
-            'message' => 'OTP Sent Successfully !',
-            'data'=> $otp_reponse,
+            return response()->json([
+                'success' => '200',
+                'message' => 'OTP Sent Successfully !',
+                'data'=> $otp_reponse,
 
-        ];
-
-        return response()->json($responseData);
+        ],400);
       }
     public function verify_otp(Request $request)
     {
@@ -129,7 +133,7 @@ class AuthController extends Controller
                     'status' => 400,
                     'message' => 'Invalid OTP.',
 
-                ]);
+                ],400);
             }
         } else {
             return response()->json([
@@ -207,4 +211,5 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
+   
 }

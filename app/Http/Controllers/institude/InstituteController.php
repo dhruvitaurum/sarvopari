@@ -9,6 +9,7 @@ use App\Models\Institute_for_class;
 use App\Models\Institute_medium;
 use App\Models\Institute_subject;
 use App\Models\Institute_work;
+use App\Models\Insutitute_detail;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -95,7 +96,43 @@ class InstituteController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Invalid token.',
-            ]);        
+            ],400);        
         }
+    }
+    public function register_institute(Request $request){
+        $validator = \Validator::make($request->all(), [
+            'institute_for_id' => 'required|integer',
+            'institute_board_id' => 'required|integer',
+            'institute_for_class_id' => 'required|integer',
+            'institute_medium_id' => 'required|integer',
+            'institute_work_id' => 'required|integer',
+            'subject_id' => 'required|integer',
+            'institute_name' => 'required|string',
+            'address' => 'required|string',
+            'contact_no' => 'required|string|min:10|max:10',
+            'email' => 'required|email|unique:institute_detail,email',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+    
+        try {
+            Insutitute_detail::create($request->all());
+            return response()->json([
+                'success' => 200,
+                'message' => 'Institute created successfully.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Error creating institute',
+                'error' => $e->getMessage(),
+            ], 500);
+        }   
     }
 }

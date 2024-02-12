@@ -43,13 +43,13 @@ class ForgotPasswordController extends Controller
          return response()->json([
               'status'=>200,
               'message'=>'We have e-mailed your password reset link!'
-            ]);
+            ],200);
             // return response()->json(['message' => 'Invalid credentials'], 401);
           } else {
             return response()->json([
                 'status' => 400,
                 'message' => 'Invalid email address'
-            ]);
+            ],400);
         }
       }
       /**
@@ -95,7 +95,7 @@ class ForgotPasswordController extends Controller
           return response()->json([
             'status'=>200,
             'message'=>'Your password has been changed!'
-          ]);
+          ],200);
       }
    
 }

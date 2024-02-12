@@ -34,7 +34,7 @@ class StandardController extends Controller
             return response()->json([
                 'status' => 400,
                 'message' => 'Invalid token.',
-            ]);        
+            ],400);        
         }
     }
 }

@@ -30,10 +30,9 @@ return new class extends Migration
             $table->string('address');
             $table->integer('contact_no');
             $table->string('email');
-            $table->string('subject');
             $table->enum('status',['active','inactive']);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
