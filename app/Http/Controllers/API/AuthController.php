@@ -174,7 +174,9 @@ class AuthController extends Controller
                 ]
             ], 200, [], JSON_NUMERIC_CHECK);
         } else {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json([
+                 'status' => 400,
+                 'message' => 'Invalid credentials']);
         }
     }
     protected function validateToken($user, $providedToken)
