@@ -32,16 +32,16 @@ class board_controller extends Controller
     {
         //
     }
-  public function show(Request $request)
+    public function show(Request $request)
     {
         $token = $request->header('Authorization');
         if (strpos($token, 'Bearer ') === 0) {
             $token = substr($token, 7);
-        } 
-        
-        
+        }
+
+
         $existingUser = User::where('token', $token)->first();
-        if($existingUser){
+        if ($existingUser) {
             $board = Board::get();
             $boardData = $board->map(function ($board) {
                 return [
@@ -52,12 +52,12 @@ class board_controller extends Controller
                 'status' => 200,
                 'message' => 'Successfully fetch data.',
                 'board_list' => $boardData,
-               ], 200, [], JSON_NUMERIC_CHECK);
-        }else{
+            ], 200, [], JSON_NUMERIC_CHECK);
+        } else {
             return response()->json([
                 'status' => 400,
                 'message' => 'Invalid token.',
-            ],400);        
+            ], 400);
         }
     }
 
