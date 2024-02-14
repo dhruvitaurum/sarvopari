@@ -1,4 +1,4 @@
-`<?php
+<?php
 
 namespace App\Http\Controllers\institude;
 
@@ -40,4 +40,3 @@ class SubjectChapterController extends Controller
         }
     }
 }
-`

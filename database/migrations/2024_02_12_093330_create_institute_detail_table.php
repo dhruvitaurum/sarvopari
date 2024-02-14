@@ -13,19 +13,8 @@ return new class extends Migration
     {
         Schema::create('institute_detail', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('institute_for_id');
-            $table->foreign('institute_for_id')->references('id')->on('institute_for')->onDelete('cascade');
-            $table->unsignedBigInteger('institute_board_id');
-            $table->foreign('institute_board_id')->references('id')->on('institute_board')->onDelete('cascade');
-            $table->unsignedBigInteger('institute_for_class_id');
-            $table->foreign('institute_for_class_id')->references('id')->on('institute_for_class')->onDelete('cascade');
-            $table->unsignedBigInteger('institute_medium_id');
-            $table->foreign('institute_medium_id')->references('id')->on('institute_medium')->onDelete('cascade');
-            $table->unsignedBigInteger('institute_work_id');
-            $table->foreign('institute_work_id')->references('id')->on('institute_work')->onDelete('cascade');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('subject_id')->references('id')->on('institute_subject')->onDelete('cascade');
-           
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('institute_name');
             $table->string('address');
             $table->integer('contact_no');
