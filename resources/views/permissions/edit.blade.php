@@ -68,7 +68,8 @@
                                     
                                     {{ $dt->module_name }}  </td>
                                         
-									    <td> <input type="hidden" name="module_id[]" value="{{$dt->id}}"> <input class="form-check-input" type="checkbox" name="add[]" value="1" id="settings-checkbox-3" @if($dt->add && $dt->user_id == $user_id) checked @endif >  </td>
+									    <td> <input type="hidden" name="module_id[]" value="{{$dt->id}}"> 
+                                        <input class="form-check-input" type="checkbox" name="add[]" value="1" id="settings-checkbox-3" @if($dt->add && $dt->user_id == $user_id) checked @endif >  </td>
                                         <td> <input class="form-check-input" type="checkbox" name="edit[]" value="1" id="settings-checkbox-3" @if($dt->edit && $dt->user_id == $user_id) checked @endif>  </td>
                                         <td> <input class="form-check-input" type="checkbox" name="delete[]" value="1" id="settings-checkbox-3" @if($dt->delete && $dt->user_id == $user_id) checked @endif>  </td>
                                         <td> <input class="form-check-input" type="checkbox" name="view[]" value="1" id="settings-checkbox-3" @if($dt->view && $dt->user_id == $user_id) checked @endif>  </td>

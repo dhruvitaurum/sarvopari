@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\User;
+use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +49,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/sub_admin_list/{id}', [User::class, 'sub_admin_list'])->middleware(['auth', 'verified'])->name('sub_admin_list');
+Route::get('/sub_admin_list/{id}', [Users::class, 'sub_admin_list'])->middleware(['auth', 'verified'])->name('sub_admin_list');
+Route::get('/sub_admin_create', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('sub_admin_create');
+Route::patch('/sub_admin_store', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('sub_admin_store');
 Route::get('/permissions/{user_id}', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permissions.edit');
 Route::patch('/permissions/{user_id}', [PermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('permissions.update');
 
