@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('standard_id');
-            $table->foreign('standard_id')->references('id')->on('standards')->onDelete('cascade');
+            $table->foreign('standard_id')->references('id')->on('standards');
             $table->string('subject_name');
             $table->timestamps();
             $table->softDeletes();

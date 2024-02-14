@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institute_detail', function (Blueprint $table) {
+        Schema::create('institute_work_sub', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('institute_name');
-            $table->string('address');
-            $table->integer('contact_no');
-            $table->string('email');
-            $table->enum('status',['active','inactive']);
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->unsignedBigInteger('institute_id');
+            $table->foreign('institute_id')->references('id')->on('institute_detail');
+            $table->unsignedBigInteger('institute_work_id');
+            $table->foreign('institute_work_id')->references('id')->on('institute_work');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institute_detail');
+        Schema::dropIfExists('institute_work_sub');
     }
 };

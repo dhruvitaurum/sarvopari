@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('standards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('board_id');
-            $table->foreign('board_id')->references('id')->on('board')->onDelete('cascade');
+            $table->foreign('board_id')->references('id')->on('board');
             $table->string('standard_name');
             $table->timestamps();
             $table->softDeletes();

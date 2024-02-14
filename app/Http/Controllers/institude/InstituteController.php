@@ -4,11 +4,17 @@ namespace App\Http\Controllers\institude;
 
 use App\Http\Controllers\Controller;
 use App\Models\Institute_board;
+use App\Models\Institute_board_sub;
 use App\Models\Institute_for;
 use App\Models\Institute_for_class;
+use App\Models\Institute_for_class_sub;
+use App\Models\Institute_for_sub;
 use App\Models\Institute_medium;
+use App\Models\Institute_medium_sub;
 use App\Models\Institute_subject;
+use App\Models\Institute_subject_sub;
 use App\Models\Institute_work;
+use App\Models\Institute_work_sub;
 use App\Models\Insutitute_detail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -102,16 +108,18 @@ class InstituteController extends Controller
     }
     public function register_institute(Request $request)
     {
+        // echo "<pre>";print_r($request->all());exit;
         $validator = \Validator::make($request->all(), [
-            'institute_for_id' => 'required|integer',
-            'institute_board_id' => 'required|integer',
-            'institute_for_class_id' => 'required|integer',
-            'institute_medium_id' => 'required|integer',
-            'institute_work_id' => 'required|integer',
-            'subject_id' => 'required|integer',
+            'user_id'=> 'required|integer',
+            'institute_for_id' => 'required|string',
+            'institute_board_id' => 'required|string',
+            'institute_for_class_id' => 'required|string',
+            'institute_medium_id' => 'required|string',
+            'institute_work_id' => 'required|string',
+            'subject_id' => 'required|string',
             'institute_name' => 'required|string',
             'address' => 'required|string',
-            'contact_no' => 'required|string|min:10|max:10',
+            'contact_no' => 'required|integer|min:10',
             'email' => 'required|email|unique:institute_detail,email',
         ]);
 
@@ -125,7 +133,64 @@ class InstituteController extends Controller
         }
 
         try {
-            Insutitute_detail::create($request->all());
+            $instituteDetail =Insutitute_detail::create([
+                'user_id'=>$request->input('user_id'),
+                'institute_name'=>$request->input('institute_name'),
+                'address'=>$request->input('address'),
+                'contact_no'=>$request->input('contact_no'),
+                'email'=>$request->input('email'),
+            ]);
+            $lastInsertedId = $instituteDetail->id;
+            $intitute_for_id = explode(',',$request->input('institute_for_id'));
+            foreach($intitute_for_id as $value){
+                Institute_for_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_for_id'=>$value,
+                ]);
+            }
+            $institute_board_id = explode(',',$request->input('institute_board_id'));
+            foreach($institute_board_id as $value){
+                Institute_board_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_board_id'=>$value,
+                ]);
+            }
+            $institute_for_class_id = explode(',',$request->input('institute_for_class_id'));
+            foreach($institute_for_class_id as $value){
+                Institute_for_class_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_for_class_id'=>$value,
+                ]);
+            }
+            $institute_medium_id = explode(',',$request->input('institute_medium_id'));
+            foreach($institute_medium_id as $value){
+                Institute_medium_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_medium_id'=>$value,
+                ]);
+            }
+            $institute_work_id = explode(',',$request->input('institute_work_id'));
+            foreach($institute_work_id as $value){
+                Institute_work_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_work_id'=>$value,
+                ]);
+            }
+            $subject_id = explode(',',$request->input('subject_id'));
+            foreach($subject_id as $value){
+                Institute_subject_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'subject_id'=>$value,
+                ]);
+            }
+            
+
             return response()->json([
                 'success' => 200,
                 'message' => 'Institute created successfully.'
