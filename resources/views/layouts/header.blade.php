@@ -129,32 +129,30 @@
 
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      
-          @php $menu=getDynamicMenu() @endphp
-          
-         @foreach($menu as $value)
-           <li class="nav-item">
-            <a href="{{ url($value['url']) }}" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-              {{ $value['menu_name']}}
-                <i class="fas fa-angle-left right"></i>
-              </p>  
-            </a>
-            <ul class="nav nav-treeview">
-                  @foreach($value['submenus'] as $submenu)
-                          <li class="nav-item">
-                              <a href="{{ url($submenu['url']) }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  {{ $submenu['menu_name'] }}
-                              </a>
-                          </li>
-                      @endforeach
-            </ul>
-          </li>
-         
-          @endforeach
-        
+        @php $menu = getDynamicMenu() @endphp
+
+        @foreach($menu as $value)
+            <li class="nav-item">
+                <a href="{{ url($value['url']) }}" class="nav-link {{ !empty($value['submenus']) ? 'has-submenu' : '' }}">
+                    {{ $value['menu_name'] }}
+                    @if (!empty($value['submenus']))
+                        <i class="fas fa-angle-left right"></i>
+                    @endif
+                </a>
+                @if (!empty($value['submenus']))
+                    <ul class="nav nav-treeview">
+                        @foreach($value['submenus'] as $submenu)
+                            <li class="nav-item">
+                                <a href="{{ url($submenu['url']) }}" class="nav-link">
+                                    {{ $submenu['menu_name'] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </li>
+        @endforeach
+
          
         </ul>
       </nav>
