@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('module_menu', function (Blueprint $table) {
+        Schema::create('menu', function (Blueprint $table) {
             $table->id();
-            $table->string('module_name');
-            $table->string('module_id')->default(0);
-            $table->string('page_url')->nullable();
-            $table->rememberToken();
+            $table->string('menu_name');
+            $table->integer('sub_menu_id');
+            $table->string('url');
             $table->timestamps();
-       
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('module_menu');
+        Schema::dropIfExists('menu');
     }
 };

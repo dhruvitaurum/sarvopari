@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('module_id');
-            $table->integer('user_id');
+        Schema::create('permission', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('roles');
+            $table->unsignedBigInteger('menu_id');
+            $table->foreign('menu_id')->references('id')->on('menu');
             $table->integer('add')->default(0);
             $table->integer('edit')->default(0);
-            $table->integer('delete')->default(0);
             $table->integer('view')->default(0);
-            $table->rememberToken();
+            $table->integer('delete')->default(0);
             $table->timestamps();
-       
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('module_menu');
+        Schema::dropIfExists('permission');
     }
 };
