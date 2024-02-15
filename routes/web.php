@@ -60,9 +60,9 @@ Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('role
 Route::get('/permission', [PermissionController::class, 'create_permission'])->name('permission.create');
 Route::post('permission/insert', [PermissionController::class, 'insert_permission'])->name('permission.insert');
 
-// Route::get('/sub_admin_list/{id}', [Users::class, 'sub_admin_list'])->middleware(['auth', 'verified'])->name('sub_admin_list');
-// Route::get('/sub_admin_create', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('sub_admin_create');
-// Route::patch('/sub_admin_store', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('sub_admin_store');
+ Route::get('/admin', [Users::class, 'list_admin'])->middleware(['auth', 'verified'])->name('admin.list');
+ Route::get('/admin', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('admin.create');
+ Route::patch('/sub_admin_store', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('sub_admin_store');
 // Route::get('/permissions/{user_id}', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permissions.edit');
 // Route::patch('/permissions/{user_id}', [PermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('permissions.update');
 
