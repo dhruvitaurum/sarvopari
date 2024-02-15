@@ -1,6 +1,12 @@
 
-<body>   	
-@include('layouts/header')
+
+
+
+
+@section('title', 'Dashboard')
+
+@extends('layouts/header')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -599,8 +605,8 @@
       </div>
     </section>
   </div>
-   
-@include('layouts/footer')
+ @endsection
+@extends('layouts/footer')
 	    
     </div><!--//app-wrapper-->    					
 

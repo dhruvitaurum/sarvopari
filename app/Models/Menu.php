@@ -12,4 +12,8 @@ class Menu extends Model
     protected $fillable = [
         'menu_name', 'sub_menu_id', 'url'
     ];
+    public function permission()
+    {
+        return $this->hasMany(permission::class, 'menu_id');
+    }
 }
