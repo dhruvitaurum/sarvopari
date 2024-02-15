@@ -14,10 +14,4 @@ function get_permission(){
     return $permission = \App\Models\permission::orderBy('id', 'asc')->get()->toArray();
 
 }
-function menu_check()
-{
-    $menus = \App\Models\Menu::orderBy('id', 'asc')->get()->toArray();
-    
-    //  echo $menu;exit;
-    }
 ?>

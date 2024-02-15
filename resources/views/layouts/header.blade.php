@@ -133,7 +133,6 @@
           @php $menu=getDynamicMenu() @endphp
           
          @foreach($menu as $value)
-         @if(menu_check())      
            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -153,8 +152,7 @@
                       @endforeach
             </ul>
           </li>
-          @endif
-
+         
           @endforeach
         
          
