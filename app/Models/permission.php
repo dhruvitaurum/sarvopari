@@ -12,4 +12,8 @@ class permission extends Model
     protected $fillable = [
         'role_id', 'menu_id', 'add', 'edit', 'view', 'delete'
     ];
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'role_id');
+    }
 }
