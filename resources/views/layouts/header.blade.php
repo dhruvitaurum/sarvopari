@@ -134,7 +134,7 @@
           
          @foreach($menu as $value)
            <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url($value['url']) }}" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
               {{ $value['menu_name']}}

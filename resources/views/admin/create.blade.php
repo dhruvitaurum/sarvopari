@@ -34,7 +34,7 @@
 
 			    <h1 class="app-page-title">Add  Sub Admin</h1>
 
-    <form method="post" action="{{ route('sub_admin_store') }}"  class="mt-6 space-y-6">
+    <form method="post" action="{{ route('admin.store') }}"  class="mt-6 space-y-6">
         @csrf
         @method('patch')
         

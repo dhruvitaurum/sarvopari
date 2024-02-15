@@ -11,15 +11,15 @@ use Illuminate\Http\Request;
 
 class Users extends Controller
 {
-    public function sub_admin_list($id): View {
-        $users = DB::table('users')->where('role_type',$id)->get();
+    public function list_admin(): View {
+        $users = DB::table('users')->where('role_type','1')->get();
         return view('sub_admin.sub_admin_list',[
             'userdetail'=> $users,
         ]);
     }
 
     public function subadmin_create(Request $request){
-        return view('sub_admin.add-sub_admin');
+        return view('admin.create');
     }
 
     public function subadmin_store(Request $request){
@@ -37,6 +37,6 @@ class Users extends Controller
             'role_type' => 2,
         ]);
 
-        return Redirect::route('sub_admin_list/{2}')->with('status', 'profile-created');
+        return Redirect::route('list_admin')->with('status', 'profile-created');
     }
 }
