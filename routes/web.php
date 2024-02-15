@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +54,11 @@ Route::middleware('auth')->group(function () {
 Route::get('create/role', [RoleController::class, 'create_role'])->name('roles.create');
 Route::post('roles/save', [RoleController::class, 'save_role'])->name('roles.insert');
 Route::get('list/roles', [RoleController::class, 'list_role'])->name('roles.list');
+Route::post('/roles/edit', [RoleController::class, 'edit_role'])->name('roles.edit');
+Route::post('/roles/update', [RoleController::class, 'update_role'])->name('roles.update');
+Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('roles.delete');
+Route::get('/permission', [PermissionController::class, 'create_permission'])->name('permission.create');
+Route::post('permission/insert', [PermissionController::class, 'insert_permission'])->name('permission.insert');
 
 // Route::get('/sub_admin_list/{id}', [Users::class, 'sub_admin_list'])->middleware(['auth', 'verified'])->name('sub_admin_list');
 // Route::get('/sub_admin_create', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('sub_admin_create');

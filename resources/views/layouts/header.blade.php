@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="{{asset('admin_assets/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('admin_assets/plugins/summernote/summernote-bs4.min.css')}}">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -124,51 +127,38 @@
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
-          <!-- <li class="nav-item menu-open">
-            <a href="{{url('create-role')}}" class="nav-link">
-              <i class="nav-icon fas fa-user-alt"></i>
-              <p>
-                Role
-              </p>
-            </a>
-          </li> -->
-           
-         <li class="nav-item">
+      
+          @php $menu=getDynamicMenu() @endphp
+          
+         @foreach($menu as $value)
+         @if(menu_check())      
+           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-              Setting
+              {{ $value['menu_name']}}
                 <i class="fas fa-angle-left right"></i>
-              </p>
+              </p>  
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{url('list/roles')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Role</p>
-                </a>
-              </li>
-              
+                  @foreach($value['submenus'] as $submenu)
+                          <li class="nav-item">
+                              <a href="{{ url($submenu['url']) }}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  {{ $submenu['menu_name'] }}
+                              </a>
+                          </li>
+                      @endforeach
             </ul>
           </li>
+          @endif
+
+          @endforeach
         
          
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
   </aside>
