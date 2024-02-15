@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Role</h1>
+          <h1 class="m-0">Admin</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Role</li>
+            <li class="breadcrumb-item active">Admin</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -43,7 +43,7 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Role List</h3>
-              <a href="{{url('create/role')}}" class="btn btn-success" style="float: right;">Create role</a>
+              <a href="{{url('create/admin')}}" class="btn btn-success" style="float: right;">Create Admin</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -52,27 +52,24 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No"></Sr></th>
                     <th style="width: 400px">Name</th>
-					<th style="width: 400px">Email</th>
-					<th style="width: 400px">Mobile</th>
-					<th style="width: 400px">Status</th>
+                    <th style="width: 400px">Email</th>
+                    <th style="width: 400px">Mobile</th>
+                    <th style="width: 400px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   @php $i=1 @endphp
-                  @foreach($userdetail as $value)
+                  @foreach($users as $value)
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
+                    <td>{{$value->email}}</td>
+                    <td>{{$value->mobile}}</td>
+                    <td>{{$value->status}}</td>
                     <td>
                       <div class="d-flex">
                       <input type="submit" class="btn btn-primary editButton" data-role-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
-                      <form method="get" action="{{url('permission')}}">
-                        @csrf
-                      <input type="hidden" value="{{ $value->id }}" name="id">
-                      <input type="submit" class="btn btn-success"  value="Permission">
-                     
-                      </form>
                       &nbsp;&nbsp;
                       <input type="submit" class="btn btn-danger deletebutton" data-role-id="{{ $value->id }}" value="Delete">
                       </div>
@@ -84,7 +81,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $userdetail->withQueryString()->links('pagination::bootstrap-5') !!}
+              {!! $users->withQueryString()->links('pagination::bootstrap-5') !!}
 
             </div>
           </div>
