@@ -12,10 +12,8 @@ use Illuminate\Http\Request;
 class Users extends Controller
 {
     public function list_admin(): View {
-        $users = DB::table('users')->where('role_type','1')->get();
-        return view('sub_admin.sub_admin_list',[
-            'userdetail'=> $users,
-        ]);
+        $users = User::where('role_type',[2,3])->paginate(10); 
+        return view('admin.list', compact('users'));
     }
 
     public function subadmin_create(Request $request){
@@ -23,20 +21,24 @@ class Users extends Controller
     }
 
     public function subadmin_store(Request $request){
-        $request->validate([
+        // print_r($request->all());exit;
+        $validator=$request->validate([
+            'role_type'=>'required',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
-
+        
         // Create sub-admin
+        
         $subAdmin = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_type' => 2,
+            'role_type' =>$request->role_type,
         ]);
 
-        return Redirect::route('list_admin')->with('status', 'profile-created');
+        return Redirect::route('admin.create')->with('success', 'profile-created');
+        // return redirect()->route('roles.create')->with('success', 'Role created successfully');
     }
 }
