@@ -43,9 +43,14 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Role List</h3>
-              <a href="{{url('create/role')}}" class="btn btn-success" style="float: right;">Create role</a>
+              @canButton('add', 'Role')
+                  <a href="{{ url('create/role') }}" class="btn btn-success" style="float: right;">Create role</a>
+              @endCanButton
+
+
             </div>
             <!-- /.card-header -->
+            
             <div class="card-body">
               <table class="table table-bordered">
                 <thead>
@@ -63,7 +68,9 @@
                     <td>{{$value->role_name}}</td>
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Role')
                       <input type="submit" class="btn btn-primary editButton" data-role-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @endCanButton
                       <form method="get" action="{{url('permission')}}">
                         @csrf
                       <input type="hidden" value="{{ $value->id }}" name="id">
@@ -71,15 +78,17 @@
                      
                       </form>
                       &nbsp;&nbsp;
+                      @canButton('delete', 'Role')
                       <input type="submit" class="btn btn-danger deletebutton" data-role-id="{{ $value->id }}" value="Delete">
-                      </div>
+                      @endCanButton  
+                    </div>
                   </tr>
                   @php $i++ @endphp
                   @endforeach
                </tbody>
               </table>
             </div>
-
+          
             <div class="d-flex justify-content-end">
               {!! $roles->withQueryString()->links('pagination::bootstrap-5') !!}
 
