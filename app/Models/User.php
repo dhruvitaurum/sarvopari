@@ -56,4 +56,14 @@ class User extends Authenticatable implements JWTSubject
             // 'name'=>$this->name
           ];
     }    
+    public function canButton($permission, $menu_name)
+    {
+        // Check if the user has the specified permission for the given menu ID
+        $menu = Menu::where('menu_name', $menu_name)->first();
+        $existingPermission = permission::where('role_id', $this->role_type)
+            ->where('menu_id', $menu->id)
+            ->first();
+
+        return $existingPermission && $existingPermission->$permission == 1;
+    }
 }

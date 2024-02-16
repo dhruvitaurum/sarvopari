@@ -46,7 +46,7 @@ function clearFormData() {
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-8">
+          <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-info">
               <div class="card-header">
@@ -66,7 +66,7 @@ function clearFormData() {
                         <option value="3">Institute</option>
                     </select>
                     @error('role_type')
-                     <div class="alert alert-danger">{{ $message }}</div>
+                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
                   </div> 
@@ -75,7 +75,7 @@ function clearFormData() {
                     <div class="col-sm-10">
                       <input type="text" id="name" name="name" class="form-control"   placeholder="Name">
                     @error('name')
-                     <div class="alert alert-danger">{{ $message }}</div>
+                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
                   </div>
@@ -84,7 +84,7 @@ function clearFormData() {
                     <div class="col-sm-10">
                       <input type="email" class="form-control"  id="email" name="email" placeholder="Email">
                     @error('email')
-                     <div class="alert alert-danger">{{ $message }}</div>
+                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
                   </div>
@@ -93,7 +93,7 @@ function clearFormData() {
                     <div class="col-sm-10">
                       <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                     @error('password')
-                     <div class="alert alert-danger">{{ $message }}</div>
+                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>
                   </div>
