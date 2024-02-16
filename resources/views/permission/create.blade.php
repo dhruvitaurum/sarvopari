@@ -65,10 +65,14 @@
 @foreach($menu as $value)
     <tr>
         <td><input type="hidden" name="menu_id[]" value="{{ $value['id'] }}">{{ $value['menu_name'] }}</td>
-        <td><input type="checkbox" name="permissions[{{ $value['id'] }}][add]" value="1" @if(permissionExists($value['id'], 'add',$id)) checked @endif></td>
-        <td><input type="checkbox" name="permissions[{{ $value['id'] }}][edit]" value="1" @if(permissionExists($value['id'], 'edit',$id)) checked @endif></td>
-        <td><input type="checkbox" name="permissions[{{ $value['id'] }}][view]" value="1" @if(permissionExists($value['id'], 'view',$id)) checked @endif></td>
-        <td><input type="checkbox" name="permissions[{{ $value['id'] }}][delete]" value="1" @if(permissionExists($value['id'], 'delete',$id)) checked @endif></td>
+        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][add]" value="0">
+                 <input type="checkbox" name="permissions[{{ $value['id'] }}][add]" value="1" @if(permissionExists($value['id'], 'add',$id)) checked @endif></td>
+        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][edit]" value="0">
+                <input type="checkbox" name="permissions[{{ $value['id'] }}][edit]" value="1" @if(permissionExists($value['id'], 'edit',$id)) checked @endif></td>
+        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][view]" value="0">
+                <input type="checkbox" name="permissions[{{ $value['id'] }}][view]" value="1" @if(permissionExists($value['id'], 'view',$id)) checked @endif></td>
+        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][delete]" value="0">
+<input type="checkbox" name="permissions[{{ $value['id'] }}][delete]" value="1" @if(permissionExists($value['id'], 'delete',$id)) checked @endif></td>
     </tr>
 @endforeach
 
@@ -98,4 +102,4 @@ function permissionExists($menuId, $permissionType,$id) {
       </div>
     </section>
 </div>
-@include('layouts/footer    ')
+@include('layouts/footer')

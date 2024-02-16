@@ -23,7 +23,7 @@ function getDynamicMenu()
     foreach ($menus as &$menu) {
         $menu['submenus'] = Menu::join('permission', 'menu.id', '=', 'permission.menu_id')
             ->join('roles', 'permission.role_id', '=', 'roles.id')
-            ->select('menu.*')
+            ->select('menu.*')  
             ->where('permission.view', 1)
             ->where('sub_menu_id', $menu['id'])
             ->orderBy('menu.id', 'asc')

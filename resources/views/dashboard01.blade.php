@@ -1,12 +1,4 @@
-
-
-
-
-
-@section('title', 'Dashboard')
-
-@extends('layouts/header')
-
+@include('layouts/header')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -601,20 +593,9 @@
               </div>
            </div>
           </section>
-         /div>
+</div>
       </div>
     </section>
-  </div>
+</div>
+@include('layouts/footer')
  
-@extends('layouts/footer')
-	    
-    </div><!--//app-wrapper-->    					
-
- 
-    <!-- Javascript -->          
-   
-
-</body>
-</html> 
-
-

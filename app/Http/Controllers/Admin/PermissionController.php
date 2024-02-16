@@ -14,7 +14,7 @@ class PermissionController extends Controller
     }
     public function insert_permission(Request $request)
     {
-        // echo "<pre>";print_r($request->input('permissions'));exit;
+        // echo "<pre>";print_r( $request->all());exit;
         $request->validate([
             'role_id' => 'required|integer',
             'menu_id' => 'required|array',
@@ -26,30 +26,32 @@ class PermissionController extends Controller
 
         // Loop through the submitted data and insert into the database
         $permissions = $request->input('permissions');
-        if(!empty($permissions)){
+        // echo "<pre>";print_r($permissions);exit;
+        if (!empty($permissions)) {
             foreach ($permissions as $menuId => $permission) {
-                Permission::updateOrCreate(
-                    ['role_id' => $request->role_id, 'menu_id' => $menuId],
-                    [
-                        'add'    => isset($permission['add']) ? $permission['add'] : 0,
-                        'edit'   => isset($permission['edit']) ? $permission['edit'] : 0,
-                        'view'   => isset($permission['view']) ? $permission['view'] : 0,
-                        'delete' => isset($permission['delete']) ? $permission['delete'] : 0,
-                    ]
-                );
+                $existingPermission = Permission::where(['role_id' => $request->role_id, 'menu_id' => $menuId])->first();
+        
+                if ($existingPermission) {
+                    // Update existing permission
+                    $existingPermission->update([
+                        'add'    => !empty($permission['add']) ? $permission['add'] : 0,
+                        'edit'   => !empty($permission['edit']) ? $permission['edit'] : 0,
+                        'view'   => !empty($permission['view']) ? $permission['view'] : 0,
+                        'delete' => !empty($permission['delete']) ? $permission['delete'] : 0,
+                    ]);
+                } else {
+                    // Create new permission
+                    Permission::create([
+                        'role_id' => $request->role_id,
+                        'menu_id' => $menuId,
+                        'add'     => !empty($permission['add']) ? $permission['add'] : 0,
+                        'edit'    => !empty($permission['edit']) ? $permission['edit'] : 0,
+                        'view'    => !empty($permission['view']) ? $permission['view'] : 0,
+                        'delete'  => !empty($permission['delete']) ? $permission['delete'] : 0,
+                    ]);
+                }
             }
-          
         }else{
-            // foreach($request->input('menu_id') as $value){
-            // Permission::updateOrCreate(
-            //     ['role_id' => $request->role_id],
-            //     [
-            //         'add'    =>  0,
-            //         'edit'   =>  0,
-            //         'view'   =>  0,
-            //         'delete' =>  0,
-            //     ]
-            // );
             $updatedData = array('add'    =>  0,
                                  'edit'   =>  0,
                                  'view'   =>  0,
