@@ -60,10 +60,10 @@ Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('role
 Route::get('/permission', [PermissionController::class, 'create_permission'])->name('permission.create');
 Route::post('permission/insert', [PermissionController::class, 'insert_permission'])->name('permission.insert');
 
- Route::get('list/admin', [Users::class, 'list_admin'])->middleware(['auth', 'verified'])->name('admin.list');
- Route::get('create/admin', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('admin.create');
- Route::post('store/admin', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('admin.store');
-// Route::get('/permissions/{user_id}', [PermissionController::class, 'edit'])->middleware(['auth', 'verified'])->name('permissions.edit');
+Route::get('list/admin', [Users::class, 'list_admin'])->middleware(['auth', 'verified'])->name('admin.list');
+Route::get('create/admin', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('admin.create');
+Route::post('store/admin', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('admin.store');
+Route::get('/list/institute', [institute::class, 'list_institute'])->middleware(['auth', 'verified'])->name('institute.list');
 // Route::patch('/permissions/{user_id}', [PermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('permissions.update');
 
 require __DIR__.'/auth.php';

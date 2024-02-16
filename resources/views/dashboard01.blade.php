@@ -605,7 +605,7 @@
       </div>
     </section>
   </div>
- @endsection
+ 
 @extends('layouts/footer')
 	    
     </div><!--//app-wrapper-->    					
