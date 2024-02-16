@@ -46,24 +46,33 @@ Route::get('/dashboard', function () {
     }
     
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-Route::get('create/role', [RoleController::class, 'create_role'])->name('roles.create');
-Route::post('roles/save', [RoleController::class, 'save_role'])->name('roles.insert');
-Route::get('list/roles', [RoleController::class, 'list_role'])->name('roles.list');
-Route::post('/roles/edit', [RoleController::class, 'edit_role'])->name('roles.edit');
-Route::post('/roles/update', [RoleController::class, 'update_role'])->name('roles.update');
-Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('roles.delete');
-Route::get('/permission', [PermissionController::class, 'create_permission'])->name('permission.create');
-Route::post('permission/insert', [PermissionController::class, 'insert_permission'])->name('permission.insert');
 
-Route::get('list/admin', [Users::class, 'list_admin'])->middleware(['auth', 'verified'])->name('admin.list');
-Route::get('create/admin', [Users::class, 'subadmin_create'])->middleware(['auth', 'verified'])->name('admin.create');
-Route::post('store/admin', [Users::class, 'subadmin_store'])->middleware(['auth', 'verified'])->name('admin.store');
-Route::get('/list/institute', [institute::class, 'list_institute'])->middleware(['auth', 'verified'])->name('institute.list');
+    Route::get('create/role', [RoleController::class, 'create_role'])->name('roles.create');
+    Route::post('roles/save', [RoleController::class, 'save_role'])->name('roles.insert');
+    Route::get('list/roles', [RoleController::class, 'list_role'])->name('roles.list');
+    Route::post('/roles/edit', [RoleController::class, 'edit_role'])->name('roles.edit');
+    Route::post('/roles/update', [RoleController::class, 'update_role'])->name('roles.update');
+    Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('roles.delete');
+    Route::get('/permission', [PermissionController::class, 'create_permission'])->name('permission.create');
+    Route::post('permission/insert', [PermissionController::class, 'insert_permission'])->name('permission.insert');
+
+    Route::get('admin', [Users::class, 'list_admin'])->name('admin.list');
+    Route::get('create/admin', [Users::class, 'subadmin_create'])->name('admin.create');
+    Route::post('store/admin', [Users::class, 'subadmin_store'])->name('admin.store');
+    Route::post('admin/edit', [Users::class, 'subadmin_edit'])->name('admin.edit');
+    Route::post('admin/update', [Users::class, 'subadmin_update'])->name('admin.update');
+    Route::post('admin/delete', [Users::class, 'subadmin_delete'])->name('admin.delete');
+
+    Route::get('institute_admin', [Users::class, 'list_institute'])->name('institute.list');
+});
+
+
+
 // Route::patch('/permissions/{user_id}', [PermissionController::class, 'update'])->middleware(['auth', 'verified'])->name('permissions.update');
 
 require __DIR__.'/auth.php';

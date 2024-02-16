@@ -8,12 +8,18 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class Users extends Controller
 {
     public function list_admin(): View {
-        $users = User::where('role_type',[2,3])->paginate(10); 
+        $users = User::where('role_type',[2])->paginate(10); 
         return view('admin.list', compact('users'));
+    }
+
+    public function list_institute(): view{
+        $institute = User::where('role_type',[3])->paginate(10); 
+        return view('institute.list', compact('institute'));
     }
 
     public function subadmin_create(Request $request){
@@ -34,11 +40,66 @@ class Users extends Controller
         $subAdmin = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'mobile'=>  $request->mobile,
             'password' => Hash::make($request->password),
             'role_type' =>$request->role_type,
         ]);
 
         return Redirect::route('admin.create')->with('success', 'profile-created');
-        // return redirect()->route('roles.create')->with('success', 'Role created successfully');
+    }
+
+    public function subadmin_edit(Request $request){
+        $id = $request->input('user_id');
+        $userDT = User::find($id);
+        return response()->json(['userDT'=>$userDT]);
+        
+    }
+
+    public function subadmin_update(Request $request){
+        $user_id = $request->user_id;
+        $userUP = User::find($user_id);
+        $validator = $request->validate([
+            'name' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('users', 'email')->ignore($userUP),
+            ],
+        ]);
+      
+        $userUP->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'mobile' => $request->input('mobile'),
+        ]);
+
+        if($userUP->role_type == 2)
+        {
+            $routnm = 'admin.list';
+        }else{
+            $routnm = 'institute.list';
+        }
+        return redirect()->route($routnm)->with('success', 'Role Updated successfully');
+    }
+
+    //delete
+    public function subadmin_delete(Request $request){
+        $did=$request->input('user_id');
+        $userd = User::find($did);
+
+        if($userd->role_type == 2)
+        {
+            $routnm = 'admin.list';
+        }else{
+            $routnm = 'institute.list';
+        }
+
+        if (!$userd) {
+            return redirect()->route($routnm)->with('error', 'Role not found');
+        }
+
+        $userd->delete();
+
+        return redirect()->route($routnm)->with('success', 'Role deleted successfully');
     }
 }

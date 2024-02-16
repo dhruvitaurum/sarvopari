@@ -97,7 +97,12 @@ function clearFormData() {
                     @enderror
                     </div>
                   </div>
-                  
+                  <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" id="mobile" name="mobile" class="form-control"   placeholder="Mobile Number">
+                    </div>
+                  </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
