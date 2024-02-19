@@ -48,7 +48,7 @@ function clearFormData() {
           <!-- left column -->
           <div class="col-md-12">
             <!-- general form elements -->
-            <div class="card card-info">
+            <div class="card card-info" >
               <div class="card-header">
                 <h3 class="card-title">Create Admin</h3>
               </div>
