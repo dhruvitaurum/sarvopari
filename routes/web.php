@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\InstituteController;
+use App\Http\Controllers\Admin\BoardController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -80,6 +81,7 @@ Route::middleware('auth')->group(function () {
     
     
 
+    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
 });
 
 
