@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class InstituteController extends Controller
 {
-    public function list_admin(): View {
+    public function list_admin() {
         $users = User::where('role_type',[2,3])->paginate(10); 
         return view('admin.list', compact('users'));
     }
@@ -22,7 +22,7 @@ class InstituteController extends Controller
     
     }
     public function list_institute_for(){
-        $institute_for = Institute_for_model::paginate(2); 
+        $institute_for = Institute_for_model::paginate(10); 
         return view('institute/list_institute_for',compact('institute_for'));
 
     }

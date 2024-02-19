@@ -17,23 +17,7 @@
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
-  <div class="row">
-    <div class="col-md-10 offset-md-1">
-      @if (session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-      @endif
-    </div>
-  </div>
-
-  <script>
-    window.setTimeout(function() {
-      $(".alert-success").slideUp(500, function() {
-        $(this).remove();
-      });
-    }, 3000);
-  </script>
+  @include('alert')
   <!-- Main content -->
 
   <section class="content">
@@ -50,7 +34,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 10px"><Sr class="No"></Sr></th>
+                    <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>

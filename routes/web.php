@@ -79,9 +79,15 @@ Route::middleware('auth')->group(function () {
     Route::post('institute-for/update', [InstituteController::class, 'institute_for_update'])->name('institute.update');
     Route::post('institute-for/delete', [InstituteController::class, 'institute_for_delete'])->name('institute_for.delete');
     
+   
+    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+    Route::get('create/board-list', [BoardController::class, 'create_board'])->name('board.create');
+    Route::post('board-list/save', [BoardController::class, 'board_list_save'])->name('board_list.save');
+    Route::post('/board-list/edit', [BoardController::class, 'board_list_edit'])->name('board_list.edit');
+    Route::post('board/update', [BoardController::class, 'board_update'])->name('board.update');
+    Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
     
 
-    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
 });
 
 
