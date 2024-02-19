@@ -11,6 +11,7 @@ use App\Http\Controllers\institude\SubjectChapterController;
 use App\Http\Controllers\institude\SubjectController;
 use App\Http\Controllers\institude\SubjectDetailController;
 use App\Http\Controllers\institude\VideoController;
+use App\Http\Controllers\student\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +52,4 @@ Route::post('/institude/get-base-table-detail', [InstituteController::class, 'ge
 Route::post('/institude/register-institute', [InstituteController::class, 'register_institute'])->name('institude.get');
 Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
 
-Route::post('/student/homescreen-student', [VideoController::class, 'upload_video'])->name('upload_Video.get');
+Route::post('/student/homescreen-student', [StudentController::class, 'homescreen_student'])->name('upload_Video.get');
