@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institute_board', function (Blueprint $table) {
+        Schema::create('medium', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->enum('status',['active','inactive']);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institute_board');
+        Schema::dropIfExists('medium');
     }
 };

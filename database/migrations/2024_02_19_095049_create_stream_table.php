@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subject_chapters', function (Blueprint $table) {
+        Schema::create('stream', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('subject_id')->references('id')->on('subjects');
-            $table->string('chapter_no');
-            $table->string('chapter_name');
+            $table->unsignedBigInteger('standard_id');
+            $table->foreign('standard_id')->references('id')->on('standard');
+            $table->string('name');
+            $table->enum('status',['active','inactive']);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_chapters');
+        Schema::dropIfExists('stream');
     }
 };

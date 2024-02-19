@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institute_for_class', function (Blueprint $table) {
+        Schema::create('board', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('institute_id');
+            $table->foreign('institute_id')->references('id')->on('institute_for');
             $table->string('name');
             $table->enum('status',['active','inactive']);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institute_for_class');
+        Schema::dropIfExists('board');
     }
 };

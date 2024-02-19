@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('standards', function (Blueprint $table) {
+        Schema::create('class', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('board_id');
             $table->foreign('board_id')->references('id')->on('board');
-            $table->string('standard_name');
+            $table->string('name');
+            $table->enum('status',['active','inactive']);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('standards');
+        Schema::dropIfExists('class');
     }
 };

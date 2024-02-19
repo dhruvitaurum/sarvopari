@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subjects', function (Blueprint $table) {
+        Schema::create('institute_for', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('standard_id');
-            $table->foreign('standard_id')->references('id')->on('standards');
-            $table->string('subject_name');
+            $table->string('name');
+            $table->enum('status',['active','inactive']);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('institute_for');
     }
 };
