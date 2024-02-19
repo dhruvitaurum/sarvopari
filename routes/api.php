@@ -50,3 +50,5 @@ Route::post('/institude/get-subject-detail', [SubjectDetailController::class, 'g
 Route::post('/institude/get-base-table-detail', [InstituteController::class, 'get_institute_reponse'])->name('institude.get');
 Route::post('/institude/register-institute', [InstituteController::class, 'register_institute'])->name('institude.get');
 Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
+
+Route::post('/student/homescreen-student', [VideoController::class, 'upload_video'])->name('upload_Video.get');

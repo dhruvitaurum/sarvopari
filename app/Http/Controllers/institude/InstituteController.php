@@ -139,6 +139,7 @@ class InstituteController extends Controller
                 'address'=>$request->input('address'),
                 'contact_no'=>$request->input('contact_no'),
                 'email'=>$request->input('email'),
+                'status'=>'0'
             ]);
             $lastInsertedId = $instituteDetail->id;
             $intitute_for_id = explode(',',$request->input('institute_for_id'));
@@ -160,14 +161,27 @@ class InstituteController extends Controller
             }
             $institute_board_id = explode(',',$request->input('institute_board_id'));
             foreach($institute_board_id as $value){
+                //other
+                if($value == 4){
+                    $instituteboardadd = institute_board::create([
+                        'name'=>$request->input('institute_board'),
+                        'status'=>'active',
+                    ]);
+                    $instituteboard_id = $instituteboardadd->id;
+                }else{
+                    $instituteboard_id = $value;
+                }
+                //end other
+
                 Institute_board_sub::create([
                     'user_id'=>$request->input('user_id'),
                     'institute_id'=>$lastInsertedId,
-                    'institute_board_id'=>$value,
+                    'institute_board_id'=>$instituteboard_id,
                 ]);
             }
             $institute_for_class_id = explode(',',$request->input('institute_for_class_id'));
             foreach($institute_for_class_id as $value){
+                
                 Institute_for_class_sub::create([
                     'user_id'=>$request->input('user_id'),
                     'institute_id'=>$lastInsertedId,
