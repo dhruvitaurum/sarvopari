@@ -66,14 +66,10 @@
 						<!--<div class="auth-option text-center pt-5">No Account? Sign up <a class="text-link" href="signup.html" >here</a>.</div>-->
 					</div><!--//auth-form-container-->	
 
-			    </div><!--//auth-body-->
-                @extends('layouts/footer')
-		    </div><!--//flex-column-->   
-	    </div><!--//auth-main-col-->
+			    </div>
+		    </div>
+	    </div>
 	    
-    </div><!--//row-->
-
-
+    </div>
 </body>
 </html> 
-
