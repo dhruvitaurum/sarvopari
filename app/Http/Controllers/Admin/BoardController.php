@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\board;
+use Illuminate\View\View;
 
 class BoardController extends Controller
 {
