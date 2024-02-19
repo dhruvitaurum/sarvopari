@@ -20,7 +20,7 @@ class CheckPermission
     {
         // if()
         $menu = Menu::where('menu_name', $menu_name)->first();
-
+        
         // Check if the menu exists
         if ($menu) {
             $permission = Permission::where('role_id', Auth::user()->role_type)
