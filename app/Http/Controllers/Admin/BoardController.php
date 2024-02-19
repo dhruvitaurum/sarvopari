@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\board;
 use App\Models\Institute_for_model;
 
+
 class BoardController extends Controller
 {
     public function list_board() {
