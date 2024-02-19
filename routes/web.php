@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('create/role', [RoleController::class, 'create_role'])->name('roles.create');
     Route::post('roles/save', [RoleController::class, 'save_role'])->name('roles.insert');
-    Route::get('list/roles', [RoleController::class, 'list_role'])->name('roles.list');
+    Route::get('list/roles', [RoleController::class, 'list_role'])->name('roles.list')->middleware('superadmin_permission');
     Route::post('/roles/edit', [RoleController::class, 'edit_role'])->name('roles.edit');
     Route::post('/roles/update', [RoleController::class, 'update_role'])->name('roles.update');
     Route::post('/roles/delete', [RoleController::class, 'delete_role'])->name('roles.delete');
