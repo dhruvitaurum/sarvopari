@@ -72,6 +72,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('institute_admin', [Users::class, 'list_institute'])->name('institute.list');
     Route::get('/create/institute', [InstituteController::class, 'create_institute'])->name('institute.create');
+    Route::get('/institute-for/list', [InstituteController::class, 'list_institute_for'])->name('institute_for.list');
+    Route::get('/create/institute_for', [InstituteController::class, 'create_institute_for'])->name('institute_for.create');
+    Route::post('institute-for/save', [InstituteController::class, 'institute_for_save'])->name('institute_for.save');
+    Route::post('/institute-for/edit', [InstituteController::class, 'institute_for_edit'])->name('institute_for.edit');
+    Route::post('institute-for/update', [InstituteController::class, 'institute_for_update'])->name('institute.update');
+    Route::post('institute-for/delete', [InstituteController::class, 'institute_for_delete'])->name('institute_for.delete');
+    
+    
 
     Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
 });

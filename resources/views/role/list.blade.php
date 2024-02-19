@@ -18,7 +18,7 @@
   </div>
   <!-- /.content-header -->
   <div class="row">
-    <div class="col-md-8 offset-md-2">
+    <div class="col-md-10 offset-md-1">
       @if (session('success'))
       <div class="alert alert-success">
         {{ session('success') }}
@@ -155,8 +155,7 @@
 
       // Show SweetAlert confirmation
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
+        title: 'Are you sure want to delete?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
