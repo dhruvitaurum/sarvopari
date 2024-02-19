@@ -143,10 +143,19 @@ class InstituteController extends Controller
             $lastInsertedId = $instituteDetail->id;
             $intitute_for_id = explode(',',$request->input('institute_for_id'));
             foreach($intitute_for_id as $value){
+                if($value == 5){
+                    $instituteforadd = institute_for::create([
+                        'name'=>$request->input('institute_for'),
+                        'status'=>1,
+                    ]);
+                    $institute_for_id = $instituteforadd->id;
+                }else{
+                    $institute_for_id = $value;
+                }
                 Institute_for_sub::create([
                     'user_id'=>$request->input('user_id'),
                     'institute_id'=>$lastInsertedId,
-                    'institute_for_id'=>$value,
+                    'institute_for_id'=>$institute_for_id,
                 ]);
             }
             $institute_board_id = explode(',',$request->input('institute_board_id'));
