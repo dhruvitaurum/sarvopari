@@ -82,6 +82,22 @@ Route::middleware('auth')->group(function () {
     
    
     Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+    Route::get('create/board-list', [BoardController::class, 'create_board'])->name('board.create');
+    Route::post('board-list/save', [BoardController::class, 'board_list_save'])->name('board_list.save');
+    Route::post('/board-list/edit', [BoardController::class, 'board_list_edit'])->name('board_list.edit');
+    Route::post('board/update', [BoardController::class, 'board_update'])->name('board.update');
+    Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
+    
+
+<<<<<<< HEAD
+    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+
+    //student
+    Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
+    Route::get('/create/student', [StudentsController::class, 'create_student'])->name('student.create');
+    Route::get('/create/save', [StudentsController::class, 'save_student'])->name('student.save');
+=======
+>>>>>>> 2e5cbb2a72e65e754a9c962b5c6c63adfdad6d56
 });
 
 
