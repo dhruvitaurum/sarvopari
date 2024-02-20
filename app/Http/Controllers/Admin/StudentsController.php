@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\board;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\institute_for;
-use App\Models\medium;
+use App\Models\Institute_for_model;
+use App\Models\Medium_model;
 use App\Models\class_model;
-use App\Models\stream;
+use App\Models\Stream_model;
 use App\Models\subject;
 use App\Models\institute_for_sub;
 use Illuminate\Support\Facades\Auth;
@@ -25,16 +25,27 @@ class StudentsController extends Controller
 
     public function create_student(){
         $id = Auth::id();
-        $formdropdowns['institute_for'] = institute_for::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->get(); 
+        $formdropdowns['institute_for'] = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->get(); 
         $formdropdowns['board'] = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->get();
-        $formdropdowns['medium'] = medium::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->get();
+        $formdropdowns['medium'] = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->get();
         $formdropdowns['class'] = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->get();
-        $formdropdowns['stream'] = stream::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->get();
+        $formdropdowns['stream'] = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->get();
         $formdropdowns['subject'] = subject::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->get(); 
         return view('student.create',compact('formdropdowns'));
     }
 
     public function save_student(Request $request){
+
+        $validator = $request->validate([
+            'name' => [
+            'required',
+            'string',
+            'max:255',
+            'mobile'=>'required',
+            'email' => 'required|string|email|max:255|unique:users',
+            
+            ],
+        ]);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -49,7 +60,7 @@ class StudentsController extends Controller
         'address'=> $request->address,
         'dob'=> $request->dob,
         'image'=>'public/profile/'.$imageName,
-        'password' => Hash::make($request->password),
+        //'password' => Hash::make($request->password),
         'role_type' =>4,
         'status'=>$request->status,
         ]);
@@ -61,10 +72,79 @@ class StudentsController extends Controller
             'board_id'=>  $request->board_id,
             'medium_id' =>$request->medium_id,
             'class_id' =>$request->class_id,
-            'stream_id'=>$request->streastream_idm,
+            'stream_id'=>$request->stream_id,
             'subject_id'=>$request->subject_id,
             ]);
 
         return Redirect::route('student.list')->with('success', 'profile-created');
+    }
+
+    public function edit_student(Request $request){
+        $student_id = $request->input('student_id');
+        $studentDT = User::find($student_id);
+        
+    
+    if($studentDT) {
+        $institute_id = Auth::id();
+        
+        $studentdetailsDT = students_details::where('student_id', $student_id) ->where('institute_id', $institute_id)->first();
+        return response()->json(['studentDT' => $studentDT, 'studentsdetailsDT' => $studentdetailsDT]);
+    } else {
+        return response()->json(['error' => 'Student not found'], 404);
+    }
+    }
+
+    public function update_student(Request $request){
+        $student_id = $request->student_id;
+        $studentUP = User::find($student_id);
+
+        $validator = $request->validate([
+            'name' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('users', 'email')->ignore($studentUP),
+            ],
+        ]);
+      
+        //image
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('public/profile'), $imageName);
+        }
+
+        //update
+        
+        $studentUP->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'mobile' => $request->input('mobile'),
+            'address'=>$request->input('address'),
+            'dob'=> $request->input('dob'),
+            'image'=>'public/profile/'.$imageName,
+        ]);
+
+        $institute_id = Auth::id();
+        $studentdetailsDT = students_details::where('student_id', $student_id) 
+        ->where('institute_id', $institute_id)->first();
+        $studentdetailsDT->update([
+            'board_id'=>  $request->board_id,
+            'medium_id' =>$request->medium_id,
+            'class_id' =>$request->class_id,
+            'stream_id'=>$request->stream_id,
+            'subject_id'=>$request->subject_id,
+        ]);
+    }
+
+    public function delete_student(){
+        $did=$request->input('student_id');
+        $student = User::find($did);
+        if(Auth::role_type() == 1 && $student){
+            students_details::where('student_id', $student_id)->delete();
+            $student->delete();
+        } else {
+            return response()->json(['error' => 'Student not found'], 404);
+        }
     }
 }
