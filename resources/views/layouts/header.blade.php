@@ -127,7 +127,7 @@
         @foreach($menu as $value)
             <li class="nav-item">
                 <a href="{{ url($value['url']) }}" class="nav-link {{ !empty($value['submenus']) ? 'has-submenu' : '' }}">
-                    {{ $value['menu_name'] }}
+                <i class="nav-icon fas fa-tachometer-alt"></i>{{ $value['menu_name'] }}
                     @if (!empty($value['submenus']))
                         <i class="fas fa-angle-left right"></i>
                     @endif
@@ -137,6 +137,7 @@
                         @foreach($value['submenus'] as $submenu)
                             <li class="nav-item">
                                 <a href="{{ url($submenu['url']) }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
                                     {{ $submenu['menu_name'] }}
                                 </a>
                             </li>
