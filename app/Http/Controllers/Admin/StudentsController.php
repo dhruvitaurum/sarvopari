@@ -13,6 +13,7 @@ use App\Models\stream;
 use App\Models\subject;
 use App\Models\institute_for_sub;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class StudentsController extends Controller
@@ -35,24 +36,33 @@ class StudentsController extends Controller
 
     public function save_student(Request $request){
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('public/profile'), $imageName);
+        }
+
         $student = User::create([
         'name' => $request->name,
         'email' => $request->email,
         'mobile'=>  $request->mobile,
-        'address'=>$requst->address;
-        'dob'=>$requst->dob;
+        'address'=> $request->address,
+        'dob'=> $request->dob,
+        'image'=>'public/profile/'.$imageName,
         'password' => Hash::make($request->password),
         'role_type' =>4,
+        'status'=>$request->status,
         ]);
+
         $student_id = $student->id;
-        $student = student_detail::create([
+        $studentdetail = student_detail::create([
             'student_id' => $student_id,
-            'stage' => $request->stage,
-            'board'=>  $request->board,
-            'medium' =>$request->medium,
-            'class' =>$request->class,
-            'stream'=>$request->stream,
-            'subject'=>$request->subject,
+            'institute_for_id' => $request->institute_for_id,
+            'board_id'=>  $request->board_id,
+            'medium_id' =>$request->medium_id,
+            'class_id' =>$request->class_id,
+            'stream_id'=>$request->streastream_idm,
+            'subject_id'=>$request->subject_id,
             ]);
 
         return Redirect::route('student.list')->with('success', 'profile-created');

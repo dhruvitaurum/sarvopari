@@ -47,7 +47,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('student/save') }}">
+                        <form method="post" action="{{ url('student/save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -91,75 +91,83 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Image  : </label>
+                                            <input type="file" name="image" class="form-control" placeholder="Image">
+                                            @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
                                         <div class="col-md-3">
-                                            <label for="exampleInputEmail1">Student Stage  : </label>
-                                            <select name="stage">
+                                            <label for="exampleInputEmail1">Institute For  : </label>
+                                            <select name="institute_for_id">
                                                 @foreach($institute_for as $stage)
                                                     <option value="{{ $stage->id }}">{{ $stage->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('stage')
+                                            @error('institute_for_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Board  : </label>
-                                            <select name="board">
+                                            <select name="board_id">
                                                 @foreach($board as $instituteboard)
                                                     <option value="{{ $instituteboard->id }}">{{ $instituteboard->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('board')
+                                            @error('board_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Medium : </label>
-                                            <select name="medium">
+                                            <select name="medium_id">
                                                 @foreach($medium as $institutemedium)
                                                     <option value="{{ $institutemedium->id }}">{{ $institutemedium->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('medium')
+                                            @error('medium_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Student Class  : </label>
-                                            <select name="class">
+                                            <select name="class_id">
                                                 @foreach($class as $instituteclass)
                                                     <option value="{{ $instituteclass->id }}">{{ $instituteclass->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('dob')
+                                            @error('class_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Stream  : </label>
-                                            <select name="stream">
+                                            <select name="stream_id">
                                                 @foreach($stream as $institutestream)
                                                     <option value="{{ $institutestream->id }}">{{ $institutestream->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('stream')
+                                            @error('stream_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Subject  : </label>
-                                            <select name="subject">
+                                            <select name="subject_id">
                                                 @foreach($subject as $institutesubject)
                                                     <option value="{{ $institutesubject->id }}">{{ $institutesubject->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('subject')
+                                            @error('subject_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
