@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Stream List</h1>
+          <h1 class="m-0">Subject List</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Stream List</li>
+            <li class="breadcrumb-item active">Subject List</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -26,8 +26,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Stream List</h3>
-              <a href="{{url('create/stream-list')}}" class="btn btn-success" style="float: right;">Create Stream </a>
+              <h3 class="card-title">Subject List</h3>
+              <a href="{{url('create/subject-list')}}" class="btn btn-success" style="float: right;">Create subject </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -37,17 +37,19 @@
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
                     <th style="width: 200px">Standard</th>
+                    <th style="width: 200px">Stream</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   @php $i=1 @endphp
-                  @foreach($straemlist as $value)
+                  @foreach($subjectlist as $value)
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
                     <td>{{$value->standard_name}}</td>
+                    <td>{{$value->stream_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -69,7 +71,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $straemlist->withQueryString()->links('pagination::bootstrap-5') !!}
+              {!! $subjectlist->withQueryString()->links('pagination::bootstrap-5') !!}
 
             </div>
           </div>
@@ -166,7 +168,7 @@
     button.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default form submission
 
-      var stream_id = this.getAttribute('data-user-id');
+      var subject_id = this.getAttribute('data-user-id');
 
       // Show SweetAlert confirmation
       Swal.fire({
@@ -178,8 +180,8 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/stream/delete', {
-            stream_id: stream_id
+          axios.post('/subject/delete', {
+            subject_id: subject_id
             })
             .then(response => {
               location.reload(true);
