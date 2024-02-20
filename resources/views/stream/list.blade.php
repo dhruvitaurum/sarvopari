@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Board List</h1>
+          <h1 class="m-0">Stream List</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Board List</li>
+            <li class="breadcrumb-item active">Stream List</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -26,8 +26,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Board List</h3>
-              <a href="{{url('create/board-list')}}" class="btn btn-success" style="float: right;">Create Board </a>
+              <h3 class="card-title">Stream List</h3>
+              <a href="{{url('create/stream-list')}}" class="btn btn-success" style="float: right;">Create Stream </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -36,18 +36,18 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Institute</th>
+                    <th style="width: 200px">Standard</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   @php $i=1 @endphp
-                  @foreach($boardlist as $value)
+                  @foreach($straemlist as $value)
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->institute_name}}</td>
+                    <td>{{$value->standard_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -69,7 +69,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $boardlist->withQueryString()->links('pagination::bootstrap-5') !!}
+              {!! $straemlist->withQueryString()->links('pagination::bootstrap-5') !!}
 
             </div>
           </div>
@@ -82,31 +82,31 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="usereditModalLabel">Edit Board </h5>
+        <h5 class="modal-title" id="usereditModalLabel">Edit Class </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('board/update') }}">
+      <form method="post" action="{{ url('stream/update') }}">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
                                     <div class="col-md-12">
-                                            <label for="exampleInputEmail1">Select Institute : </label>
-                                            <select class="form-control" name="institute_id" id="institute_id">
-                                                 <option value=" ">Select Institute</option>
-                                                 @foreach($institute_list as $value)
+                                             <label for="exampleInputEmail1">Select standard : </label>
+                                            <select class="form-control" name="standard_id" id="standard_id">
+                                                 <option value=" ">Select standard</option>
+                                                 @foreach($standardlist as $value)
                                                  <option value="{{$value['id']}}">{{$value['name']}}</option>
                                                  @endforeach
                                             </select>
-                                            @error('institute_id')
+                                            @error('board_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-12">
-                                            <input type="hidden" id="board_id" name="board_id">
+                                            <input type="hidden" id="stream_id" name="stream_id">
                                             <label for="exampleInputEmail1">Name  : </label>
                                             <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
                                             @error('name')
@@ -144,15 +144,15 @@
 <script>
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {
-      var board_id = this.getAttribute('data-user-id');
+      var stream_id = this.getAttribute('data-user-id');
 
-      axios.post('/board-list/edit', {
-        board_id: board_id
+      axios.post('/stream-list/edit', {
+        stream_id: stream_id
         })
         .then(response => {
-          var reponse_data = response.data.board_list;
-          $('#board_id').val(reponse_data.id);
-          $('#institute_id').val(reponse_data.institute_id);
+          var reponse_data = response.data.straemlist;
+          $('#stream_id').val(reponse_data.id);
+          $('#standard_id').val(reponse_data.standard_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -166,7 +166,7 @@
     button.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default form submission
 
-      var board_id = this.getAttribute('data-user-id');
+      var stream_id = this.getAttribute('data-user-id');
 
       // Show SweetAlert confirmation
       Swal.fire({
@@ -178,8 +178,8 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/board/delete', {
-            board_id: board_id
+          axios.post('/stream/delete', {
+            stream_id: stream_id
             })
             .then(response => {
               location.reload(true);

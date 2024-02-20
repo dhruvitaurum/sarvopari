@@ -5,6 +5,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\InstituteController;
 use App\Http\Controllers\Admin\BoardController;
+use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\MediumController;
+use App\Http\Controllers\Admin\StandardController;
+use App\Http\Controllers\Admin\StreamController;
 use App\Http\Controllers\Admin\StudentsController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
@@ -88,8 +92,34 @@ Route::middleware('auth')->group(function () {
     Route::post('board/update', [BoardController::class, 'board_update'])->name('board.update');
     Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
     
+    Route::get('/class/list', [ClassController::class, 'list_class'])->name('class.list');
+    Route::get('create/class-list', [ClassController::class, 'create_class'])->name('class.create');
+    Route::post('class-list/save', [ClassController::class, 'class_list_save'])->name('class_list.save');
+    Route::post('/class-list/edit', [ClassController::class, 'class_list_edit'])->name('class_list.edit');
+    Route::post('class/update', [ClassController::class, 'class_update'])->name('class.update');
+    Route::post('/class/delete', [ClassController::class, 'class_delete'])->name('class.delete');
+   
+    Route::get('/medium/list', [MediumController::class, 'list_medium'])->name('medium.list');
+    Route::get('create/medium', [MediumController::class, 'create_medium'])->name('medium.create');
+    Route::post('medium-list/save', [MediumController::class, 'medium_list_save'])->name('medium_list.save');
+    Route::post('/medium/edit', [MediumController::class, 'medium_list_edit'])->name('medium_list.edit');
+    Route::post('medium/update', [MediumController::class, 'medium_update'])->name('medium.update');
+    Route::post('/medium/delete', [MediumController::class, 'medium_delete'])->name('medium.delete');
+    
+    Route::get('/standard/list', [StandardController::class, 'list_standard'])->name('standard.list');
+    Route::get('create/standard-list', [StandardController::class, 'create_standard'])->name('standard.create');
+    Route::post('standard-list/save', [StandardController::class, 'standard_list_save'])->name('standard_list.save');
+    Route::post('/standard-list/edit', [StandardController::class, 'standard_list_edit'])->name('standard_list.edit');
+    Route::post('standard/update', [StandardController::class, 'standard_update'])->name('standard.update');
+    Route::post('/standard/delete', [StandardController::class, 'standard_delete'])->name('standard.delete');
 
-    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+    Route::get('/stream/list', [StreamController::class, 'list_stream'])->name('stream.list');
+    Route::get('create/stream-list', [StreamController::class, 'create_stream'])->name('stream.create');
+    Route::post('stream-list/save', [StreamController::class, 'stream_list_save'])->name('stream_list.save');
+    Route::post('/stream-list/edit', [StreamController::class, 'stream_list_edit'])->name('stream_list.edit');
+    Route::post('stream/update', [StreamController::class, 'stream_update'])->name('stream.update');
+    Route::post('/stream/delete', [StreamController::class, 'stream_delete'])->name('stream.delete');
+   
 
     //student
     Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');

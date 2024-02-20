@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\board;
 use App\Models\Institute_for_model;
-
+use Illuminate\Support\Facades\DB;
 
 class BoardController extends Controller
 {
     public function list_board() {
-        $boardlist = board::paginate(10); 
+        $boardlist = DB::table('board')
+        ->join('institute_for', 'board.institute_id', '=', 'institute_for.id')
+        ->select('board.*', 'institute_for.name as institute_name')
+        ->whereNull('board.deleted_at')
+        ->paginate(10);; 
         $institute_list = Institute_for_model::get()->toArray();
         return view('board.list', compact('boardlist','institute_list'));
     }
