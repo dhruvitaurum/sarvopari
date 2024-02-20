@@ -69,9 +69,9 @@
                     <td>{{$value->status}}</td>
                     <td>
                       <div class="d-flex">
-                      <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      <input type="submit" class="btn btn-primary editButton" data-student-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
                       &nbsp;&nbsp;
-                      <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
+                      <input type="submit" class="btn btn-danger deletebutton" data-student-id="{{ $value->id }}" value="Delete">
                       </div>
                   </tr>
                   @php $i++ @endphp
@@ -100,48 +100,148 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ url('admin/update') }}">
+        <form method="post" action="{{ url('student/update') }}">
           @csrf
           <div class="card-body">
-          <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-2 col-form-label">Select Role</label>
-                    <div class="col-sm-10">
-                    <select class="form-control" name="role_type" id="role_type">
-                        <option value="">Select Role</option>
-                        <option value="2">Admin</option>
-                        <option value="3">Institute</option>
-                    </select>
-                    @error('role_type')
-                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    </div>
-                  </div> 
-                  <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="hidden" name="user_id" id="user_id">
-                      <input type="text" id="name" name="name" class="form-control"   placeholder="Name">
-                    @error('name')
-                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control"  id="email" name="email" placeholder="Email">
-                    @error('email')
-                     <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="mobile" name="mobile" class="form-control"   placeholder="Mobile Number">
-                    </div>
-                  </div>
-                  
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Name  : </label>
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
+                                            @error('name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Mobile  : </label>
+                                            <input type="tel" name="mobile" id="mobile" class="form-control" placeholder="Enter Mobile No.">
+                                            @error('mobile')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">EmailID  : </label>
+                                            <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email ID">
+                                            @error('email')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Address  : </label>
+                                            <textarea name="address" id="address" class="form-control" placeholder="Address"></textarea>
+                                            @error('address')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">DOB  : </label>
+                                            <input type="date" name="dob" id="dob" class="form-control" placeholder="Date Of Birth">
+                                            @error('dob')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Image  : </label>
+                                            <input type="file" name="image"  class="form-control" placeholder="Image">
+                                            <img id="image">
+                                            @error('image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Institute For  : </label>
+                                            <select name="institute_for_id" id="institute_for_id">
+                                                @foreach($institute_for as $stage)
+                                                    <option value="{{ $stage->id }}">{{ $stage->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('institute_for_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Board  : </label>
+                                            <select name="board_id" id="board_id">
+                                                @foreach($board as $instituteboard)
+                                                    <option value="{{ $instituteboard->id }}">{{ $instituteboard->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('board_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Medium : </label>
+                                            <select name="medium_id" id="medium_id">
+                                                @foreach($medium as $institutemedium)
+                                                    <option value="{{ $institutemedium->id }}">{{ $institutemedium->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('medium_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Student Class  : </label>
+                                            <select name="class_id" id="class_id">
+                                                @foreach($class as $instituteclass)
+                                                    <option value="{{ $instituteclass->id }}">{{ $instituteclass->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('class_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Stream  : </label>
+                                            <select name="stream_id" id="stream_id">
+                                                @foreach($stream as $institutestream)
+                                                    <option value="{{ $institutestream->id }}">{{ $institutestream->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('stream_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Subject  : </label>
+                                            <select name="subject_id" id="subject_id">
+                                                @foreach($subject as $institutesubject)
+                                                    <option value="{{ $institutesubject->id }}">{{ $institutesubject->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('subject_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                       
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">status : </label>
+                                            <select class="form-control" name="status" id="status">
+                                                 <option value=" ">Select Option</option>
+                                                 <option value="1">Active</option>
+                                                 <option value="0">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
           <hr>
           <div class="">
             <button type="submit" class="btn btn-info" style="float:right">Update</button>
@@ -155,19 +255,29 @@
 <script>
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {
-      var user_id = this.getAttribute('data-user-id');
+      var student_id = this.getAttribute('data-student-id');
 
-      axios.post('/admin/edit', {
-        user_id: user_id
+      axios.post('/student/edit', {
+        student_id: student_id
         })
         .then(response => {
-          var reponse_data = response.data.userDT;
+          var reponse_student = response.data.studentDT;
+          var reponse_studentdetail = response.data.studentsdetailsDT;
           
-          $('#user_id').val(reponse_data.id);
-          $('#role_type').val(reponse_data.role_type);
-          $('#name').val(reponse_data.name);
-          $('#email').val(reponse_data.email);
-          $('#mobile').val(reponse_data.mobile);
+          $('#student_id').val(reponse_student.id);
+          $('#name').val(reponse_student.name);
+          $('#email').val(reponse_student.email);
+          $('#mobile').val(reponse_student.mobile);
+          $('#address').val(reponse_student.address);
+          $('#dob').val(reponse_student.dob);
+          $('#image').attr('src', reponse_student.image);
+          $('#status').val(reponse_student.status);
+          $('#institute_for_id').val(reponse_student.institute_for_id);
+          $('#board_id').val(reponse_student.board_id);
+          $('#medium_id').val(reponse_student.medium_id);
+          $('#class_id').val(reponse_student.class_id);
+          $('#stream_id').val(reponse_student.stream_id);
+          $('#subject_id').val(reponse_student.subject_id);
           $('#usereditModal').modal('show');
         })
         .catch(error => {
@@ -179,7 +289,7 @@
     button.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default form submission
 
-      var user_id = this.getAttribute('data-user-id');
+      var user_id = this.getAttribute('data-student-id');
 
       // Show SweetAlert confirmation
       Swal.fire({
@@ -192,7 +302,7 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/admin/delete', {
+          axios.post('/student/delete', {
             user_id: user_id
             })
             .then(response => {
