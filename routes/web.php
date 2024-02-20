@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\InstituteController;
 use App\Http\Controllers\Admin\BoardController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\MediumController;
+use App\Http\Controllers\Admin\StandardController;
+use App\Http\Controllers\Admin\StreamController;
 use App\Http\Controllers\Admin\StudentsController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
@@ -104,9 +106,20 @@ Route::middleware('auth')->group(function () {
     Route::post('medium/update', [MediumController::class, 'medium_update'])->name('medium.update');
     Route::post('/medium/delete', [MediumController::class, 'medium_delete'])->name('medium.delete');
     
-    Route::get('/standard/list', [ClassController::class, 'list_standard'])->name('standard.list');
+    Route::get('/standard/list', [StandardController::class, 'list_standard'])->name('standard.list');
+    Route::get('create/standard-list', [StandardController::class, 'create_standard'])->name('standard.create');
+    Route::post('standard-list/save', [StandardController::class, 'standard_list_save'])->name('standard_list.save');
+    Route::post('/standard-list/edit', [StandardController::class, 'standard_list_edit'])->name('standard_list.edit');
+    Route::post('standard/update', [StandardController::class, 'standard_update'])->name('standard.update');
+    Route::post('/standard/delete', [StandardController::class, 'standard_delete'])->name('standard.delete');
 
-    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+    Route::get('/stream/list', [StreamController::class, 'list_stream'])->name('stream.list');
+    Route::get('create/stream-list', [StreamController::class, 'create_stream'])->name('stream.create');
+    Route::post('stream-list/save', [StreamController::class, 'stream_list_save'])->name('stream_list.save');
+    Route::post('/stream-list/edit', [StreamController::class, 'stream_list_edit'])->name('stream_list.edit');
+    Route::post('stream/update', [StreamController::class, 'stream_update'])->name('stream.update');
+    Route::post('/stream/delete', [StreamController::class, 'stream_delete'])->name('stream.delete');
+   
 
     //student
     Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');

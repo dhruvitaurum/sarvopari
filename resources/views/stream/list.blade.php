@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Class List</h1>
+          <h1 class="m-0">Stream List</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Class List</li>
+            <li class="breadcrumb-item active">Stream List</li>
           </ol>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -26,8 +26,8 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Class List</h3>
-              <a href="{{url('create/class-list')}}" class="btn btn-success" style="float: right;">Create Class </a>
+              <h3 class="card-title">Stream List</h3>
+              <a href="{{url('create/stream-list')}}" class="btn btn-success" style="float: right;">Create Stream </a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -36,18 +36,18 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Board</th>
+                    <th style="width: 200px">Standard</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   @php $i=1 @endphp
-                  @foreach($classlist as $value)
+                  @foreach($straemlist as $value)
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->board_name}}</td>
+                    <td>{{$value->standard_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -69,7 +69,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $classlist->withQueryString()->links('pagination::bootstrap-5') !!}
+              {!! $straemlist->withQueryString()->links('pagination::bootstrap-5') !!}
 
             </div>
           </div>
@@ -88,16 +88,16 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('class/update') }}">
+      <form method="post" action="{{ url('stream/update') }}">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
                                     <div class="col-md-12">
-                                             <label for="exampleInputEmail1">Select Board : </label>
-                                            <select class="form-control" name="board_id" id="board_id">
-                                                 <option value=" ">Select Board</option>
-                                                 @foreach($boardlist as $value)
+                                             <label for="exampleInputEmail1">Select standard : </label>
+                                            <select class="form-control" name="standard_id" id="standard_id">
+                                                 <option value=" ">Select standard</option>
+                                                 @foreach($standardlist as $value)
                                                  <option value="{{$value['id']}}">{{$value['name']}}</option>
                                                  @endforeach
                                             </select>
@@ -106,7 +106,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-12">
-                                            <input type="hidden" id="class_id" name="class_id">
+                                            <input type="hidden" id="stream_id" name="stream_id">
                                             <label for="exampleInputEmail1">Name  : </label>
                                             <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
                                             @error('name')
@@ -144,15 +144,15 @@
 <script>
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {
-      var class_id = this.getAttribute('data-user-id');
+      var stream_id = this.getAttribute('data-user-id');
 
-      axios.post('/class-list/edit', {
-        class_id: class_id
+      axios.post('/stream-list/edit', {
+        stream_id: stream_id
         })
         .then(response => {
-          var reponse_data = response.data.class_list;
-          $('#class_id').val(reponse_data.id);
-          $('#board_id').val(reponse_data.board_id);
+          var reponse_data = response.data.straemlist;
+          $('#stream_id').val(reponse_data.id);
+          $('#standard_id').val(reponse_data.standard_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -166,7 +166,7 @@
     button.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default form submission
 
-      var class_id = this.getAttribute('data-user-id');
+      var stream_id = this.getAttribute('data-user-id');
 
       // Show SweetAlert confirmation
       Swal.fire({
@@ -178,8 +178,8 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/class/delete', {
-            class_id: class_id
+          axios.post('/stream/delete', {
+            stream_id: stream_id
             })
             .then(response => {
               location.reload(true);

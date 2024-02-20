@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\board;
 use App\Models\Class_model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ClassController extends Controller
 {
     function list_class(){
-        $classlist = Class_model::paginate(10);
+        // $classlist = Class_model::paginate(10);
+        $classlist =DB::table('class')
+        ->join('board', 'class.board_id', '=', 'board.id')
+        ->select('class.*', 'board.name as board_name')
+        ->whereNull('class.deleted_at')
+        ->paginate(10);
         $boardlist = board::get()->toArray(); 
         return view('class.list', compact('classlist','boardlist'));
     }
