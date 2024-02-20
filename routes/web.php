@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\InstituteController;
 use App\Http\Controllers\Admin\BoardController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\MediumController;
+use App\Http\Controllers\Admin\StudentsController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,12 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/standard/list', [ClassController::class, 'list_standard'])->name('standard.list');
 
+    Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
+
+    //student
+    Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
+    Route::get('/create/student', [StudentsController::class, 'create_student'])->name('student.create');
+    Route::get('/create/save', [StudentsController::class, 'save_student'])->name('student.save');
 });
 
 
