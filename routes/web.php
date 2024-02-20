@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\InstituteController;
 use App\Http\Controllers\Admin\BoardController;
+use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\MediumController;
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -87,6 +89,21 @@ Route::middleware('auth')->group(function () {
     Route::post('board/update', [BoardController::class, 'board_update'])->name('board.update');
     Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
     
+    Route::get('/class/list', [ClassController::class, 'list_class'])->name('class.list');
+    Route::get('create/class-list', [ClassController::class, 'create_class'])->name('class.create');
+    Route::post('class-list/save', [ClassController::class, 'class_list_save'])->name('class_list.save');
+    Route::post('/class-list/edit', [ClassController::class, 'class_list_edit'])->name('class_list.edit');
+    Route::post('class/update', [ClassController::class, 'class_update'])->name('class.update');
+    Route::post('/class/delete', [ClassController::class, 'class_delete'])->name('class.delete');
+   
+    Route::get('/medium/list', [MediumController::class, 'list_medium'])->name('medium.list');
+    Route::get('create/medium', [MediumController::class, 'create_medium'])->name('medium.create');
+    Route::post('medium-list/save', [MediumController::class, 'medium_list_save'])->name('medium_list.save');
+    Route::post('/medium/edit', [MediumController::class, 'medium_list_edit'])->name('medium_list.edit');
+    Route::post('medium/update', [MediumController::class, 'medium_update'])->name('medium.update');
+    Route::post('/medium/delete', [MediumController::class, 'medium_delete'])->name('medium.delete');
+    
+    Route::get('/standard/list', [ClassController::class, 'list_standard'])->name('standard.list');
 
 });
 
