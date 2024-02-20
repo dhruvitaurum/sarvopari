@@ -143,8 +143,8 @@ Route::middleware('auth')->group(function () {
    
     //student
     Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
-    Route::get('/create/student', [StudentsController::class, 'create_student'])->name('student.create');
-    Route::get('/create/save', [StudentsController::class, 'save_student'])->name('student.save');
+    Route::get('/student/create', [StudentsController::class, 'create_student'])->name('student.create');
+    Route::get('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
 });
 
 
