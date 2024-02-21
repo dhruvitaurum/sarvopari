@@ -36,6 +36,7 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
+                    <th style="width: 200px">Board</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
@@ -46,6 +47,7 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
+                    <td>{{$value->board_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -91,6 +93,18 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
+                                    <div class="col-md-12">
+                                             <label for="exampleInputEmail1">Select Board : </label>
+                                            <select class="form-control" name="board_id" id="board_id">
+                                                 <option value=" ">Select Board</option>
+                                                 @foreach($boardlist as $value)
+                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                                 @endforeach
+                                            </select>
+                                            @error('board_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-12">
                                             <input type="hidden" id="class_id" name="class_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -138,6 +152,7 @@
         .then(response => {
           var reponse_data = response.data.class_list;
           $('#class_id').val(reponse_data.id);
+          $('#board_id').val(reponse_data.board_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');

@@ -36,7 +36,28 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                   
+                                    <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Select Standard : </label>
+                                            <select class="form-control" name="standard_id" id="standard_id">
+                                                 <option value=" ">Select Standard</option>
+                                                 @foreach($standardlist as $value)
+                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                                 @endforeach
+                                            </select>
+                                            @error('institute_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1" id="stream_label"> Select Stream : </label>
+                                            <select class="form-control" name="stream_id" id="secondDropdown2" style="display: none;">
+                                                 <option value=" ">Select stream</option>
+                                               
+                                            </select>
+                                            @error('institute_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Subject Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Subject Name">
@@ -80,3 +101,46 @@
 </div>
 
 @include('layouts/footer')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        
+        $('#standard_id').on('change', function () {
+            var standard_id = $(this).val();
+            axios.post('/get/standard_wise_stream', {
+                    standard_id: standard_id,
+                })
+                .then(function (response) {
+                    console.log(response.data.streamlist);
+                    if (response.data.streamlist && Object.keys(response.data.streamlist).length > 0) {
+                        $('#secondDropdown2').show();
+                        $('#streamlabel').show();
+
+                        var secondDropdown = document.getElementById('secondDropdown2');
+                        secondDropdown.innerHTML = ''; // Clear existing options
+
+                        secondDropdown.appendChild(new Option('Select stream', ''));
+
+                        response.data.streamlist.forEach(function(stream) {
+                            var option = new Option(stream.name, stream.id);
+                            secondDropdown.appendChild(option);
+                        });
+                    }else{
+                        $('#secondDropdown2').hide();
+                        $('#streamlabel').hide();
+                    }
+
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+
+            // if (selectedValue !== ' ') {
+            //     $('#secondDropdown').show();
+            // } else {
+            //     $('#secondDropdown').hide();
+            // }
+        });
+    });
+</script>
