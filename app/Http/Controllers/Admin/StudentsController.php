@@ -21,6 +21,13 @@ class StudentsController extends Controller
 {
     public function list_student(): View {
         $student = User::where('role_type',[4])->paginate(10); 
+        $id = Auth::id();
+        $student['institute_for'] = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->get(); 
+        $student['board'] = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->get();
+        $student['medium'] = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->get();
+        $student['class'] = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->get();
+        $student['stream'] = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->get();
+        $student['subject'] = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->get(); 
         return view('student.list', compact('student'));
     }
 
