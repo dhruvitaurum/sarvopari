@@ -36,18 +36,16 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Institute</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   @php $i=1 @endphp
-                  @foreach($boardlist as $value)
+                  @foreach($board_list as $value)
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->institute_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -69,7 +67,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $boardlist->withQueryString()->links('pagination::bootstrap-5') !!}
+              {!! $board_list->withQueryString()->links('pagination::bootstrap-5') !!}
 
             </div>
           </div>
@@ -93,18 +91,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-12">
-                                            <label for="exampleInputEmail1">Select Institute : </label>
-                                            <select class="form-control" name="institute_id" id="institute_id">
-                                                 <option value=" ">Select Institute</option>
-                                                 @foreach($institute_list as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                    
                                         <div class="col-md-12">
                                             <input type="hidden" id="board_id" name="board_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -152,7 +139,6 @@
         .then(response => {
           var reponse_data = response.data.board_list;
           $('#board_id').val(reponse_data.id);
-          $('#institute_id').val(reponse_data.institute_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');

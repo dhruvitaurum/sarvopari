@@ -12,13 +12,16 @@ use Illuminate\Support\Facades\DB;
 class BoardController extends Controller
 {
     public function list_board() {
-        $boardlist = DB::table('board')
-        ->join('institute_for', 'board.institute_id', '=', 'institute_for.id')
-        ->select('board.*', 'institute_for.name as institute_name')
-        ->whereNull('board.deleted_at')
-        ->paginate(10);; 
-        $institute_list = Institute_for_model::get()->toArray();
-        return view('board.list', compact('boardlist','institute_list'));
+        // $boardlist = DB::table('board')
+        // ->join('institute_for', 'board.institute_id', '=', 'institute_for.id')
+        // ->select('board.*', 'institute_for.name as institute_name')
+        // ->whereNull('board.deleted_at')
+        // ->paginate(10);
+        // $institute_list = Institute_for_model::get()->toArray();
+        // return view('board.list', compact('boardlist','institute_list'));
+        $board_list = board::paginate(10);
+        // echo "<pre>";print_r($board_list);
+        return view('board.list', compact('board_list'));
     }
     public function create_board(){
         $institute_list = Institute_for_model::get()->toArray();
@@ -26,13 +29,11 @@ class BoardController extends Controller
     }
     public function board_list_save(Request $request){
         $request->validate([
-            'institute_id' => 'required',
             'name' => ['required', 'string', 'max:255', Rule::unique('board', 'name')],
             'status' => 'required',
     ]);
 
     board::create([
-        'institute_id'=>$request->input('institute_id'),
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
@@ -51,13 +52,10 @@ class BoardController extends Controller
         $id=$request->input('board_id');
         $role = board::find($id);
         $request->validate([
-            'institute_id'=>'required',
             'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')->ignore($id)],
             'status'=>'required',
        ]);
-      
         $role->update([
-            'institute_id'=>$request->input('institute_id'),
             'name'=>$request->input('name'),
             'status'=>$request->input('status'),
         ]);

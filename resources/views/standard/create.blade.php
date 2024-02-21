@@ -36,18 +36,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Select Class : </label>
-                                            <select class="form-control" name="class_id" id="class_id">
-                                                 <option value=" ">Select Class</option>
-                                                 @foreach($class_list as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('class_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                    
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Standard Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Board Name">

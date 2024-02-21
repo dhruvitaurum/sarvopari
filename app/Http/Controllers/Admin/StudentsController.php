@@ -12,6 +12,7 @@ use App\Models\class_model;
 use App\Models\Stream_model;
 use App\Models\subject;
 use App\Models\institute_for_sub;
+use App\Models\Subject_model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -30,7 +31,7 @@ class StudentsController extends Controller
         $formdropdowns['medium'] = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->get();
         $formdropdowns['class'] = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->get();
         $formdropdowns['stream'] = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->get();
-        $formdropdowns['subject'] = subject::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->get(); 
+        $formdropdowns['subject'] = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->get(); 
         return view('student.create',compact('formdropdowns'));
     }
 

@@ -36,18 +36,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Select Standard : </label>
-                                            <select class="form-control" name="standard_id">
-                                                 <option value=" ">Select Standard</option>
-                                                 @foreach($standard_list as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                   
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Stream Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Stream Name">

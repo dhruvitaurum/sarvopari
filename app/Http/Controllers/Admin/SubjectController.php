@@ -13,16 +13,16 @@ use Illuminate\Validation\Rule;
 class SubjectController extends Controller
 {
     function list_subject(){
-        $subjectlist =DB::table('subject')
-        ->join('standard', 'subject.standard_id', '=', 'standard.id')
-        ->join('stream', 'subject.stream_id', '=', 'stream.id','left')
-        ->select('subject.*', 'standard.name as standard_name','stream.name as stream_name')
-        ->whereNull('subject.deleted_at')
-        ->paginate(10);
-        $standardlist = Standard_model::get()->toArray();
-        $streamlist = Stream_model::get()->toArray();
+        // $subjectlist =DB::table('subject')
+        // ->join('standard', 'subject.standard_id', '=', 'standard.id')
+        // ->join('stream', 'subject.stream_id', '=', 'stream.id','left')
+        // ->select('subject.*', 'standard.name as standard_name','stream.name as stream_name')
+        // ->whereNull('subject.deleted_at')
+        // ->paginate(10);
+        $subjectlist = Subject_model::paginate(10);
+        // $streamlist = Stream_model::get()->toArray();
 
-        return view('subject.list',compact('streamlist','standardlist','subjectlist'));
+        return view('subject.list',compact('subjectlist'));
     }
     function create_subject(){
         $standardlist = Standard_model::get()->toArray();
@@ -36,14 +36,11 @@ class SubjectController extends Controller
     }
     function subject_list_save(Request $request){
         $request->validate([
-            'standard_id' => 'required',
             'name' => ['required', 'string', 'max:255', Rule::unique('subject', 'name')],
             'status' => 'required',
     ]);
 
     Subject_model::create([
-        'standard_id'=>$request->input('standard_id'),
-        'stream_id'=>$request->input('stream_id'),
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
@@ -62,15 +59,11 @@ class SubjectController extends Controller
         $id=$request->input('subject_id');
         $class = Subject_model::find($id);
         $request->validate([
-            'standard_id'=>'required',
-            'stream_id'=> 'required',
             'name'=>['required','string','max:255',Rule::unique('subject', 'name')->ignore($id)],
             'status'=>'required',
        ]);
       
         $class->update([
-            'standard_id'=>$request->input('standard_id'),
-            'stream_id'=>$request->input('stream_id'),
             'name'=>$request->input('name'),
             'status'=>$request->input('status'),
         ]);

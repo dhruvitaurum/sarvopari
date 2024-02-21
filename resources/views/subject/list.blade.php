@@ -36,8 +36,6 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Standard</th>
-                    <th style="width: 200px">Stream</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
@@ -48,8 +46,6 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->standard_name}}</td>
-                    <td>{{$value->stream_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -95,28 +91,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-12">
-                                             <label for="exampleInputEmail1">Select standard : </label>
-                                            <select class="form-control" name="standard_id" id="standard_id">
-                                                 <option value=" ">Select standard</option>
-                                                 @foreach($standardlist as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('board_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1" id="stream_label"> Select Stream : </label>
-                                            <select class="form-control" name="stream_id" id="secondDropdown2" style="display: none;">
-                                                 <option value=" ">Select stream</option>
-                                               
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                    
                                         <div class="col-md-12">
                                             <input type="hidden" id="subject_id" name="subject_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -164,7 +139,6 @@
         .then(response => {
           var reponse_data = response.data.subjectlist;
           $('#subject_id').val(reponse_data.id);
-          $('#standard_id').val(reponse_data.standard_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -207,45 +181,5 @@
   
   
 </script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<script>
-    
-    $(document).ready(function () {
-        
-        $('#standard_id').on('change', function () {
-            var standard_id = $(this).val();
-            axios.post('/get/standard_wise_stream', {
-                    standard_id: standard_id,
-                })
-                .then(function (response) {
-                    console.log(response.data.streamlist);
-                    if (response.data.streamlist && Object.keys(response.data.streamlist).length > 0) {
-                        $('#secondDropdown2').show();
-                        $('#streamlabel').show();
-
-                        var secondDropdown = document.getElementById('secondDropdown2');
-                        secondDropdown.innerHTML = ''; // Clear existing options
-
-                        secondDropdown.appendChild(new Option('Select stream', ''));
-
-                        response.data.streamlist.forEach(function(stream) {
-                            var option = new Option(stream.name, stream.id);
-                            secondDropdown.appendChild(option);
-                        });
-                    }else{
-                        $('#secondDropdown2').hide();
-                        $('#streamlabel').hide();
-                    }
-
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
-
-            
-        });
-    });
-    
-</script>
 @include('layouts/footer ')

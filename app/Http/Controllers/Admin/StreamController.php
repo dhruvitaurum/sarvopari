@@ -13,13 +13,13 @@ use Illuminate\Validation\Rule;
 class StreamController extends Controller
 {
     function list_stream(){
-        $straemlist =DB::table('stream')
-        ->join('standard', 'stream.standard_id', '=', 'standard.id')
-        ->select('stream.*', 'standard.name as standard_name')
-        ->whereNull('stream.deleted_at')
-        ->paginate(10);
-        $standardlist = Standard_model::get()->toArray(); 
-        return view('stream.list',compact('straemlist','standardlist'));
+        // $straemlist =DB::table('stream')
+        // ->join('standard', 'stream.standard_id', '=', 'standard.id')
+        // ->select('stream.*', 'standard.name as standard_name')
+        // ->whereNull('stream.deleted_at')
+        // ->paginate(10);
+        $straemlist = Stream_model::paginate(10);
+        return view('stream.list',compact('straemlist'));
     }
     public function create_stream(){
         $standard_list = Standard_model::get()->toArray();
@@ -27,13 +27,11 @@ class StreamController extends Controller
     }
     public function stream_list_save(Request $request){
         $request->validate([
-            'standard_id' => 'required',
             'name' => ['required', 'string', 'max:255', Rule::unique('stream', 'name')],
             'status' => 'required',
     ]);
 
     Stream_model::create([
-        'standard_id'=>$request->input('standard_id'),
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
@@ -51,13 +49,11 @@ class StreamController extends Controller
         $id=$request->input('stream_id');
         $class = Stream_model::find($id);
         $request->validate([
-            'standard_id'=>'required',
             'name'=>['required','string','max:255',Rule::unique('stream', 'name')->ignore($id)],
             'status'=>'required',
        ]);
       
         $class->update([
-            'standard_id'=>$request->input('standard_id'),
             'name'=>$request->input('name'),
             'status'=>$request->input('status'),
         ]);

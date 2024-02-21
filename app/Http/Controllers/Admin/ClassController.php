@@ -12,14 +12,14 @@ use Illuminate\Validation\Rule;
 class ClassController extends Controller
 {
     function list_class(){
-        // $classlist = Class_model::paginate(10);
-        $classlist =DB::table('class')
-        ->join('board', 'class.board_id', '=', 'board.id')
-        ->select('class.*', 'board.name as board_name')
-        ->whereNull('class.deleted_at')
-        ->paginate(10);
-        $boardlist = board::get()->toArray(); 
-        return view('class.list', compact('classlist','boardlist'));
+        $classlist = Class_model::paginate(10);
+        // $classlist =DB::table('class')
+        // ->join('board', 'class.board_id', '=', 'board.id')
+        // ->select('class.*', 'board.name as board_name')
+        // ->whereNull('class.deleted_at')
+        // ->paginate(10);
+        // $boardlist = board::get()->toArray(); 
+        return view('class.list', compact('classlist'));
     }
     function create_class(){
         $boardlist = board::get()->toArray(); 
@@ -27,13 +27,11 @@ class ClassController extends Controller
     }
     function class_list_save(Request $request){
         $request->validate([
-            'board_id' => 'required',
             'name' => ['required', 'string', 'max:255', Rule::unique('class', 'name')],
             'status' => 'required',
     ]);
 
     Class_model::create([
-        'board_id'=>$request->input('board_id'),
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
@@ -43,22 +41,19 @@ class ClassController extends Controller
     }
     function class_list_edit(Request $request){
         $id = $request->input('class_id');
-        $board_list = board::get()->toArray();
         $class_list = Class_model::find($id);
-        return response()->json(['board_list'=>$board_list,'class_list'=>$class_list]);
+        return response()->json(['class_list'=>$class_list]);
         
     }
     function class_update(Request $request){
         $id=$request->input('class_id');
         $class = Class_model::find($id);
         $request->validate([
-            'board_id'=>'required',
             'name'=>['required','string','max:255',Rule::unique('board', 'name')->ignore($id)],
             'status'=>'required',
        ]);
       
         $class->update([
-            'board_id'=>$request->input('board_id'),
             'name'=>$request->input('name'),
             'status'=>$request->input('status'),
         ]);

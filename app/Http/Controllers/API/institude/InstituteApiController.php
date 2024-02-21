@@ -22,11 +22,13 @@ use App\Models\Institute_work;
 use App\Models\Institute_work_sub;
 use App\Models\Insutitute_detail;
 use App\Models\Medium_model;
+use App\Models\Standard_model;
+use App\Models\Stream_model;
 use App\Models\Subject_model;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class InstituteController extends Controller
+class InstituteApiController extends Controller
 {
 
     public function get_institute_reponse(Request $request)
@@ -70,6 +72,24 @@ class InstituteController extends Controller
             $Institute_medium = Medium_model::get();
             foreach ($Institute_medium as $value) {
                 $Institute_medium_response[] = array(
+                    'id' => $value->id,
+                    'name' => $value->name,
+                    'status' => $value->status,
+
+                );
+            }
+            $Standard_model = Standard_model::get();
+            foreach ($Standard_model as $value) {
+                $Standard_model_response[] = array(
+                    'id' => $value->id,
+                    'name' => $value->name,
+                    'status' => $value->status,
+
+                );
+            }
+            $Stream_model = Stream_model::get();
+            foreach ($Stream_model as $value) {
+                $Stream_model_response[] = array(
                     'id' => $value->id,
                     'name' => $value->name,
                     'status' => $value->status,

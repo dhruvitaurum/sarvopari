@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                             <label for="exampleInputEmail1">Select Board : </label>
                                             <select class="form-control" name="board_id">
                                                  <option value=" ">Select Board</option>
@@ -44,10 +44,10 @@
                                                  <option value="{{$value['id']}}">{{$value['name']}}</option>
                                                  @endforeach
                                             </select>
-                                            @error('institute_id')
+                                            @error('board_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div>
+                                        </div> -->
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Class Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Board Name">
