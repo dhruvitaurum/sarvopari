@@ -27,7 +27,9 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Medium List</h3>
+              @canButton('add', 'Medium')
               <a href="{{url('create/medium')}}" class="btn btn-success" style="float: right;">Create Medium</a>
+              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -54,10 +56,12 @@
                         @endif</td>
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Medium')
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
-                      &nbsp;&nbsp;
+                      @endCanButton&nbsp;&nbsp;
+                      @canButton('delete', 'Medium')
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
-                      </div>
+                      @endCanButton</div>
                   </tr>
                   @php $i++ @endphp
                   @endforeach

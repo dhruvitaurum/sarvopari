@@ -27,7 +27,9 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Subject List</h3>
+              @canButton('add', 'Subject')
               <a href="{{url('create/subject-list')}}" class="btn btn-success" style="float: right;">Create subject </a>
+              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -59,10 +61,12 @@
                    
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Subject')
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
-                      &nbsp;&nbsp;
+                      @endCanButton &nbsp;&nbsp;
+                      @canButton('delete', 'Subject')
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
-                      </div>
+                      @endCanButton</div>
                   </tr>
                   @php $i++ @endphp
                   @endforeach

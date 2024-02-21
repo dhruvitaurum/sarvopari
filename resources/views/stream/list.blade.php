@@ -27,7 +27,9 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Stream List</h3>
+              @canButton('add', 'Stream')
               <a href="{{url('create/stream-list')}}" class="btn btn-success" style="float: right;">Create Stream </a>
+              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -57,9 +59,13 @@
                    
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Stream')
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @endCanButton
                       &nbsp;&nbsp;
-                      <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
+                      @canButton('delete', 'Stream')
+                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
+                      @endCanButton
                       </div>
                   </tr>
                   @php $i++ @endphp

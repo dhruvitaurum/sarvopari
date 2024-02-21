@@ -27,7 +27,9 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Institute For List</h3>
+              @canButton('add', 'Institute_for')
               <a href="{{url('create/institute_for')}}" class="btn btn-success" style="float: right;">Create Institute For</a>
+              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -55,10 +57,14 @@
                    
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Institute_for')
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @endCanButton
                       &nbsp;&nbsp;
+                      @canButton('delete', 'Institute_for')
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
-                      </div>
+                      @endCanButton
+                     </div>
                   </tr>
                   @php $i++ @endphp
                   @endforeach

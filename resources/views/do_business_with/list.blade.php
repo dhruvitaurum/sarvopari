@@ -27,8 +27,10 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Do Business With List</h3>
-              <a href="{{url('create/do-business-with')}}" class="btn btn-success" style="float: right;">Create Do_business_with</a>
-            </div>
+              @canButton('add', 'Do_business_with')
+               <a href="{{url('create/do-business-with')}}" class="btn btn-success" style="float: right;">Create Do_business_with</a>
+              @endCanButton
+              </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table class="table table-bordered">
@@ -55,10 +57,14 @@
                    
                     <td>
                       <div class="d-flex">
-                      <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @canButton('edit', 'Do_business_with')
+                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @endCanButton
                       &nbsp;&nbsp;
+                      @canButton('delete', 'Do_business_with')
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
-                      </div>
+                      @endCanButton
+                    </div>
                   </tr>
                   @php $i++ @endphp
                   @endforeach
