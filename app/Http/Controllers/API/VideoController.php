@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\institude;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subject_detail;

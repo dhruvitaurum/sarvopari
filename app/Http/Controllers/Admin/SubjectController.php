@@ -37,7 +37,7 @@ class SubjectController extends Controller
     function subject_list_save(Request $request){
         $request->validate([
             'standard_id' => 'required',
-            'name' => ['required', 'string', 'max:255', Rule::unique('subject', 'name')],
+            'name' => ['required', 'string', 'max:255'],
             'status' => 'required',
     ]);
 
@@ -64,7 +64,7 @@ class SubjectController extends Controller
         $request->validate([
             'standard_id'=>'required',
             'stream_id'=> 'required',
-            'name'=>['required','string','max:255',Rule::unique('subject', 'name')->ignore($id)],
+            'name'=>['required','string','max:255'],
             'status'=>'required',
        ]);
       
