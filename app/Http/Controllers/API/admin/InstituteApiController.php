@@ -5,12 +5,22 @@ namespace App\Http\Controllers\API\admin;
 use App\Http\Controllers\Controller;
 use App\Models\board;
 use App\Models\Class_model;
+use App\Models\Class_sub;
 use App\Models\Dobusinesswith_Model;
+use App\Models\Dobusinesswith_sub;
 use App\Models\Institute_for_model;
+use App\Models\Institute_board_sub;
+use App\Models\Institute_detail;
+use App\Models\Institute_for_sub;
 use App\Models\Medium_model;
+use App\Models\Medium_sub;
 use App\Models\Standard_model;
+use App\Models\Standard_sub;
+use App\Models\Stream_sub;
 use App\Models\Subject_model;
+use App\Models\Subject_sub;
 use App\Models\User;
+use App\Models\Insutitute_detail;
 use Illuminate\Http\Request;
 
 class InstituteApiController extends Controller
@@ -111,6 +121,154 @@ class InstituteApiController extends Controller
                 'status' => 400,
                 'message' => 'Invalid token.',
             ], 400);
+        }
+    }
+
+    public function register_institute(Request $request){
+        $validator = \Validator::make($request->all(), [
+            'user_id'=> 'required|integer',
+            'institute_for_id' => 'required|string',
+            'institute_board_id' => 'required|string',
+            'institute_for_class_id' => 'required|string',
+            'institute_medium_id' => 'required|string',
+            'institute_work_id' => 'required|string',
+            'standard_id'=> 'required|string',
+            'stream_id'=>'required|string',
+            'subject_id' => 'required|string',
+            'institute_name' => 'required|string',
+            'address' => 'required|string',
+            'contact_no' => 'required|integer|min:10',
+            'email' => 'required|email|unique:institute_detail,email',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ], 400);
+        }
+        try {
+            //institute_detail
+            $instituteDetail =Institute_detail::create([
+                'user_id'=>$request->input('user_id'),
+                'institute_name'=>$request->input('institute_name'),
+                'address'=>$request->input('address'),
+                'contact_no'=>$request->input('contact_no'),
+                'email'=>$request->input('email'),
+                'status'=>'inactive'
+            ]);
+            $lastInsertedId = $instituteDetail->id;
+
+            //institute_for_sub
+            $intitute_for_id = explode(',',$request->input('institute_for_id'));
+            foreach($intitute_for_id as $value){
+                if($value == 5){
+                    $instituteforadd = institute_for_model::create([
+                        'name'=>$request->input('institute_for'),
+                        'status'=>'active',
+                    ]);
+                    $institute_for_id = $instituteforadd->id;
+                }else{
+                    $institute_for_id = $value;
+                }
+                Institute_for_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'institute_for_id'=>$institute_for_id,
+                ]);
+            }
+
+            //board_sub
+            $institute_board_id = explode(',',$request->input('institute_board_id'));
+            foreach($institute_board_id as $value){
+                //other
+                if($value == 4){
+                    $instituteboardadd = board::create([
+                        'name'=>$request->input('institute_board'),
+                        'status'=>'active',
+                    ]);
+                    $instituteboard_id = $instituteboardadd->id;
+                }else{
+                    $instituteboard_id = $value;
+                }
+                //end other
+
+                Institute_board_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'board_id'=>$instituteboard_id,
+                ]);
+            }
+
+            // class
+            $institute_for_class_id = explode(',',$request->input('institute_for_class_id'));
+            foreach($institute_for_class_id as $value){
+                
+                Class_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'class_id'=>$value,
+                ]);
+            }
+
+            //medium
+            $institute_medium_id = explode(',',$request->input('institute_medium_id'));
+            foreach($institute_medium_id as $value){
+                Medium_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'medium_id'=>$value,
+                ]);
+            }
+
+            //dobusiness
+            $institute_work_id = explode(',',$request->input('institute_work_id'));
+            foreach($institute_work_id as $value){
+                Dobusinesswith_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'do_business_with_id'=>$value,
+                ]);
+            }
+
+            //standard
+            $standard_id = explode(',',$request->input('standard_id'));
+            foreach($standard_id as $value){
+                Standard_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'standard_id'=>$value,
+                ]);
+            }
+
+            //stream
+            $stream = explode(',',$request->input('stream_id'));
+            foreach($stream as $value){
+                Stream_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'stream_id'=>$value,
+                ]);
+            }
+
+            //subject
+            $subject_id = explode(',',$request->input('subject_id'));
+            foreach($subject_id as $value){
+                Subject_sub::create([
+                    'user_id'=>$request->input('user_id'),
+                    'institute_id'=>$lastInsertedId,
+                    'subject_id'=>$value,
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Error creating institute',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }

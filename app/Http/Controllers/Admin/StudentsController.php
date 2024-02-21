@@ -14,6 +14,7 @@ use App\Models\subject;
 use App\Models\institute_for_sub;
 use App\Models\Institute_detail;
 use App\Models\Subject_model;
+use App\Models\Standard_model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;

@@ -99,6 +99,18 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Institute : </label>
+                                            <select name="institute_id">
+                                                @foreach($institute as $institute)
+                                                    <option value="{{ $institute->id }}">{{ $institute->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('institute_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute For  : </label>
