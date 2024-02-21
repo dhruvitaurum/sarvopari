@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\institude;
 
 use App\Http\Controllers\Controller;
+use App\Models\board;
+use App\Models\Class_model;
+use App\Models\Dobusinesswith_Model;
 use App\Models\Institute_board;
 use App\Models\Institute_board_sub;
+use App\Models\Institute_detail;
 use App\Models\Institute_for;
 use App\Models\Institute_for_class;
 use App\Models\Institute_for_class_sub;
+use App\Models\Institute_for_model;
 use App\Models\Institute_for_sub;
 use App\Models\Institute_medium;
 use App\Models\Institute_medium_sub;
@@ -16,6 +21,8 @@ use App\Models\Institute_subject_sub;
 use App\Models\Institute_work;
 use App\Models\Institute_work_sub;
 use App\Models\Insutitute_detail;
+use App\Models\Medium_model;
+use App\Models\Subject_model;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,7 +40,7 @@ class InstituteController extends Controller
 
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            $institute_for = Institute_for::get();
+            $institute_for = Institute_for_model::get();
             foreach ($institute_for as $value) {
                 $institute_for_response[] = array(
                     'id' => $value->id,
@@ -42,7 +49,7 @@ class InstituteController extends Controller
 
                 );
             }
-            $Institute_board = Institute_board::get();
+            $Institute_board = board::get();
             foreach ($Institute_board as $value) {
                 $Institute_board_response[] = array(
                     'id' => $value->id,
@@ -51,7 +58,7 @@ class InstituteController extends Controller
 
                 );
             }
-            $Institute_for_class = Institute_for_class::get();
+            $Institute_for_class = Class_model::get();
             foreach ($Institute_for_class as $value) {
                 $Institute_for_class_response[] = array(
                     'id' => $value->id,
@@ -60,7 +67,7 @@ class InstituteController extends Controller
 
                 );
             }
-            $Institute_medium = Institute_medium::get();
+            $Institute_medium = Medium_model::get();
             foreach ($Institute_medium as $value) {
                 $Institute_medium_response[] = array(
                     'id' => $value->id,
@@ -69,7 +76,7 @@ class InstituteController extends Controller
 
                 );
             }
-            $Institute_work = Institute_work::get();
+            $Institute_work = Dobusinesswith_Model::get();
             foreach ($Institute_work as $value) {
                 $Institute_work_response[] = array(
                     'id' => $value->id,
@@ -78,7 +85,7 @@ class InstituteController extends Controller
 
                 );
             }
-            $Institute_subject = Institute_subject::get();
+            $Institute_subject = Subject_model::get();
             foreach ($Institute_subject as $value) {
                 $Institute_subject_response[] = array(
                     'id' => $value->id,
@@ -115,6 +122,8 @@ class InstituteController extends Controller
             'institute_board_id' => 'required|string',
             'institute_for_class_id' => 'required|string',
             'institute_medium_id' => 'required|string',
+            'institute_standard_id' => 'required|string',
+            'institute_stream_id' => 'required|string',
             'institute_work_id' => 'required|string',
             'subject_id' => 'required|string',
             'institute_name' => 'required|string',
@@ -133,19 +142,19 @@ class InstituteController extends Controller
         }
 
         try {
-            $instituteDetail =Insutitute_detail::create([
+            $instituteDetail =Institute_detail::create([
                 'user_id'=>$request->input('user_id'),
                 'institute_name'=>$request->input('institute_name'),
                 'address'=>$request->input('address'),
                 'contact_no'=>$request->input('contact_no'),
                 'email'=>$request->input('email'),
-                'status'=>'0'
+                'status'=>'active'
             ]);
             $lastInsertedId = $instituteDetail->id;
             $intitute_for_id = explode(',',$request->input('institute_for_id'));
             foreach($intitute_for_id as $value){
                 if($value == 5){
-                    $instituteforadd = institute_for::create([
+                    $instituteforadd = Institute_for_model::create([
                         'name'=>$request->input('institute_for'),
                         'status'=>1,
                     ]);
@@ -163,7 +172,7 @@ class InstituteController extends Controller
             foreach($institute_board_id as $value){
                 //other
                 if($value == 4){
-                    $instituteboardadd = institute_board::create([
+                    $instituteboardadd = board::create([
                         'name'=>$request->input('institute_board'),
                         'status'=>'active',
                     ]);
@@ -176,7 +185,7 @@ class InstituteController extends Controller
                 Institute_board_sub::create([
                     'user_id'=>$request->input('user_id'),
                     'institute_id'=>$lastInsertedId,
-                    'institute_board_id'=>$instituteboard_id,
+                    'board_id'=>$instituteboard_id,
                 ]);
             }
             $institute_for_class_id = explode(',',$request->input('institute_for_class_id'));
