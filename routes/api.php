@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ForgotPasswordController;
 use App\Http\Controllers\API\institude\board_controller;
-use App\Http\Controllers\API\institude\InstituteApiController;
+use App\Http\Controllers\API\admin\InstituteApiController;
 use App\Http\Controllers\API\institude\StandardController;
 use App\Http\Controllers\API\institude\SubjectChapterController;
 use App\Http\Controllers\API\institude\SubjectController;
 use App\Http\Controllers\API\institude\SubjectDetailController;
-use App\Http\Controllers\API\institude\VideoController;
-use App\Http\Controllers\student\StudentController;
+use App\Http\Controllers\API\VideoController;
+use App\Http\Controllers\API\student\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +43,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::get('/auth/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('/auth/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
-// Route::post('/institude/get-board', [board_controller::class, 'show'])->name('institude.board.post');
-// Route::post('/institude/get-standard', [StandardController::class, 'get_standard'])->name('institude.standard.post');
-// Route::post('/institude/get-subject', [SubjectController::class, 'get_subject'])->name('institude.subject.post');
-// Route::post('/institude/get-subject-chapter', [SubjectChapterController::class, 'get_subject_chapter'])->name('institude.subject_chapter.post');
-// Route::post('/institude/get-subject-detail', [SubjectDetailController::class, 'get_subject_detail'])->name('institude.subject_detail.post');
-Route::post('/institude/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
-// Route::post('/institude/register-institute', [InstituteApiController::class, 'register_institute'])->name('institude.get');
-// Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
+Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
 
 Route::post('/student/homescreen-student', [StudentController::class, 'homescreen_student'])->name('upload_Video.get');
+Route::post('/institude/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
