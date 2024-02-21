@@ -27,7 +27,7 @@ class DoBusinessWithController extends Controller
         'status'=>$request->input('status'),
     ]);
 
-    return redirect()->route('create')->with('success', 'Do Business With Created Successfully');
+    return redirect()->route('do_business_with.create')->with('success', 'Do Business With Created Successfully');
 
     }
     function edit(Request $request){
