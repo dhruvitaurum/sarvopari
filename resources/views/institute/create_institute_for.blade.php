@@ -12,26 +12,20 @@
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Institute For</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
     @include('alert')
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
-                    <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Create Institute For</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form method="post" action="{{ url('institute-for/save') }}">
+                        <form method="post" action="{{ url('institute-for/save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -43,7 +37,13 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                       
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="file" name="icon" class="form-control">
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
@@ -65,15 +65,10 @@
                             </div>
                     </div>
                 </div>
-
-
                 </form>
             </div>
-
         </div>
-
 </div>
-
 </div>
 </section>
 </div>

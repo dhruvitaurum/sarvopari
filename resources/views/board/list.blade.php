@@ -27,7 +27,9 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Board List</h3>
+              @canButton('add', 'Board')
               <a href="{{url('create/board-list')}}" class="btn btn-success" style="float: right;">Create Board </a>
+              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -55,9 +57,13 @@
                    
                     <td>
                       <div class="d-flex">
+                      @canButton('edit', 'Board')
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      @endCanButton
                       &nbsp;&nbsp;
+                      @canButton('delete', 'Board')
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
+                      @endCanButton
                       </div>
                   </tr>
                   @php $i++ @endphp

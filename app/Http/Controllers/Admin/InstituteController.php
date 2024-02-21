@@ -29,12 +29,17 @@ class InstituteController extends Controller
     public function institute_for_save(Request $request){
         // dd($request->all());exit;
         $request->validate([
+                'icon' =>'required|image|mimes:svg|max:2048',
                 'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')],
                 'status'=>'required',
         ]);
+        $iconFile = $request->file('icon');
+        $imagePath = $iconFile->store('icon', 'public');
+
 
         Institute_for_model::create([
             'name'=>$request->input('name'),
+            'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
 
@@ -50,12 +55,20 @@ class InstituteController extends Controller
         $id=$request->input('institute_id');
         $role = Institute_for_model::find($id);
         $request->validate([
+            'icon' =>'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')->ignore($id)],
             'status'=>'required',
        ]);
       
+        $iconFile = $request->file('icon');
+        if(!empty($iconFile)){
+            $imagePath = $iconFile->store('icon', 'public');
+        }else{
+            $imagePath=$request->input('old_icon');
+        }
         $role->update([
             'name'=>$request->input('name'),
+            'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
         return redirect()->route('institute_for.list')->with('success', 'Institute For Updated successfully');

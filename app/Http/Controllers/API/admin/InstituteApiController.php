@@ -17,6 +17,7 @@ use App\Models\Medium_sub;
 use App\Models\Standard_model;
 use App\Models\Standard_sub;
 use App\Models\Stream_sub;
+use App\Models\Stream_model;
 use App\Models\Subject_model;
 use App\Models\Subject_sub;
 use App\Models\User;
@@ -61,6 +62,13 @@ class InstituteApiController extends Controller
             
                 foreach ($classlist as $value) {
                     $standards = Standard_model::where('class_id', $value->id)->get()->map(function ($standard) {
+                        $stream = Stream_model::where('standard_id', $standard->id)->get()->map(function ($stream) {
+                            return [
+                                'id' => $stream->id,
+                                'name' => $stream->name,
+                                'status' => $stream->status,
+                            ];
+                        });
                         $subject = Subject_model::where('standard_id', $standard->id)->get()->map(function ($subject) {
                             return [
                                 'id' => $subject->id,
@@ -74,6 +82,7 @@ class InstituteApiController extends Controller
                             'name' => $standard->name,
                             'status' => $standard->status,
                             'subject' => $subject->toArray(), 
+                            'stream' =>$stream->toArray(),
                         ];
                     });
                 
@@ -81,7 +90,7 @@ class InstituteApiController extends Controller
                         'id' => $value->id,
                         'name' => $value->name,
                         'status' => $value->status,
-                        'standards' => $standards->toArray(), // Convert the collection to an array
+                        'standards' => $standards->toArray(), 
                     ];
                 
                     $Institute_class_response[] = $classData;
