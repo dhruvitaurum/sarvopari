@@ -12,14 +12,14 @@ use Illuminate\Validation\Rule;
 class StandardController extends Controller
 {
     function list_standard(){
-        $standardlist = Standard_model::paginate(10); 
-        // $standardlist =DB::table('standard')
-        //     ->join('class', 'standard.class_id', '=', 'class.id')
-        //     ->select('standard.*', 'class.name as class_name')
-        //     ->whereNull('standard.deleted_at')
-        //     ->paginate(10);
-        // $class_list = Class_model::get()->toArray();
-        return view('standard.list', compact('standardlist'));
+        // $standardlist = Standard_model::paginate(10); 
+        $standardlist =DB::table('standard')
+            ->join('class', 'standard.class_id', '=', 'class.id')
+            ->select('standard.*', 'class.name as class_name')
+            ->whereNull('standard.deleted_at')
+            ->paginate(10);
+        $class_list = Class_model::get()->toArray();
+        return view('standard.list', compact('standardlist','class_list'));
     }
     function create_standard(){
         $class_list = Class_model::get()->toArray();
@@ -27,11 +27,13 @@ class StandardController extends Controller
     }
     function standard_list_save(Request $request){
         $request->validate([
+            'class_id' => 'required',
             'name' => ['required', 'string', 'max:255', Rule::unique('standard', 'name')],
             'status' => 'required',
     ]);
 
     Standard_model::create([
+        'class_id'=>$request->input('class_id'),
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
@@ -49,11 +51,13 @@ class StandardController extends Controller
         $id=$request->input('standard_id');
         $standard = Standard_model::find($id);
         $request->validate([
+            'class_id'=>'required',
             'name'=>['required','string','max:255',Rule::unique('standard', 'name')->ignore($id)],
             'status'=>'required',
        ]);
       
         $standard->update([
+            'class_id'=>$request->input('class_id'),
             'name'=>$request->input('name'),
             'status'=>$request->input('status'),
         ]);
