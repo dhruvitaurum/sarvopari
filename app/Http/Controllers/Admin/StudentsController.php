@@ -144,6 +144,10 @@ class StudentsController extends Controller
         if(Auth::role_type() == 1 && $student){
             students_details::where('student_id', $student_id)->delete();
             $student->delete();
+        }elseif(Auth::role_type() == 3 && $student){
+            $institute_id = Auth::id();
+            students_details::where('student_id', $student_id)->where('institute_id', $institute_id)->delete();
+            
         } else {
             return response()->json(['error' => 'Student not found'], 404);
         }
