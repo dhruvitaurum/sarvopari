@@ -37,8 +37,8 @@
                 <thead>
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
-                    <th style="width: 400px">Name</th>
-                    <th style="width: 400px">Status</th>
+                    <th style="width: 200px">Name</th>
+                    <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>

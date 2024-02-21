@@ -1,25 +1,22 @@
 @include('layouts/header')
 <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0">Institute For</h1>
-        </div><!-- /.col -->
+        </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item active">Institute For</li>
           </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-header -->
   @include('alert')
-  <!-- Main content -->
-
+ 
   <section class="content">
     <div class="container-fluid">
       <div class="row">
@@ -38,6 +35,7 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
+                    <th style="width: 200px">Icon</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
@@ -48,11 +46,11 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
                         <input type="button" value="Inactive" class="btn btn-danger">
-
                         @endif</td>
                    
                     <td>
@@ -92,7 +90,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('institute-for/update') }}">
+      <form method="post" action="{{ url('institute-for/update') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -104,6 +102,17 @@
                                             @error('name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="hidden" name="old_icon" id="old_icon">
+                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -143,9 +152,12 @@
         })
         .then(response => {
           var reponse_data = response.data.Institute_for_model;
-          
+          var iconSrc ='{{ asset('') }}' + reponse_data.icon;
           $('#institute_id').val(reponse_data.id);
           $('#name').val(reponse_data.name);
+          $('#icon').attr('src', iconSrc);
+          $('#old_icon').val(reponse_data.icon);
+
           $('#status').val(reponse_data.status);
           
           $('#usereditModal').modal('show');
@@ -157,11 +169,9 @@
   });
   document.querySelectorAll('.deletebutton').forEach(function(button) {
     button.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent the default form submission
-
+      event.preventDefault(); 
       var institute_id = this.getAttribute('data-user-id');
 
-      // Show SweetAlert confirmation
       Swal.fire({
         title: 'Are you sure want to delete?',
         icon: 'warning',
@@ -186,6 +196,19 @@
     });
   });
   
-  
+  function previewFile() {
+  const preview = document.getElementById("icon");
+  const fileInput = document.querySelector("input[type=file]");
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
 </script>
 @include('layouts/footer ')

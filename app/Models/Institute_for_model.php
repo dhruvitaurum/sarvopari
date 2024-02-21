@@ -11,6 +11,6 @@ class Institute_for_model extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'institute_for';
     protected $fillable = [
-        'name', 'status', 'created_by', 'updated_by',
+        'name','icon', 'status', 'created_by', 'updated_by',
     ];
 }
