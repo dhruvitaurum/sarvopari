@@ -62,18 +62,20 @@ class InstituteApiController extends Controller
             
                 foreach ($classlist as $value) {
                     $standards = Standard_model::where('class_id', $value->id)->get()->map(function ($standard) {
-                        $stream = Stream_model::where('standard_id', $standard->id)->get()->map(function ($stream) {
+                        $streams = Stream_model::where('standard_id', $standard->id)->get()->map(function ($stream) {
+                            $subjects = Subject_model::where('stream_id', $stream->id)->get()->map(function ($subject) {
+                                return [
+                                    'id' => $subject->id,
+                                    'name' => $subject->name,
+                                    'status' => $subject->status,
+                                ];
+                            });
+                
                             return [
                                 'id' => $stream->id,
                                 'name' => $stream->name,
                                 'status' => $stream->status,
-                            ];
-                        });
-                        $subject = Subject_model::where('standard_id', $standard->id)->get()->map(function ($subject) {
-                            return [
-                                'id' => $subject->id,
-                                'name' => $subject->name,
-                                'status' => $subject->status,
+                                'subjects' => $subjects,
                             ];
                         });
                 
@@ -81,10 +83,10 @@ class InstituteApiController extends Controller
                             'id' => $standard->id,
                             'name' => $standard->name,
                             'status' => $standard->status,
-                            'subject' => $subject->toArray(), 
-                            'stream' =>$stream->toArray(),
+                            'streams' => $streams,
                         ];
                     });
+                
                 
                     $classData = [
                         'id' => $value->id,
