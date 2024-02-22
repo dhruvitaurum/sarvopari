@@ -78,8 +78,10 @@ Route::middleware('auth')->group(function () {
     Route::post('admin/delete', [Users::class, 'subadmin_delete'])->name('admin.delete');
 
     //institute
-    Route::get('institute_admin', [Users::class, 'list_institute'])->name('institute.list');
+    Route::get('institute_admin', [Users::class, 'list_institute'])->name('institute_admin.list');
+    Route::get('/institute/list', [InstituteController::class, 'list_institute'])->name('institute.list');
     Route::get('/create/institute', [InstituteController::class, 'create_institute'])->name('institute.create');
+    
     Route::get('/institute-for/list', [InstituteController::class, 'list_institute_for'])->name('institute_for.list');
     Route::get('/create/institute_for', [InstituteController::class, 'create_institute_for'])->name('institute_for.create');
     Route::post('institute-for/save', [InstituteController::class, 'institute_for_save'])->name('institute_for.save');
@@ -103,6 +105,8 @@ Route::middleware('auth')->group(function () {
     Route::post('class/update', [ClassController::class, 'class_update'])->name('class.update');
     Route::post('/class/delete', [ClassController::class, 'class_delete'])->name('class.delete');
    
+    Route::post('/class/get_standard', [ClassController::class, 'get_standard'])->name('get_standard.list');
+
     //medium
     Route::get('/medium/list', [MediumController::class, 'list_medium'])->name('medium.list');
     Route::get('create/medium', [MediumController::class, 'create_medium'])->name('medium.create');

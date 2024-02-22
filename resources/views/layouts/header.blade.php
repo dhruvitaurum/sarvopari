@@ -98,54 +98,33 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('admin_assets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div> -->
-
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> -->
-
+   
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         @php $menu = getDynamicMenu() @endphp
 
         @foreach($menu as $value)
-            <li class="nav-item">
-                <a href="{{ url($value['url']) }}" class="nav-link {{ !empty($value['submenus']) ? 'has-submenu' : '' }}">
-                <i class="nav-icon fas fa-tachometer-alt"></i>{{ $value['menu_name'] }}
-                    @if (!empty($value['submenus']))
-                        <i class="fas fa-angle-left right"></i>
-                    @endif
-                </a>
-                @if (!empty($value['submenus']))
-                    <ul class="nav nav-treeview">
-                        @foreach($value['submenus'] as $submenu)
-                            <li class="nav-item">
-                                <a href="{{ url($submenu['url']) }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                    {{ $submenu['menu_name'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </li>
-        @endforeach
+          <li class="nav-item {{ request()->is($value['url']) || collect($value['submenus'])->pluck('url')->contains(request()->path()) ? 'menu-open active' : '' }}">
+              <a href="{{ url($value['url']) }}" class="nav-link {{ request()->is($value['url']) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>{{ $value['menu_name'] }}
+                  @if (!empty($value['submenus']))
+                      <i class="fas fa-angle-left right"></i>
+                  @endif
+              </a>
+              @if (!empty($value['submenus']))
+                  <ul class="nav nav-treeview">
+                      @foreach($value['submenus'] as $submenu)
+                          <li class="nav-item">
+                              <a href="{{ url($submenu['url']) }}" class="nav-link {{ request()->is($submenu['url']) ? 'active' : '' }}">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  {{ $submenu['menu_name'] }}
+                              </a>
+                          </li>
+                      @endforeach
+                  </ul>
+              @endif
+          </li>
+      @endforeach
 
          
         </ul>

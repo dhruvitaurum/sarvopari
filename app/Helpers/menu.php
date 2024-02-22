@@ -36,7 +36,7 @@ function getDynamicMenu()
   
 }
 function get_all_menu_list(){
-   return $menus = \App\Models\Menu::orderBy('id', 'asc')->get()->toArray();
+   return $menus = \App\Models\Menu::get()->toArray();
 }
 function get_permission(){
     return $permission = \App\Models\permission::orderBy('id', 'asc')->get()->toArray();
