@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('medium_id')->references('id')->on('medium');
             $table->unsignedBigInteger('class_id');
             $table->foreign('class_id')->references('id')->on('class');
-            $table->unsignedBigInteger('stream_id');
+            $table->unsignedBigInteger('stream_id')->nullable();
             $table->foreign('stream_id')->references('id')->on('stream');
             $table->unsignedBigInteger('subject_id');
             $table->foreign('subject_id')->references('id')->on('subject');
