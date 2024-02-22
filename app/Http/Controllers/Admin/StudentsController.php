@@ -25,10 +25,13 @@ use Illuminate\Validation\Rule;
 
 class StudentsController extends Controller
 {
-    public function list_student(): View {
-        $student = User::where('role_type',[4])->paginate(10); 
+    public function list_student(Request $request): View {
         $id = Auth::id();
-        $institute = Institute_detail::where('user_id',$id)->get();
+        $institute_id = $request->institute_id;
+
+        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')->where('users.role_type',[4])->where('students_details.institute_id',$institute_id)->paginate(10); 
+        
+        $institute = Institute_detail::where('user_id',$id)->where('id',$institute_id)->get();
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
         $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->select('medium.*')->get();
@@ -36,7 +39,7 @@ class StudentsController extends Controller
         $stream = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->select('stream.*')->get();
         $subject = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->select('subject.*')->get(); 
         $standard = Standard_model::join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')->where('standard_sub.institute_id',$id)->select('standard.*')->get(); 
-        return view('student.list', compact('institute','student','institute_for','board','medium','class','stream','subject'));
+        return view('student.list', compact('institute_id','institute','student','institute_for','board','medium','class','stream','subject'));
     }
 
     public function create_student(){
@@ -96,13 +99,14 @@ class StudentsController extends Controller
 
     public function edit_student(Request $request){
         $student_id = $request->input('student_id');
+        $institute_id = $request->input('institute_id');
         $studentDT = User::find($student_id);
        
     
     if(!empty($studentDT)) {
         $user_id = Auth::id();
         
-        $studentdetailsDT = Student_detail::where('student_id', $student_id) ->where('user_id', $user_id)->first();
+        $studentdetailsDT = Student_detail::where('student_id', $student_id) ->where('institute_id', $institute_id)->where('user_id', $user_id)->first();
         return response()->json(['studentDT' => $studentDT, 'studentsdetailsDT' => $studentdetailsDT]);
        
         

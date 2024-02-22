@@ -57,7 +57,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
@@ -147,7 +147,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/do-business-with/delete', [DoBusinessWithController::class, 'delete'])->name('do_business_with.delete');
    
     //student
-    Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
+    Route::post('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
     Route::get('/student/create', [StudentsController::class, 'create_student'])->name('student.create');
     Route::post('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
     Route::post('/student/edit', [StudentsController::class, 'edit_student'])->name('student.edit');
