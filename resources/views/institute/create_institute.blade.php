@@ -109,18 +109,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row" id="prePrimaryContent" style="display: none;">
+                                            <div class="row" id="prePrimaryContent">
                                                 <div class="col-md-12">
                                                     <label>Select :</label>
-                                                    <!-- Content for Pre Primary -->
                                                     <p>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input class="custom-control-input educationCheckbox" type="checkbox" id="standard_name" value="nursery">
-                                                        <label for="nurseryCheckbox" class="custom-control-label"></label>
+                                                    <div class="custom-control custom-checkbox " id="standardCheckboxdiv">
                                                     </div>
-
-                                                    <!-- Junior -->
-
+                                                </div>
+                                            </div>
+                                            <div class="row" id="prePrimaryContent">
+                                                <div class="col-md-12">
+                                                    <label>Select :</label>
+                                                    <p>
+                                                    <div class="custom-control custom-checkbox " id="streamCheckboxdiv">
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -174,42 +176,106 @@
 
         checkboxes.forEach(function(checkbox) {
             checkbox.addEventListener('change', function() {
+                if (this.checked) {
                // var checkboxId = this.id;
                 var classId = this.getAttribute('data-id');
                 axios.post('/class/get_standard', {
                 classId: classId
                 })
                 .then(response => {
-                var reponse_data = response.data.standard_list;
-                $('#standard_name').next('.custom-control-label').text(response_data.role_name);
+                    var response_data = response.data.standard_list;
 
+// Append the checkbox container to a parent element (e.g., a form or a div)
+                    var checkboxContainer = $('#standardCheckboxdiv');
+
+                    $.each(response_data, function(index, data) {
+                        var checkbox = $('<input>')
+                            .attr('type', 'checkbox')
+                            .attr('id', 'standardCheckbox' + data.id)
+                            .addClass('custom-control-input standardCheckbox')
+                            .val(data.id);
+
+                        // Create a label element for the checkbox
+                        var label = $('<label>')
+                            .attr('for', 'standardCheckbox' + data.id)
+                            .addClass('custom-control-label')
+                            .text(data.name);
+
+                        // Create a div element to contain the checkbox and label
+                        var checkboxWrapper = $('<div>')
+                            .addClass('custom-control custom-checkbox')
+                            .append(checkbox)
+                            .append(label);
+
+                        // Append the checkbox container to a parent element
+                        checkboxContainer.append(checkboxWrapper);
+                    });
+                    var targetElement = document.getElementById('standardCheckboxdiv');
+                    targetElement.style.display = 'block';
+                   
+                    document.getElementById('standardCheckboxdiv').addEventListener('change', function(event) {
+                    var targetCheckbox = event.target;
+
+                    if (targetCheckbox.classList.contains('standardCheckbox')) {
+                        // Your logic here when a checkbox changes state
+                        if (targetCheckbox.checked) {
+                            // Code to execute when the checkbox is checked
+                            standard_id = targetCheckbox.value;
+                            axios.post('/class/get_stream', {
+                                standard_id: standard_id
+                                })
+                                .then(response => {
+                                var stream_response = response.data.stream_list;
+                                var checkboxContainer = $('#streamCheckboxdiv');
+
+                                $.each(stream_response, function(index, data) {
+                                    var checkbox = $('<input>')
+                                        .attr('type', 'checkbox')
+                                        .attr('id', 'streamCheckbox' + data.id)
+                                        .addClass('custom-control-input streamCheckbox')
+                                        .val(data.id);
+
+                                    // Create a label element for the checkbox
+                                    var label = $('<label>')
+                                        .attr('for', 'streamCheckbox' + data.id)
+                                        .addClass('custom-control-label')
+                                        .text(data.name);
+
+                                    // Create a div element to contain the checkbox and label
+                                    var checkboxWrapper = $('<div>')
+                                        .addClass('custom-control custom-checkbox')
+                                        .append(checkbox)
+                                        .append(label);
+
+                                    // Append the checkbox container to a parent element
+                                    checkboxContainer.append(checkboxWrapper);
+                                });
+                                var targetElement = document.getElementById('streamCheckboxdiv');
+                                targetElement.style.display = 'block';
+                            
+                                })
+                                .catch(error => {
+                                console.error(error);
+                                });     
+                        } else {
+                            $('#streamCheckboxdiv').empty();
+                        }
+                    }
+                });
+                                    
                 })
                 .catch(error => {
                 console.error(error);
                 });  
+               }else {
+                $('#standardCheckboxdiv').empty();
+
+                }
             });
+
         });
 
     });
-    var checkboxes = document.querySelectorAll('.educationCheckbox');
-
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            updateContentVisibility();
-        });
-    });
-
-    function updateContentVisibility() {
-        checkboxes.forEach(function(checkbox) {
-            var contentId = checkbox.value + 'Content';
-            var contentDiv = document.getElementById(contentId);
-
-            if (checkbox.checked) {
-                contentDiv.style.display = 'block';
-            } else {
-                contentDiv.style.display = 'none';
-            }
-        });
-    }
+    
 </script>
 @include('layouts/footer')
