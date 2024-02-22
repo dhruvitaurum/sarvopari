@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\board;
 use App\Models\Class_model;
 use App\Models\Standard_model;
+use App\Models\Stream_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -85,5 +86,10 @@ class ClassController extends Controller
         $class_id=$request->input('classId');
         $standard_list = Standard_model::where('class_id',$class_id)->get();
         return response()->json(['standard_list'=>$standard_list]);
+    }
+    function get_stream(Request $request){
+        $standard_id=$request->input('standard_id');
+        $stream_list = Stream_model::where('standard_id',$standard_id)->get();
+        return response()->json(['stream_list'=>$stream_list]);
     }
 }

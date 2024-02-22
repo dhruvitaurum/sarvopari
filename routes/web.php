@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/class/delete', [ClassController::class, 'class_delete'])->name('class.delete');
    
     Route::post('/class/get_standard', [ClassController::class, 'get_standard'])->name('get_standard.list');
+    Route::post('/class/get_stream', [ClassController::class, 'get_stream'])->name('get_stream.list');
 
     //medium
     Route::get('/medium/list', [MediumController::class, 'list_medium'])->name('medium.list');
