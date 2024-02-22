@@ -27,7 +27,7 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Institute List </h3>
-              <a href="{{url('create/admin')}}" class="btn btn-success" style="float: right;">Create Institute Admin</a>
+              <a href="{{url('/create/institute')}}" class="btn btn-success" style="float: right;">Create Institute Admin</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
