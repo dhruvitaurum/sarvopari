@@ -138,6 +138,7 @@ Route::middleware('auth')->group(function () {
     Route::post('subject-list/save', [SubjectController::class, 'subject_list_save'])->name('subject_list.save');
     Route::post('/subject/delete', [SubjectController::class, 'subject_delete'])->name('subject.delete');
     
+    //do-business-with
     Route::get('/do-business-with/list', [DoBusinessWithController::class, 'list'])->name('do_business_with.list');
     Route::get('create/do-business-with', [DoBusinessWithController::class, 'create'])->name('do_business_with.create');
     Route::post('do-business-with/save', [DoBusinessWithController::class, 'save'])->name('do_business_with.save');
@@ -148,7 +149,9 @@ Route::middleware('auth')->group(function () {
     //student
     Route::get('/student/list', [StudentsController::class, 'list_student'])->name('student.list');
     Route::get('/student/create', [StudentsController::class, 'create_student'])->name('student.create');
-    Route::get('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
+    Route::post('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
+    Route::post('/student/edit', [StudentsController::class, 'edit_student'])->name('student.edit');
+    Route::post('/student/update', [StudentsController::class, 'update_student'])->name('student.update');
 });
 
 
