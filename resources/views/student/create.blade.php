@@ -102,9 +102,10 @@
                                         
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute : </label>
-                                            <select name="institute_id">
-                                                @foreach($institute as $institute)
-                                                    <option value="{{ $institute->id }}">{{ $institute->name }}</option>
+                                            <select name="institute_id" class="form-control">
+                                                <option value="">Select Institute</option>
+                                                @foreach($institute as $institutee)
+                                                    <option value="{{ $institutee->id }}">{{ $institutee->institute_name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('institute_id')
@@ -114,7 +115,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute For  : </label>
-                                            <select name="institute_for_id">
+                                            <select name="institute_for_id" class="form-control">
+                                            <option value="">Select Institute For</option>
                                                 @foreach($institute_for as $stage)
                                                     <option value="{{ $stage->id }}">{{ $stage->name }}</option>
                                                 @endforeach
@@ -126,7 +128,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Board  : </label>
-                                            <select name="board_id">
+                                            <select name="board_id" class="form-control">
+                                            <option value="">Select Board</option>
                                                 @foreach($board as $instituteboard)
                                                     <option value="{{ $instituteboard->id }}">{{ $instituteboard->name }}</option>
                                                 @endforeach
@@ -138,7 +141,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Medium : </label>
-                                            <select name="medium_id">
+                                            <select name="medium_id" class="form-control">
+                                            <option value="">Select Medium</option>
                                                 @foreach($medium as $institutemedium)
                                                     <option value="{{ $institutemedium->id }}">{{ $institutemedium->name }}</option>
                                                 @endforeach
@@ -150,7 +154,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Student Class  : </label>
-                                            <select name="class_id">
+                                            <select name="class_id" class="form-control">
+                                            <option value="">Select Class</option>
                                                 @foreach($class as $instituteclass)
                                                     <option value="{{ $instituteclass->id }}">{{ $instituteclass->name }}</option>
                                                 @endforeach
@@ -162,7 +167,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Stream  : </label>
-                                            <select name="stream_id">
+                                            <select name="stream_id" class="form-control">
+                                                <option value="">Select Stream</option>
                                                 @foreach($stream as $institutestream)
                                                     <option value="{{ $institutestream->id }}">{{ $institutestream->name }}</option>
                                                 @endforeach
@@ -174,7 +180,8 @@
 
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Subject  : </label>
-                                            <select name="subject_id">
+                                            <select name="subject_id" class="form-control">
+                                            <option value="">Select Subject</option>
                                                 @foreach($subject as $institutesubject)
                                                     <option value="{{ $institutesubject->id }}">{{ $institutesubject->name }}</option>
                                                 @endforeach

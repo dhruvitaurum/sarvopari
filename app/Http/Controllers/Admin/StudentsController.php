@@ -35,7 +35,7 @@ class StudentsController extends Controller
 
     public function create_student(){
         $id = Auth::id();
-        $institute = Institute_detail::where('user_id',[$id])->get();
+        $institute = Institute_detail::where('user_id',$id)->get();
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->get();
         $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->get();

@@ -142,7 +142,6 @@ class InstituteApiController extends Controller
             'institute_medium_id' => 'required|string',
             'institute_work_id' => 'required|string',
             'standard_id'=> 'required|string',
-            'stream_id'=>'required|string',
             'subject_id' => 'required|string',
             'institute_name' => 'required|string',
             'address' => 'required|string',
@@ -253,6 +252,7 @@ class InstituteApiController extends Controller
             }
 
             //stream
+            if($request->input('stream_id')){
             $stream = explode(',',$request->input('stream_id'));
             foreach($stream as $value){
                 Stream_sub::create([
@@ -261,7 +261,7 @@ class InstituteApiController extends Controller
                     'stream_id'=>$value,
                 ]);
             }
-
+        }
             //subject
             $subject_id = explode(',',$request->input('subject_id'));
             foreach($subject_id as $value){
@@ -271,6 +271,12 @@ class InstituteApiController extends Controller
                     'subject_id'=>$value,
                 ]);
             }
+
+            return response()->json([
+                'success' => 200,
+                'message' => 'institute create Successfully',
+               
+            ], 200);
 
         } catch (\Exception $e) {
             return response()->json([
