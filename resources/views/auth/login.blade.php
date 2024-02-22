@@ -29,22 +29,24 @@
 						@csrf     
         <div class="input-group mb-3">
 		<input id="email" name="email" :value="old('email')" type="email" class="form-control email" placeholder="Email address" required="required">
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                               
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        <x-input-error :messages="$errors->get('email')" class="mt-2" />
         <div class="input-group mb-3">
 		<input id="password" name="password" type="password" class="form-control signin-password" placeholder="Password" required autocomplete="current-password">
-		<x-input-error :messages="$errors->get('password')" class="mt-2" />
+		
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
+        <x-input-error :messages="$errors->get('password')" class="mt-2" />
         <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
