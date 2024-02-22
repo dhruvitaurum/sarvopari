@@ -58,26 +58,13 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="exampleInputEmail1">Institute : </label>
+                                            @foreach($institute_for as $value)
                                             <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="school" value="institute_for[]">
-                                                <label for="school" class="custom-control-label">School</label>
+                                                <input class="custom-control-input" type="checkbox" id="school{{$value['id']}}" value="institute_for[]">
+                                                <label for="school{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
                                             </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="Univercity" value="institute_for[]">
-                                                <label for="Univercity" class="custom-control-label">Univercity</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="Pre school" value="institute_for[]">
-                                                <label for="Pre school" class="custom-control-label">Pre school</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="Competitive exam" value="institute_for[]">
-                                                <label for="Competitive exam" class="custom-control-label">Competitive exam</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="other_institute" value="institute_for[]">
-                                                <label for="other_institute" class="custom-control-label">other</label>
-                                            </div>
+                                            @endforeach
+
                                             <div id="otherTextboxinstitute" style="display: none;">
                                                 <label for="otherText">Institute Name:</label>
                                                 <input type="text" id="otherText" placeholder="Institute_name" name="otherText" class="form-control">
@@ -85,210 +72,125 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="exampleInputEmail1">Board : </label>
+                                            @foreach($board_list as $value)
                                             <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="State board" name="board[]">
-                                                <label for="State board" class="custom-control-label">State board</label>
+                                                <input class="custom-control-input" type="checkbox" id="board{{$value['id']}}" name="board[]">
+                                                <label for="board{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
                                             </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="CBSE" name="board[]">
-                                                <label for="CBSE" class="custom-control-label">CBSE</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="ICSE" name="board[]">
-                                                <label for="ICSE" class="custom-control-label">ICSE</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="Other_board" name="board[]">
-                                                <label for="Other_board" class="custom-control-label">Other</label>
-                                            </div>
-                                            <div id="otherText_board" style="display: none;">
+                                            @endforeach
+
+                                            <div id="otherTextboxboard" style="display: none;">
                                                 <label for="otherText">Board Name:</label>
                                                 <input type="text" id="otherText" placeholder="Board name" name="otherText" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <label for="exampleInputEmail1">Medium: </label>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox" id="Gujarati" name="language[]">
-                                                    <label for="Gujarati" class="custom-control-label">Gujarati</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox" id="English" name="language[]">
-                                                    <label for="English" class="custom-control-label">English</label>
-                                                </div>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox" id="Hindi" name="language[]">
-                                                    <label for="Hindi" class="custom-control-label">Hindi</label>
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="exampleInputEmail1">Medium: </label>
+                                            @foreach($medium_list as $value)
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="medium{{$value['id']}}" name="language[]">
+                                                <label for="medium{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
                                             </div>
-                                            <div class="col-md-4">
-                                            <div class="row">
-        <div class="col-md-12">
-            <label>Select Education Level:</label><br>
-            
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="prePrimaryCheckbox" value="prePrimary">
-                <label for="prePrimaryCheckbox" class="custom-control-label">Pre Primary</label>
-            </div>
+                                            @endforeach
 
-            <!-- Primary -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="primaryCheckbox" value="primary">
-                <label for="primaryCheckbox" class="custom-control-label">Primary</label>
-            </div>
-
-            <!-- Secondary -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="secondaryCheckbox" value="secondary">
-                <label for="secondaryCheckbox" class="custom-control-label">Secondary</label>
-            </div>
-
-            <!-- High Secondary -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="highSecondaryCheckbox" value="highSecondary">
-                <label for="highSecondaryCheckbox" class="custom-control-label">High Secondary</label>
-            </div>
-       </div>
-    </div>
-
-    <div class="row" id="prePrimaryContent" style="display: none;">
-        <div class="col-md-12">
-            <label>Select :</label>
-            <!-- Content for Pre Primary -->
-            <p>  <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="nurseryCheckbox" value="nursery">
-                <label for="nurseryCheckbox" class="custom-control-label">Nursery</label>
-            </div>
-
-            <!-- Junior -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="juniorCheckbox" value="junior">
-                <label for="juniorCheckbox" class="custom-control-label">Junior</label>
-            </div>
-
-            <!-- Senior -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="seniorCheckbox" value="senior">
-                <label for="seniorCheckbox" class="custom-control-label">Senior</label>
-            </div></p>
-        </div>
-    </div>
-
-    <div class="row" id="primaryContent" style="display: none;">
-        <div class="col-md-12">
-            <p>  <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade1Checkbox" value="grade1">
-                <label for="grade1Checkbox" class="custom-control-label">1 Standard</label>
-            </div>
-
-            <!-- Grade 2 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade2Checkbox" value="grade2">
-                <label for="grade2Checkbox" class="custom-control-label">2 Standard</label>
-            </div>
-
-            <!-- Grade 3 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade3Checkbox" value="grade3">
-                <label for="grade3Checkbox" class="custom-control-label">3 Standard</label>
-            </div>
-
-            <!-- Grade 4 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade4Checkbox" value="grade4">
-                <label for="grade4Checkbox" class="custom-control-label">4 Standard</label>
-            </div>
-
-            <!-- Grade 5 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade5Checkbox" value="grade5">
-                <label for="grade5Checkbox" class="custom-control-label">5 Standard</label>
-            </div>
-
-            <!-- Grade 6 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade6Checkbox" value="grade6">
-                <label for="grade6Checkbox" class="custom-control-label">6 Standard</label>
-            </div>
-
-            <!-- Grade 7 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade7Checkbox" value="grade7">
-                <label for="grade7Checkbox" class="custom-control-label">7 Standard</label>
-            </div>
-
-            <!-- Grade 8 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade8Checkbox" value="grade8">
-                <label for="grade8Checkbox" class="custom-control-label">8 Standard</label>
-            </div>  </p>
-        </div>
-    </div>
-
-    <div class="row" id="secondaryContent" style="display: none;">
-        <div class="col-md-12">
-            <!-- Content for Secondary -->
-            <p> <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade9Checkbox" value="grade9">
-                <label for="grade9Checkbox" class="custom-control-label">9 Standard</label>
-            </div>
-
-            <!-- Grade 10 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade10Checkbox" value="grade10">
-                <label for="grade10Checkbox" class="custom-control-label">10 Standard</label>
-            </div></p>
-        </div>
-    </div>
-
-    <div class="row" id="highSecondaryContent" style="display: none;">
-        <div class="col-md-12">
-            <!-- Content for High Secondary -->
-            <p> <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade11Checkbox" value="grade11">
-                <label for="grade11Checkbox" class="custom-control-label">11 Standard</label>
-            </div>
-
-            <!-- Grade 12 -->
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input educationCheckbox" type="checkbox" id="grade12Checkbox" value="grade12">
-                <label for="grade12Checkbox" class="custom-control-label">12 Standard</label>
-            </div></p>
-        </div>
-    </div>
-                                            </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Select Education Level:</label><br>
+                                                    @foreach($class_list as $value)
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input class="custom-control-input classlist" type="checkbox" id="prePrimaryCheckbox{{$value['id']}}" value="prePrimary" data-id="{{$value['id']}}">
+                                                            <label for="prePrimaryCheckbox{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
 
+                                            <div class="row" id="prePrimaryContent" style="display: none;">
+                                                <div class="col-md-12">
+                                                    <label>Select :</label>
+                                                    <!-- Content for Pre Primary -->
+                                                    <p>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input educationCheckbox" type="checkbox" id="standard_name" value="nursery">
+                                                        <label for="nurseryCheckbox" class="custom-control-label"></label>
+                                                    </div>
+
+                                                    <!-- Junior -->
+
+                                                </div>
+                                            </div>
+
+                                            
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
-                       
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
                     </div>
 
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
                 </div>
 
             </div>
 
         </div>
-    </section>
+
 </div>
+</section>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    document.getElementById('other_institute').addEventListener('change', function() {
-        var otherTextbox = document.getElementById('otherTextboxinstitute');
-        otherTextbox.style.display = this.checked ? 'block' : 'none';
+    document.addEventListener('DOMContentLoaded', function() {
+        var schoolCheckbox = document.getElementById('school5'); // replace '5' with the actual ID
+
+        schoolCheckbox.addEventListener('change', function() {
+            var targetElement = document.getElementById('otherTextboxinstitute');
+
+            if (this.checked) {
+                targetElement.style.display = 'block';
+            } else {
+                targetElement.style.display = 'none';
+            }
+        });
+        var schoolCheckbox1 = document.getElementById('board4'); // replace '5' with the actual ID
+
+        schoolCheckbox1.addEventListener('change', function() {
+            var targetElement = document.getElementById('otherTextboxboard');
+
+            if (this.checked) {
+                targetElement.style.display = 'block';
+            } else {
+                targetElement.style.display = 'none';
+            }
+        });
+        var checkboxes = document.querySelectorAll('.classlist');
+
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+               // var checkboxId = this.id;
+                var classId = this.getAttribute('data-id');
+                axios.post('/class/get_standard', {
+                classId: classId
+                })
+                .then(response => {
+                var reponse_data = response.data.standard_list;
+                $('#standard_name').next('.custom-control-label').text(response_data.role_name);
+
+                })
+                .catch(error => {
+                console.error(error);
+                });  
+            });
+        });
+
     });
-    document.getElementById('Other_board').addEventListener('change', function() {
-        var otherTextbox = document.getElementById('otherText_board');
-        otherTextbox.style.display = this.checked ? 'block' : 'none';
-    });
-</script>
-<script>
     var checkboxes = document.querySelectorAll('.educationCheckbox');
 
     checkboxes.forEach(function(checkbox) {
@@ -311,4 +213,3 @@
     }
 </script>
 @include('layouts/footer')
- 

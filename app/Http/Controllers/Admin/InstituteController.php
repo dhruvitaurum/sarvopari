@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\board;
+use App\Models\Class_model;
+use App\Models\Institute_detail;
 use App\Models\Institute_for_model;
+use App\Models\Medium_model;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -14,8 +18,18 @@ class InstituteController extends Controller
         $users = User::where('role_type',[2,3])->paginate(10); 
         return view('admin.list', compact('users'));
     }
+    public function list_institute(){
+        $institute_list = Institute_detail::paginate(10); 
+        return view('institute/list_institute',compact('institute_list'));
+
+    }
     public function create_institute(){
-        return view('institute/create_institute');
+        $institute_for=Institute_for_model::get()->toArray();
+        $board_list = board::get()->toArray();
+        $medium_list = Medium_model::get()->toArray();
+
+        $class_list = Class_model::get()->toArray();
+        return view('institute/create_institute',compact('institute_for','board_list','medium_list','class_list'));
     }
     public function create_institute_for(){
         return view('institute/create_institute_for');

@@ -52,6 +52,7 @@
                 <thead>
                   <tr>
                     <th style="width: 100px">Menu Name</th>
+                    <th style="width: 100px">Sub Name</th>
                     <th>Add</th>
                     <th>edit</th>
                     <th>view</th>
@@ -62,19 +63,29 @@
                 
               @php $menu = get_all_menu_list() @endphp
 
-@foreach($menu as $value)
-    <tr>
-        <td><input type="hidden" name="menu_id[]" value="{{ $value['id'] }}">{{ $value['menu_name'] }}</td>
-        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][add]" value="0">
-                 <input type="checkbox" name="permissions[{{ $value['id'] }}][add]" value="1" @if(permissionExists($value['id'], 'add',$id)) checked @endif></td>
-        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][edit]" value="0">
-                <input type="checkbox" name="permissions[{{ $value['id'] }}][edit]" value="1" @if(permissionExists($value['id'], 'edit',$id)) checked @endif></td>
-        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][view]" value="0">
-                <input type="checkbox" name="permissions[{{ $value['id'] }}][view]" value="1" @if(permissionExists($value['id'], 'view',$id)) checked @endif></td>
-        <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][delete]" value="0">
-<input type="checkbox" name="permissions[{{ $value['id'] }}][delete]" value="1" @if(permissionExists($value['id'], 'delete',$id)) checked @endif></td>
-    </tr>
-@endforeach
+        @foreach($menu as $value)
+            <tr>
+            <td>
+                @if($value['sub_menu_id'] == 0)
+                    <input type="hidden" name="menu_id[]" value="{{ $value['id'] }}">
+                     {{$value['menu_name']}} 
+                @endif
+            </td>
+            <td>
+                @if($value['sub_menu_id'] != 0)
+                    <input type="hidden" name="menu_id[]" value="{{ $value['id'] }}">
+                    {{ $value['menu_name'] }}
+                @endif
+            </td><td>    <input type="hidden" name="permissions[{{ $value['id'] }}][add]" value="0">
+                        <input type="checkbox" name="permissions[{{ $value['id'] }}][add]" value="1" @if(permissionExists($value['id'], 'add',$id)) checked @endif></td>
+                <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][edit]" value="0">
+                        <input type="checkbox" name="permissions[{{ $value['id'] }}][edit]" value="1" @if(permissionExists($value['id'], 'edit',$id)) checked @endif></td>
+                <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][view]" value="0">
+                        <input type="checkbox" name="permissions[{{ $value['id'] }}][view]" value="1" @if(permissionExists($value['id'], 'view',$id)) checked @endif></td>
+                <td>    <input type="hidden" name="permissions[{{ $value['id'] }}][delete]" value="0">
+        <input type="checkbox" name="permissions[{{ $value['id'] }}][delete]" value="1" @if(permissionExists($value['id'], 'delete',$id)) checked @endif></td>
+            </tr>
+        @endforeach
 
 @php
 function permissionExists($menuId, $permissionType,$id) {

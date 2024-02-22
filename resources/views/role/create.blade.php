@@ -62,26 +62,12 @@
                 </div>
               </form>
             </div>
-            <!-- /.card -->
-
-            <!-- general form elements -->
-          
-            <!-- /.card -->
-
-            <!-- Input addon -->
-            <!-- /.card -->
-            <!-- Horizontal Form -->
-          
-            <!-- /.card -->
-
+        
           </div>
-          <!--/.col (left) -->
-          <!-- right column -->
-         
-          <!--/.col (right) -->
+      
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      
+      </div>
     </section>
 </div>
 @include('layouts/footer    ')

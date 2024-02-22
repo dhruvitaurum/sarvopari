@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\board;
 use App\Models\Class_model;
+use App\Models\Standard_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -79,5 +80,10 @@ class ClassController extends Controller
 
         return redirect()->route('class.list')->with('success', 'Class deleted successfully');
   
+    }
+    function get_standard(Request $request){
+        $class_id=$request->input('classId');
+        $standard_list = Standard_model::where('class_id',$class_id)->get();
+        return response()->json(['standard_list'=>$standard_list]);
     }
 }
