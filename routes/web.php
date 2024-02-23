@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -155,6 +156,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
     Route::post('/student/edit', [StudentsController::class, 'edit_student'])->name('student.edit');
     Route::post('/student/update', [StudentsController::class, 'update_student'])->name('student.update');
+
+    //banner
+    Route::get('/banner/list', [BannerController::class, 'list_banner'])->name('banner.list');
+    Route::get('create/banner-list', [BannerController::class, 'create_banner'])->name('banner_list.create');
+    Route::post('banner/save', [BannerController::class, 'save_banner'])->name('banner.save');
+    Route::post('/banner/edit', [BannerController::class, 'edit_banner'])->name('banner.edit');
+    Route::post('/banner/update', [BannerController::class, 'update_banner'])->name('banner.update');
+    Route::post('/banner/delete', [BannerController::class, 'banner_delete'])->name('banner.delete');
+
 });
 
 

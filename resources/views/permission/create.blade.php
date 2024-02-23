@@ -52,7 +52,7 @@
                 <thead>
                   <tr>
                     <th style="width: 100px">Menu Name</th>
-                    <th style="width: 100px">Sub Name</th>
+                    <th style="width: 100px">Sub Menu Name</th>
                     <th>Add</th>
                     <th>edit</th>
                     <th>view</th>
