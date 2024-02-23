@@ -99,4 +99,7 @@ class InstituteController extends Controller
 
         return redirect()->route('institute_for.list')->with('success', 'Institute for deleted successfully');
   }
+  function institute_register(Request $request){
+    echo "<pre>";print_r($request->All());exit;
+  }
 }
