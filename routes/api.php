@@ -49,4 +49,6 @@ Route::post('/student/homescreen-student', [StudentController::class, 'homescree
 
 Route::post('/institude/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
 Route::post('/institude/register-institute', [InstituteApiController::class, 'register_institute'])->name('institude.register');
-Route::post('/institude/get-institute', [InstituteApiController::class, 'get_institute'])->name('get_institude.get');
+// Route::post('/institude/get-institute', [InstituteApiController::class, 'get_institute'])->name('get_institude.get');
+
+Route::post('/institude/get-board', [InstituteApiController::class, 'get_board'])->name('get_board.get');

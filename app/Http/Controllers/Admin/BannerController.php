@@ -10,26 +10,35 @@ use Illuminate\Support\Facades\Auth;
 class BannerController extends Controller
 {
     public function list_banner(){
-        $banner_list = Banner_model::paginate(10);
+        $banner_list = Banner_model::where('user_id', Auth::user()->id)->paginate(10);
         return view('banner/list',compact('banner_list'));
     }
     public function create_banner(){
         return view('banner/create');
     }
     public function save_banner(Request $request){
-    $request->validate([
-            'banner_image' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'status'=>'required',
-    ]);
-    $iconFile = $request->file('banner_image');
-    $imagePath = $iconFile->store('banner_image', 'public');
-
-
-    Banner_model::create([
-        'user_id'=>Auth::user()->id,
-        'banner_image'=>$imagePath,
-        'status'=>$request->input('status'),
-    ]);
+        $request->validate([
+            'banner_image' => 'required|array',
+            'banner_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'status' => 'required',
+        ]);
+        
+        $bannerImages = [];
+        if ($request->hasFile('banner_image')) {
+            foreach ($request->file('banner_image') as $file) {
+                $imagePath = $file->store('banner_image', 'public');
+                $bannerImages[] = $imagePath;
+            }
+        }
+        
+        // Assuming you want to associate each image with the same status
+        foreach ($bannerImages as $imagePath) {
+            Banner_model::create([
+                'user_id' => Auth::user()->id,
+                'banner_image' => $imagePath,
+                'status' => $request->input('status'),
+            ]);
+        }
 
     return redirect()->route('banner.list')->with('success', 'Banner Created Successfully');
 
@@ -55,6 +64,7 @@ class BannerController extends Controller
             $imagePath=$request->input('old_banner_image');
         }
         $role->update([
+            'user_id'=>Auth::user()->id,
             'banner_image'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
