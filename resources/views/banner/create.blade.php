@@ -39,7 +39,7 @@
                                   
                                        <div class="col-md-6">
                                             <label for="exampleInputEmail1">Banner_image  : </label>
-                                            <input type="file" name="banner_image" class="form-control">
+                                            <input type="file" name="banner_image[]" class="form-control" multiple>
                                             @error('banner_image')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
