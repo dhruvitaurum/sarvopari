@@ -47,15 +47,21 @@
                   @foreach($institute_list as $value)
                   <tr>
                     <td>{{$i}}</td>
-                    <td>{{$value['name']}}</td>
+                    <td>{{$value['institute_name']}}</td>
                     <td>{{$value['email']}}</td>
-                    <td>{{$value['mobile']}}</td>
+                    <td>{{$value['contact_no']}}</td>
                     <td>{{$value['status']}}</td>
                     <td>
                       <div class="d-flex">
                       <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value['id'] }}" value="Edit">&nbsp;&nbsp;
                       &nbsp;&nbsp;
                       <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value['id'] }}" value="Delete">
+                      &nbsp;&nbsp;
+                      <form method="post" action="{{url('/student/list')}}">
+                        @csrf
+                         <input type="hidden" name="institute_id" value="{{ $value['id'] }}">
+                         <input type="submit" class="btn btn-warning"  value="Student List">
+                      </form>
                       </div>
                   </tr>
                   @php $i++ @endphp
@@ -192,5 +198,18 @@
   });
   
   
+
+  // document.querySelectorAll('.studentlist').forEach(function(button) {
+  //   button.addEventListener('click', function() {
+  //     var institute_id = this.getAttribute('data-institute-id');
+  //     axios.post('/student/list', {
+  //       institute_id: institute_id
+  //       })
+
+  //       .catch(function(error) {
+  //         console.error(error);
+  //       });
+  //   });
+  // });
 </script>
 @include('layouts/footer ')

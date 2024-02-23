@@ -76,6 +76,13 @@
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu">
+        <form method="post" action="{{ route('profile.edit') }}">
+              @csrf
+              <li><a class="dropdown-item" href="{{route('profile.edit')}}"
+                              onclick="event.preventDefault();
+                                  this.closest('form').submit();">Profile</a>
+              </li>
+              </form>
           <form method="POST" action="{{ route('logout') }}">
               @csrf
               <li><a class="dropdown-item" href="{{route('logout')}}"

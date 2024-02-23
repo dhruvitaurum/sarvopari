@@ -72,6 +72,7 @@
                       <input type="submit" class="btn btn-primary editButton" data-student-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
                       &nbsp;&nbsp;
                       <input type="submit" class="btn btn-danger deletebutton" data-student-id="{{ $value->id }}" value="Delete">
+                      <input type="hidden" id="institute_id" value="{{ $institute_id }}">
                       </div>
                   </tr>
                   @php $i++ @endphp
@@ -271,13 +272,17 @@
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {
       var student_id = this.getAttribute('data-student-id');
+      var institute_id = $('#institute_id').val();
       axios.post('/student/edit', {
-        student_id: student_id
+        student_id: student_id,
+        institute_id: institute_id
         })
         .then(response => {
          
           var reponse_student = response.data.studentDT;
-          var reponse_studentdetail = response.data.studentsdetailsDT;;
+          var reponse_studentdetail = response.data.studentsdetailsDT;
+
+          if (reponse_student !== null) {
           $('#student_id').val(reponse_student.id);
           $('#name').val(reponse_student.name);
           $('#email').val(reponse_student.email);
@@ -285,7 +290,9 @@
           $('#address').val(reponse_student.address);
           $('#dob').val(reponse_student.dob);
           $('#image').attr('src', reponse_student.image);
-          $('#uploded_image').val(reponse_studentdetail.image);
+          $('#uploded_image').val(reponse_student.image);
+          }
+          if (reponse_studentdetail !== null) {
           $('#status').val(reponse_studentdetail.status);
           $('#Student_detail_id').val(reponse_studentdetail.id);
           $('#institute_for_id').val(reponse_studentdetail.institute_for_id);
@@ -294,6 +301,7 @@
           $('#class_id').val(reponse_studentdetail.class_id);
           $('#stream_id').val(reponse_studentdetail.stream_id);
           $('#subject_id').val(reponse_studentdetail.subject_id);
+          }
           $('#usereditModal').modal('show');
         })
         .catch(error => {
