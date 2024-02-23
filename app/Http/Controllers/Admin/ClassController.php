@@ -7,6 +7,7 @@ use App\Models\board;
 use App\Models\Class_model;
 use App\Models\Standard_model;
 use App\Models\Stream_model;
+use App\Models\Subject_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -90,6 +91,12 @@ class ClassController extends Controller
     function get_stream(Request $request){
         $standard_id=$request->input('standard_id');
         $stream_list = Stream_model::where('standard_id',$standard_id)->get();
-        return response()->json(['stream_list'=>$stream_list]);
+        if(sizeof($stream_list) == 0){
+            $subject_list = Subject_model::where('standard_id',$standard_id)->get();
+        }
+        else{
+            $subject_list = '';
+        }
+        return response()->json(['stream_list'=>$stream_list,'subject_list'=>$subject_list]);
     }
 }

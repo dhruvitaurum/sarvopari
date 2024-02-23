@@ -31,7 +31,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('roles/save') }}">
+                        <form method="post" action="{{ url('institute/register') }}">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -67,7 +67,7 @@
 
                                             <div id="otherTextboxinstitute" style="display: none;">
                                                 <label for="otherText">Institute Name:</label>
-                                                <input type="text" id="otherText" placeholder="Institute_name" name="otherText" class="form-control">
+                                                <input type="text" id="otherText" placeholder="other_institute_for" name="otherText" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -81,7 +81,7 @@
 
                                             <div id="otherTextboxboard" style="display: none;">
                                                 <label for="otherText">Board Name:</label>
-                                                <input type="text" id="otherText" placeholder="Board name" name="otherText" class="form-control">
+                                                <input type="text" id="otherText" placeholder="Board name" name="boardother" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                             <label for="exampleInputEmail1">Medium: </label>
                                             @foreach($medium_list as $value)
                                             <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="medium{{$value['id']}}" name="language[]">
+                                                <input class="custom-control-input" type="checkbox" id="medium{{$value['id']}}" name="medium[]">
                                                 <label for="medium{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
                                             </div>
                                             @endforeach
@@ -102,7 +102,7 @@
                                                     <label>Select Education Level:</label><br>
                                                     @foreach($class_list as $value)
                                                         <div class="custom-control custom-checkbox">
-                                                            <input class="custom-control-input classlist" type="checkbox" id="prePrimaryCheckbox{{$value['id']}}" value="prePrimary" data-id="{{$value['id']}}">
+                                                            <input class="custom-control-input classlist" name="classname[]" type="checkbox" id="prePrimaryCheckbox{{$value['id']}}" value="prePrimary" data-id="{{$value['id']}}">
                                                             <label for="prePrimaryCheckbox{{$value['id']}}" class="custom-control-label">{{$value['name']}}</label>
                                                         </div>
                                                     @endforeach
@@ -111,7 +111,6 @@
 
                                             <div class="row" id="prePrimaryContent">
                                                 <div class="col-md-12">
-                                                    <label>Select :</label>
                                                     <p>
                                                     <div class="custom-control custom-checkbox " id="standardCheckboxdiv">
                                                     </div>
@@ -119,7 +118,6 @@
                                             </div>
                                             <div class="row" id="prePrimaryContent">
                                                 <div class="col-md-12">
-                                                    <label>Select :</label>
                                                     <p>
                                                     <div class="custom-control custom-checkbox " id="streamCheckboxdiv">
                                                     </div>
@@ -189,9 +187,12 @@
                     var checkboxContainer = $('#standardCheckboxdiv');
 
                     $.each(response_data, function(index, data) {
+                       
+
                         var checkbox = $('<input>')
                             .attr('type', 'checkbox')
                             .attr('id', 'standardCheckbox' + data.id)
+                            .attr('name', 'standardname[]')
                             .addClass('custom-control-input standardCheckbox')
                             .val(data.id);
 
@@ -226,12 +227,15 @@
                                 })
                                 .then(response => {
                                 var stream_response = response.data.stream_list;
+                                var stream_response = response.data.subject_list;
+                               
                                 var checkboxContainer = $('#streamCheckboxdiv');
 
                                 $.each(stream_response, function(index, data) {
                                     var checkbox = $('<input>')
                                         .attr('type', 'checkbox')
                                         .attr('id', 'streamCheckbox' + data.id)
+                                        .attr('name', 'streamname[]')
                                         .addClass('custom-control-input streamCheckbox')
                                         .val(data.id);
 
@@ -242,13 +246,13 @@
                                         .text(data.name);
 
                                     // Create a div element to contain the checkbox and label
-                                    var checkboxWrapper = $('<div>')
+                                    var standardcheckbox = $('<div>')
                                         .addClass('custom-control custom-checkbox')
                                         .append(checkbox)
                                         .append(label);
 
                                     // Append the checkbox container to a parent element
-                                    checkboxContainer.append(checkboxWrapper);
+                                    checkboxContainer.append(standardcheckbox);
                                 });
                                 var targetElement = document.getElementById('streamCheckboxdiv');
                                 targetElement.style.display = 'block';

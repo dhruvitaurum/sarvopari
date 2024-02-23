@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
     Route::post('institute-for/update', [InstituteController::class, 'institute_for_update'])->name('institute.update');
     Route::post('institute-for/delete', [InstituteController::class, 'institute_for_delete'])->name('institute_for.delete');
     
+    Route::post('institute/register', [InstituteController::class, 'institute_register'])->name('institute_register.delete');
+
     //board
     Route::get('/board/list', [BoardController::class, 'list_board'])->name('board.list');
     Route::get('create/board-list', [BoardController::class, 'create_board'])->name('board.create');
