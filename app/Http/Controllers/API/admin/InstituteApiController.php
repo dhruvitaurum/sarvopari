@@ -170,6 +170,7 @@ class InstituteApiController extends Controller
                 'status'=>'inactive'
             ]);
             $lastInsertedId = $instituteDetail->id;
+            $institute_name = $instituteDetail->institute_name;
 
             //institute_for_sub
             $intitute_for_id = explode(',',$request->input('institute_for_id'));
@@ -277,7 +278,10 @@ class InstituteApiController extends Controller
             return response()->json([
                 'success' => 200,
                 'message' => 'institute create Successfully',
-               
+                'data' =>[
+                    'institute_id'=>$lastInsertedId,
+                    'institute_name'=>$institute_name,
+                ]
             ], 200);
 
         } catch (\Exception $e) {
@@ -286,6 +290,27 @@ class InstituteApiController extends Controller
                 'message' => 'Error creating institute',
                 'error' => $e->getMessage(),
             ], 500);
+        }
+    }
+    function get_institute(Request $request){
+        $token = $request->header('Authorization');
+
+        if (strpos($token, 'Bearer ') === 0) {
+            $token = substr($token, 7);
+        }
+
+
+        $existingUser = User::where('token', $token)->first();
+        if ($existingUser) {
+            $institute_for = Institute_detail::where('id',$request->input('institute_id'))->get();
+            foreach ($institute_for as $value) {
+                $institute_for_response[] = array(
+                    'id' => $value->id,
+                    'name' => $value->name,
+                    'status' => $value->status,
+
+                );
+            }
         }
     }
 }
