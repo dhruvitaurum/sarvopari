@@ -29,9 +29,8 @@ class StudentsController extends Controller
         $id = Auth::id();
         $institute_id = $request->institute_id;
 
-        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')->where('users.role_type',[4])->where('students_details.institute_id',$institute_id)->paginate(10); 
+        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')->where('users.role_type',[4])->where('students_details.institute_id',$institute_id)->select('users.*')->paginate(10); 
         
-        $institute = Institute_detail::where('user_id',$id)->get();
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
         $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->select('medium.*')->get();
@@ -39,20 +38,21 @@ class StudentsController extends Controller
         $stream = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->select('stream.*')->get();
         $subject = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->select('subject.*')->get(); 
         $standard = Standard_model::join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')->where('standard_sub.institute_id',$id)->select('standard.*')->get(); 
-        return view('student.list', compact('institute_id','institute','student','institute_for','board','medium','class','stream','subject'));
+        return view('student.list', compact('institute_id','student','institute_for','board','medium','class','stream','subject'));
     }
 
-    public function create_student(){
+    public function create_student(Request $request){
         $id = Auth::id();
-        $institute = Institute_detail::where('user_id',$id)->get();
-        $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
-        $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
-        $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->select('medium.*')->get();
-        $class = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->select('class.*')->get();
-        $stream = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->select('stream.*')->get();
-        $subject = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->select('subject.*')->get(); 
-        $standard = Standard_model::join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')->where('standard_sub.institute_id',$id)->select('standard.*')->get(); 
-        return view('student.create',compact('institute','institute_for','board','medium','class','stream','subject','standard'));
+        $institute_id = $request->institute_id;
+        
+        $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$institute_id)->select('institute_for.*')->get(); 
+        $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$institute_id)->select('board.*')->get();
+        $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$institute_id)->select('medium.*')->get();
+        $class = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$institute_id)->select('class.*')->get();
+        $stream = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$institute_id)->select('stream.*')->get();
+        $subject = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$institute_id)->select('subject.*')->get(); 
+        $standard = Standard_model::join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')->where('standard_sub.institute_id',$institute_id)->select('standard.*')->get(); 
+        return view('student.create',compact('institute_id','institute_for','board','medium','class','stream','subject','standard'));
     }
 
     public function save_student(Request $request){
@@ -83,15 +83,19 @@ class StudentsController extends Controller
         ]);
 
         $student_id = $student->id;
+        $id = Auth::id();
         $studentdetail = Student_detail::create([
-            'student_id' => $student_id,
+            'user_id'=>$id,
             'institute_id' => $request->institute_id,
+            'student_id' => $student_id,
             'institute_for_id' => $request->institute_for_id,
             'board_id'=>  $request->board_id,
             'medium_id' =>$request->medium_id,
             'class_id' =>$request->class_id,
+            'standard_id' =>$request->standard_id,
             'stream_id'=>$request->stream_id,
             'subject_id'=>$request->subject_id,
+            'status'=>$request->status,
             ]);
 
         return Redirect::route('student.list')->with('success', 'profile-created');
@@ -161,18 +165,18 @@ class StudentsController extends Controller
             'subject_id'=>$request->subject_id,
         ]);
 
-        
+        return Redirect::route('student.list')->with('success', 'profile-created');
     }
 
-    public function delete_student(){
+    public function delete_student(Request $request){
         $did=$request->input('student_id');
         $student = User::find($did);
         if(Auth::role_type() == 1 && $student){
-            students_details::where('student_id', $student_id)->delete();
+            Student_detail::where('student_id', $did)->delete();
             $student->delete();
         }elseif(Auth::role_type() == 3 && $student){
             $institute_id = Auth::id();
-            students_details::where('student_id', $student_id)->where('institute_id', $institute_id)->delete();
+            Student_detail::where('student_id', $did)->where('institute_id', $institute_id)->delete();
             
         } else {
             return response()->json(['error' => 'Student not found'], 404);

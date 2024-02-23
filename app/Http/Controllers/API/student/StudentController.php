@@ -16,7 +16,15 @@ class StudentController extends Controller
 
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            
+            $Institute_medium = Banner::get();
+            foreach ($Institute_medium as $value) {
+                $institute_medium_response[] = array(
+                    'id' => $value->id,
+                    'name' => $value->name,
+                    'status' => $value->status,
+
+                );
+            }
         } else {
             return response()->json([
                 'status' => 400,
