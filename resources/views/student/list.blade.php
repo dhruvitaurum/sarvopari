@@ -295,6 +295,7 @@
           if (reponse_studentdetail !== null) {
           $('#status').val(reponse_studentdetail.status);
           $('#Student_detail_id').val(reponse_studentdetail.id);
+          $('#institute_id').val(reponse_studentdetail.institute_id);
           $('#institute_for_id').val(reponse_studentdetail.institute_for_id);
           $('#board_id').val(reponse_studentdetail.board_id);
           $('#medium_id').val(reponse_studentdetail.medium_id);
