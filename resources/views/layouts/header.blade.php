@@ -76,7 +76,7 @@
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu">
-        <form method="post" action="{{ route('profile.edit') }}">
+        <form  action="{{ route('profile.edit') }}">
               @csrf
               <li><a class="dropdown-item" href="{{route('profile.edit')}}"
                               onclick="event.preventDefault();

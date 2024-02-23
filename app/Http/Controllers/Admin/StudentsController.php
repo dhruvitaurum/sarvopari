@@ -31,7 +31,7 @@ class StudentsController extends Controller
 
         $student = User::leftjoin('students_details','users.id','=','students_details.student_id')->where('users.role_type',[4])->where('students_details.institute_id',$institute_id)->paginate(10); 
         
-        $institute = Institute_detail::where('user_id',$id)->where('id',$institute_id)->get();
+        $institute = Institute_detail::where('user_id',$id)->get();
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
         $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->select('medium.*')->get();
