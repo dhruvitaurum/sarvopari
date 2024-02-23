@@ -99,20 +99,6 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
-                                        <div class="col-md-3">
-                                            <label for="exampleInputEmail1">Institute : </label>
-                                            <select name="institute_id" class="form-control">
-                                                <option value="">Select Institute</option>
-                                                @foreach($institute as $institutee)
-                                                    <option value="{{ $institutee->id }}">{{ $institutee->institute_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute For  : </label>
                                             <select name="institute_for_id" class="form-control">
@@ -125,7 +111,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-
+                                        <input type="hidden" name="institute_id" value="{{ $institute_id }}">
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Board  : </label>
                                             <select name="board_id" class="form-control">
@@ -164,7 +150,18 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Standard  : </label>
+                                            <select name="standard_id" class="form-control">
+                                            <option value="">Select Standard</option>
+                                                @foreach($standard as $institutestandard)
+                                                    <option value="{{ $institutestandard->id }}">{{ $institutestandard->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('standard_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Stream  : </label>
                                             <select name="stream_id" class="form-control">

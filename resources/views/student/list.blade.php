@@ -43,7 +43,11 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Student List</h3>
-              <a href="{{url('student/create')}}" class="btn btn-success" style="float: right;">Create Student</a>
+              <form method="post" action="{{url('student/create')}}">
+                @csrf
+              <input type="submit" value="Create Student" class="btn btn-success" style="float: right;">
+              <input type="hidden" name="institute_id" id="institute_id" value="{{ $institute_id }}">
+              </form>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -157,18 +161,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-3">
-                                            <label for="exampleInputEmail1">Institute : </label>
-                                            <select name="institute_id" class="form-control">
-                                                <option value="">Select Institute</option>
-                                                @foreach($institute as $institutee)
-                                                    <option value="{{ $institutee->id }}">{{ $institutee->institute_name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                        
 
                                         <div class="col-md-4">
                                             <label for="exampleInputEmail1">Institute For  : </label>
@@ -295,7 +288,6 @@
           if (reponse_studentdetail !== null) {
           $('#status').val(reponse_studentdetail.status);
           $('#Student_detail_id').val(reponse_studentdetail.id);
-          $('#institute_id').val(reponse_studentdetail.institute_id);
           $('#institute_for_id').val(reponse_studentdetail.institute_for_id);
           $('#board_id').val(reponse_studentdetail.board_id);
           $('#medium_id').val(reponse_studentdetail.medium_id);
