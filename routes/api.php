@@ -43,15 +43,15 @@ Route::group(['middleware' => ['web']], function () {
 Route::get('/auth/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('/auth/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
-Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
+Route::post('/institute/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
 
 Route::post('/student/homescreen-student', [StudentController::class, 'homescreen_student'])->name('homescreen_student.get');
 Route::post('/student/add-search-history-student', [StudentController::class, 'student_searchhistory_add'])->name('student_searchhistory_add.get');
 Route::post('/student/add-institute-request-student', [StudentController::class, 'student_add_institute_request'])->name('student_add_institute_request.get');
 
-Route::post('/institude/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
-Route::post('/institude/register-institute', [InstituteApiController::class, 'register_institute'])->name('institude.register');
+Route::post('/institute/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
+Route::post('/institute/register-institute', [InstituteApiController::class, 'register_institute'])->name('institude.register');
 // Route::post('/institude/get-institute', [InstituteApiController::class, 'get_institute'])->name('get_institude.get');
 
-Route::post('/institude/get-board', [InstituteApiController::class, 'get_board'])->name('get_board.get');
-Route::post('/institude/get-class', [InstituteApiController::class, 'get_class'])->name('get_class.get');
+Route::post('/institute/get-board', [InstituteApiController::class, 'get_board'])->name('get_board.get');
+Route::post('/institute/get-class', [InstituteApiController::class, 'get_class'])->name('get_class.get');
