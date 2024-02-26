@@ -111,27 +111,39 @@
         @php $menu = getDynamicMenu() @endphp
 
         @foreach($menu as $value)
-          <li class="nav-item {{ request()->is($value['url']) || collect($value['submenus'])->pluck('url')->contains(request()->path()) ? 'menu-open active' : '' }}">
-              <a href="{{ url($value['url']) }}" class="nav-link {{ request()->is($value['url']) ? 'active' : '' }}">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>{{ $value['menu_name'] }}
-                  @if (!empty($value['submenus']))
-                      <i class="fas fa-angle-left right"></i>
-                  @endif
-              </a>
-              @if (!empty($value['submenus']))
-                  <ul class="nav nav-treeview">
-                      @foreach($value['submenus'] as $submenu)
-                          <li class="nav-item">
-                              <a href="{{ url($submenu['url']) }}" class="nav-link {{ request()->is($submenu['url']) ? 'active' : '' }}">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  {{ $submenu['menu_name'] }}
-                              </a>
-                          </li>
-                      @endforeach
-                  </ul>
-              @endif
-          </li>
-      @endforeach
+    <li class="nav-item {{ isActiveMenu($value) }}">
+        <a href="{{ url($value['url']) }}" class="nav-link {{ isActiveLink($value['url']) }}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>{{ $value['menu_name'] }}
+            @if (!empty($value['submenus']))
+                <i class="fas fa-angle-left right"></i>
+            @endif
+        </a>
+        @if (!empty($value['submenus']))
+            <ul class="nav nav-treeview">
+                @foreach($value['submenus'] as $submenu)
+                    <li class="nav-item">
+                        <a href="{{ url($submenu['url']) }}" class="nav-link {{ isActiveLink($submenu['url']) }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            {{ $submenu['menu_name'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @endif
+    </li>
+@endforeach
+
+@php
+    function isActiveMenu($menu) {
+        return request()->is($menu['url']) || collect($menu['submenus'])->pluck('url')->contains(request()->path()) ? 'menu-open active' : '';
+    }
+
+    function isActiveLink($url) {
+        return request()->is($url) ? 'active' : '';
+    }
+@endphp
+
+
 
          
         </ul>
