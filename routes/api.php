@@ -52,3 +52,4 @@ Route::post('/institude/register-institute', [InstituteApiController::class, 're
 // Route::post('/institude/get-institute', [InstituteApiController::class, 'get_institute'])->name('get_institude.get');
 
 Route::post('/institude/get-board', [InstituteApiController::class, 'get_board'])->name('get_board.get');
+Route::post('/institude/get-class', [InstituteApiController::class, 'get_class'])->name('get_class.get');
