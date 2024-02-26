@@ -18,10 +18,26 @@ class StudentController extends Controller
         if (strpos($token, 'Bearer') === 0) {
             $token = substr($token, 7);
         }
+        
+        $validator = \Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'per_page'=>'required|integer',
+        ]);
 
+        if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ], 400);
+        }
+
+        try{
+        
         $user_id = $request->user_id;
         $search_keyword = $request->search;
-
+        $perPage = $request->input('per_page', 10);
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
 
@@ -40,12 +56,10 @@ class StudentController extends Controller
             }else{
                 $instuser_id = $instuser_ids;
             }
-            
-            
                 $banners = Banner_model::where('status', 'active')
                             ->whereIn('user_id', explode(',',$instuser_id))
                             ->orWhereIn('institute_id', explode(',',$instuser_ids))
-                            ->get();
+                            ->paginate($perPage);
             $banners_data = [];
             foreach ($banners as $value) {
                 $banners_data[] = array(
@@ -55,7 +69,8 @@ class StudentController extends Controller
             }
 
             //student searched response 
-            $allinstitute = Institute_detail::where('institute_name','like','%' . $search_keyword . '%')->where('status','active')->get();
+            $allinstitute = Institute_detail::where('institute_name','like','%' . $search_keyword . '%')
+            ->where('status','active')->paginate($perPage);
             $institute_list = [];
             foreach ($allinstitute as $value) {
                 $institute_list[] = array(
@@ -66,7 +81,7 @@ class StudentController extends Controller
             }
 
             //student search history
-            $searchhistory = Search_history::where('user_id',$user_id)->get();
+            $searchhistory = Search_history::where('user_id',$user_id)->paginate($perPage);
             $searchhistory_list = [];
             foreach ($searchhistory as $value) {
                 $searchhistory_list[] = array(
@@ -77,7 +92,9 @@ class StudentController extends Controller
             }
             
             //requested institute
-            $requestnstitute =Student_detail::where('status','inactive')->where('student_id',$user_id)->get();
+            $requestnstitute =Student_detail::join('institute_detail','institute_detail.id','=','students_details.institute_id')->
+            where('students_details.status','inactive')
+            ->where('students_details.student_id',$user_id)->paginate($perPage);
            
             $requested_institute = [];
             foreach ($requestnstitute as $value) {
@@ -93,7 +110,7 @@ class StudentController extends Controller
                 $query->select('institute_id')
               ->where('student_id', $user_id)
               ->from('students_details');
-            })->get();
+            })->paginate($perPage);
             $join_with = [];
             foreach ($joininstitute as $value) {
                 $join_with[] = array(
@@ -118,25 +135,72 @@ class StudentController extends Controller
                 'message' => 'Invalid token.',
             ], 400);
         }
+    }catch (\Exception $e) {
+        return response()->json([
+            'success' => 500,
+            'message' => 'Error creating institute',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
     }
 
     public function student_searchhistory_add(Request $request){
 
+        $validator = \Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'title' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ], 400);
+        }
+
+        try {
         $search_add = Search_history::create([
             'user_id' => $request->input('user_id'),
             'title' => $request->input('title'),
         ]);
 
+        
         return response()->json([
             'success' => 200,
             'message' => 'Serach History Added',
         ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => 500,
+            'message' => 'Error creating institute',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
     }
 
     public function student_add_institute_request(Request $request){
-        $instituteid = $request->institute_id;
-        $getuid = Institute_detail::where('id',$instituteid)->get();
+        
+        $validator = \Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'institute_id' => 'required|string',
+        ]);
 
+        if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ], 400);
+        }
+        
+        try {
+        $instituteid = $request->institute_id;
+        $getuid = Institute_detail::where('id',$instituteid)->select('user_id')->first();
+        
         $search_add = Student_detail::create([
             'user_id' => $getuid->user_id,
             'institute_id' => $request->input('institute_id'),
@@ -148,5 +212,13 @@ class StudentController extends Controller
             'success' => 200,
             'message' => 'Add into Serach History',
         ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => 500,
+            'message' => 'Error creating institute',
+            'error' => $e->getMessage(),
+        ], 500);
+    }
     }
 }
