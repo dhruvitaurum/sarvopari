@@ -17,17 +17,29 @@ class StudentController extends Controller
         if (strpos($token, 'Bearer ') === 0) {
             $token = substr($token, 7);
         }
-
+        $user_id = $request->user_id;
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            $banners = Banner_model::where('status','active')->get();
+            $studentDT = Student_detail::where('id',$user_id) ->get();
+            $instituteids = '';
+            $instuser_ids = '';
+            foreach($studentDT as $value){
+                $instituteids .= $value->institute_id.',';
+                $instuser_ids .=$value->user_id;
+            }
+            $instituteids .= '0';
+            if($instituteids == '0'){
+                $instuser_id = '1';
+            }else{
+                $instuser_id = $instuser_ids;
+            }
+            $banners = Banner_model::where('status','active')->wherein('user_id',$instuser_id)->get();
             
             $banners_data = [];
             foreach ($banners as $value) {
                 $banners_data[] = array(
                     'id' => $value->id,
                     'banner_image' => $value->banner_image,
-
                 );
             }
 
@@ -41,7 +53,7 @@ class StudentController extends Controller
                 );
             }
 
-            $user_id = $request->user_id;
+            
             $joininstitute =Institute_detail::where('status','active') ->whereIn('id', function($query) use ($user_id) {
                 $query->select('institute_id')
               ->where('student_id', $user_id)
