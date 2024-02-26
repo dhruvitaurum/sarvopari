@@ -46,6 +46,7 @@ Route::post('/auth/reset-password', [ForgotPasswordController::class, 'submitRes
 Route::post('/institude/upload-video', [VideoController::class, 'upload_video'])->name('upload_Video.get');
 
 Route::post('/student/homescreen-student', [StudentController::class, 'homescreen_student'])->name('upload_Video.get');
+
 Route::post('/institude/get-base-table-detail', [InstituteApiController::class, 'get_institute_reponse'])->name('institude.get');
 Route::post('/institude/register-institute', [InstituteApiController::class, 'register_institute'])->name('institude.register');
 // Route::post('/institude/get-institute', [InstituteApiController::class, 'get_institute'])->name('get_institude.get');
