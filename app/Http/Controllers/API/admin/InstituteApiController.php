@@ -367,7 +367,6 @@ class InstituteApiController extends Controller
         $class_array = [];
         
         foreach ($classlist as $classItem) {
-            echo $classItem->class_id;
             $standardlist = DB::table('standard')
                 ->join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')
                 ->where('standard.class_id', $classItem->class_id)
@@ -390,10 +389,7 @@ class InstituteApiController extends Controller
                 'class_name' => $classItem->class_name,
                 'standard' => $standard_array,
             ];
-       
-    }
-        
-       
+         }
             return response()->json([
                 'success' => 200,
                 'message' => 'Fetch Class successfully',
