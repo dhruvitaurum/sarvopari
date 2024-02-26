@@ -56,8 +56,7 @@ class InstituteController extends Controller
             'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
-
-        return redirect()->route('institute_for.create')->with('success', 'Institute For Created Successfully');
+      return redirect()->route('institute_for.create')->with('success', 'Institute For Created Successfully');
    
     }
     public function institute_for_edit(Request $request){

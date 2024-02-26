@@ -361,7 +361,7 @@ class InstituteApiController extends Controller
             ->join('class_sub', 'class_sub.class_id', '=', 'class.id')
             ->where('class_sub.institute_id', $institute_id)
             ->where('class_sub.user_id', $user_id)
-            ->select('class.id as class_id','class_sub.id as class_sub_id', 'class.name as class_name')
+            ->select('class.*')
             ->paginate(10);
         
         $class_array = [];
@@ -369,24 +369,55 @@ class InstituteApiController extends Controller
         foreach ($classlist as $classItem) {
             $standardlist = DB::table('standard')
                 ->join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')
-                ->where('standard.class_id', $classItem->class_id)
+                ->where('standard.class_id', $classItem->id)
                 ->where('standard_sub.institute_id', $institute_id)
                 ->where('standard_sub.user_id', $user_id)
                 ->select('standard.*')
                 ->get();
+                
         
             $standard_array = [];
         
             foreach ($standardlist as $standardItem) {
+                $streamlist = DB::table('stream')
+                ->join('stream_sub', 'stream_sub.stream_id', '=', 'stream.id')
+                ->where('stream.standard_id', $standardItem->id)
+                ->where('stream_sub.institute_id', $institute_id)
+                ->where('stream_sub.user_id', $user_id)
+                ->select('stream.*')
+                ->get();
+
+                $subjectlist = DB::table('subject')
+                    ->join('subject_sub', 'subject_sub.subject_id', '=', 'subject.id','left')
+                    ->where('subject.standard_id', $standardItem->id)
+                    ->select('subject.*')
+                    ->paginate(10);
+                  $subject_array= [];
+                  $stream_array= [];
+                  foreach ($streamlist as $streamItem) {
+                    $stream_array[] = [
+                        'stream_id'=> $streamItem->id,
+                        'stream_name'=> $streamItem->name,
+                        'subject'=> $subject_array,
+                       ];
+            foreach($subjectlist as $subjectItem){
+                  
+                    $subject_array[] = [
+                        'subject_id'=> $subjectItem->id,
+                        'subject_name'=> $subjectItem->name,
+                        
+                       ];
+                  }
+                 }
                 $standard_array[] = [
                     'standard_id' => $standardItem->id,
                     'standard_name' => $standardItem->name,
-                ];
+                    'stream' => $stream_array,
+               ];
             }
-        
             $class_array[] = [
-                'class_id' => $classItem->class_id,
-                'class_name' => $classItem->class_name,
+                'class_id' => $classItem->id,
+                'class_name' => $classItem->name,
                 'standard' => $standard_array,
             ];
          }
@@ -404,4 +435,61 @@ class InstituteApiController extends Controller
         
         }
     }
+    // function get_subject_stream(Request $request){
+    //     $institute_id = $request->input('institute_id');
+    //     $user_id = $request->input('user_id');
+    //     $standard_id = $request->input('standard_id');
+    //     $token = $request->header('Authorization');
+    //     if (strpos($token, 'Bearer ') === 0) {
+    //         $token = substr($token, 7);
+    //     }
+    //    $existingUser = User::where('token', $token)->first();
+    //     if ($existingUser) {
+    //         $subjectlist = DB::table('subject')
+    //         ->join('subject_sub', 'subject_sub.subject_id', '=', 'subject.id')
+    //         ->where('subject.standard_id', $standard_id)
+    //         ->select('subject.*')
+    //         ->paginate(10);
+        
+    //     $subject_array = [];
+        
+    //     foreach ($subjectlist as $subjectItem) {
+    //         $streamlist = DB::table('stream')
+    //             ->join('stream_sub', 'stream_sub.stream_id', '=', 'stream.id')
+    //             ->where('stream.standard_id', $subjectItem->standard_id)
+    //             ->where('stream_sub.institute_id', $institute_id)
+    //             ->where('stream_sub.user_id', $user_id)
+    //             ->select('stream.*')
+    //             ->get();
+        
+    //         $subject_array_collection = [];
+        
+    //         foreach ($streamlist as $streamItem) {
+    //             $subject_array_collection[] = [
+    //                 'stream_id' => $streamItem->id,
+    //                 'stream_name' => $streamItem->name,
+    //             ];
+    //         }
+        
+    //         $subject_array[] = [
+    //             'subject_id' => $subjectItem->id,
+    //             'subject_name' => $subjectItem->name,
+    //             'stream' => $subject_array_collection,
+    //         ];
+    //      }
+    //         return response()->json([
+    //             'success' => 200,
+    //             'message' => 'Fetch Subject successfully',
+    //             'data' =>  $subject_array,
+                
+    //         ], 200);
+
+    //     }else{
+    //         return response()->json([
+    //             'success' => 500,
+    //             'message' => 'No found data.',
+    //         ], 500); 
+    //     }
+
+    // }
 }
