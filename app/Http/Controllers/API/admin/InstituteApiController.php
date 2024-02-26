@@ -339,9 +339,73 @@ class InstituteApiController extends Controller
             } else {
                 return response()->json([
                     'success' => 500,
-                    'message' => 'Not found data.',
+                    'message' => 'No found data.',
                 ], 500);
             }
+        }
+    }
+    function get_class(Request $request){
+        $institute_id = $request->input('institute_id');
+        $user_id = $request->input('user_id');
+        $token = $request->header('Authorization');
+
+        if (strpos($token, 'Bearer ') === 0) {
+            $token = substr($token, 7);
+        }
+
+
+        $existingUser = User::where('token', $token)->first();
+        if ($existingUser) {
+      
+            $classlist = DB::table('class')
+            ->join('class_sub', 'class_sub.class_id', '=', 'class.id')
+            ->where('class_sub.institute_id', $institute_id)
+            ->where('class_sub.user_id', $user_id)
+            ->select('class.id as class_id','class_sub.id as class_sub_id', 'class.name as class_name')
+            ->paginate(10);
+        
+        $class_array = [];
+        
+        foreach ($classlist as $classItem) {
+            echo $classItem->class_id;
+            $standardlist = DB::table('standard')
+                ->join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')
+                ->where('standard.class_id', $classItem->class_id)
+                ->where('standard_sub.institute_id', $institute_id)
+                ->where('standard_sub.user_id', $user_id)
+                ->select('standard.*')
+                ->get();
+        
+            $standard_array = [];
+        
+            foreach ($standardlist as $standardItem) {
+                $standard_array[] = [
+                    'standard_id' => $standardItem->id,
+                    'standard_name' => $standardItem->name,
+                ];
+            }
+        
+            $class_array[] = [
+                'class_id' => $classItem->class_id,
+                'class_name' => $classItem->class_name,
+                'standard' => $standard_array,
+            ];
+       
+    }
+        
+       
+            return response()->json([
+                'success' => 200,
+                'message' => 'Fetch Class successfully',
+                'data' =>  $class_array,
+                
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => 500,
+                'message' => 'No found data.',
+            ], 500);
+        
         }
     }
 }
