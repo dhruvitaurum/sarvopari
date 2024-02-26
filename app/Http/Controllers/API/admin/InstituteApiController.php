@@ -388,13 +388,12 @@ class InstituteApiController extends Controller
             $class_array[] = [
                 'class_id' => $classItem->class_id,
                 'class_name' => $classItem->class_name,
-                'standards' => $standard_array,
+                'standard' => $standard_array,
             ];
        
     }
         
-        // Rest of your code...
-        
+       
             return response()->json([
                 'success' => 200,
                 'message' => 'Fetch Class successfully',
