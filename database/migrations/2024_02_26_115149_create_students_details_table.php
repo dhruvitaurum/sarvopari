@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('students_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_id')->nullable();
             $table->foreign('student_id')->references('id')->on('users');
-            $table->unsignedBigInteger('institute_for_id');
+            $table->unsignedBigInteger('institute_for_id')->nullable();
             $table->foreign('institute_for_id')->references('id')->on('institute_for');
-            $table->unsignedBigInteger('board_id');
+            $table->unsignedBigInteger('board_id')->nullable();
             $table->foreign('board_id')->references('id')->on('board');
-            $table->unsignedBigInteger('medium_id');
+            $table->unsignedBigInteger('medium_id')->nullable();
             $table->foreign('medium_id')->references('id')->on('medium');
-            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('class_id')->nullable();
             $table->foreign('class_id')->references('id')->on('class');
+            $table->integer('standard_id')->nullable();
             $table->unsignedBigInteger('stream_id')->nullable();
             $table->foreign('stream_id')->references('id')->on('stream');
-            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->foreign('subject_id')->references('id')->on('subject');
-            $table->enum('status',['0','1']);
+            $table->enum('status',['active','inactive']);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
