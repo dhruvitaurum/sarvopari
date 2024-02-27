@@ -71,9 +71,9 @@ class StudentController extends Controller
             //student searched response 
             $allinstitute = Institute_detail::where('institute_name','like','%' . $search_keyword . '%')
             ->where('status','active')->paginate($perPage);
-            $institute_list = [];
+            $search_list = [];
             foreach ($allinstitute as $value) {
-                $institute_list[] = array(
+                $search_list[] = array(
                     'id' => $value->id,
                     'institute_name' => $value->institute_name,
                     'address'=>$value->address,
@@ -124,7 +124,7 @@ class StudentController extends Controller
                 'status' => 200,
                 'message' => 'Successfully fetch data.',
                 'banner' => $banners_data,
-                'institute_list' => $institute_list,
+                'search_list' => $search_list,
                 'searchhistory_list'=>$searchhistory_list,
                 'requested_institute'=>$requested_institute,
                 'join_with' => $join_with,
