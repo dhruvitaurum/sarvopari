@@ -44,12 +44,15 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="exampleInputEmail1">Icon  : </label>
-                                            <input type="file" name="icon" class="form-control" >
+                                            <input type="file" onchange="previewFile()" name="icon" class="form-control" >
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        <div class="col-md-2">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none;">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>
@@ -84,5 +87,22 @@
 </div>
 </section>
 </div>
+<script>
+     function previewFile() {
+        $("#icon").show();
 
+        const preview = document.getElementById("icon");
+        const fileInput = document.querySelector("input[type=file]");
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+        }
+</script>
 @include('layouts/footer')
