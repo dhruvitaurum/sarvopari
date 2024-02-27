@@ -11,6 +11,6 @@ class Medium_model extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'medium';
     protected $fillable = [
-         'name', 'status', 'created_by', 'updated_by'
+         'name', 'icon','status', 'created_by', 'updated_by'
     ];
 }

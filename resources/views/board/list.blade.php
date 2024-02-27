@@ -38,6 +38,8 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
+                    <th style="width: 200px">Institute name</th>
+                    <th style="width: 200px">Icon</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
@@ -48,6 +50,8 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
+                    <td>{{$value->institute_name}}</td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -92,12 +96,23 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('board/update') }}">
+      <form method="post" action="{{ url('board/update') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    
+                                    <div class="col-md-12">
+                                            <label for="exampleInputEmail1">Select Institute : </label>
+                                            <select class="form-control" name="institute_for_id" id="institute_for_id">
+                                                 <option value=" ">Select Institute</option>
+                                                 @foreach($institute_list as $value)
+                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
+                                                 @endforeach
+                                            </select>
+                                            @error('institute_for_id')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-12">
                                             <input type="hidden" id="board_id" name="board_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -105,6 +120,17 @@
                                             @error('name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="hidden" name="old_icon" id="old_icon">
+                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -143,9 +169,14 @@
         board_id: board_id
         })
         .then(response => {
+          
           var reponse_data = response.data.board_list;
+          var iconSrc ='{{ asset('') }}' + reponse_data.icon;
           $('#board_id').val(reponse_data.id);
+          $('#institute_for_id').val(reponse_data.institute_for_id);
+
           $('#name').val(reponse_data.name);
+          $('#icon').attr('src', iconSrc);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
         })
@@ -186,5 +217,19 @@
   });
   
   
+  function previewFile() {
+  const preview = document.getElementById("icon");
+  const fileInput = document.querySelector("input[type=file]");
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
 </script>
 @include('layouts/footer ')

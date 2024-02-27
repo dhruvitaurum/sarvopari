@@ -13,4 +13,13 @@ class Stream_model extends Model
     protected $fillable = [
         'standard_id', 'name', 'status', 'created_by', 'updated_by'
     ];
+    public function subjects()
+    {
+        return $this->hasMany(Subject_model::class, 'stream_id');
+    }
+
+    public function standard()
+    {
+        return $this->belongsTo(Standard_model::class, 'standard_id');
+    }
 }

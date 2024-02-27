@@ -31,23 +31,23 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('board-list/save') }}">
+                        <form method="post" action="{{ url('board-list/save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <!-- <div class="col-md-6">
+                                    <div class="col-md-6">
                                             <label for="exampleInputEmail1">Select Institute : </label>
-                                            <select class="form-control" name="institute_id">
+                                            <select class="form-control" name="institute_for_id">
                                                  <option value=" ">Select Institute</option>
                                                  @foreach($institute_list as $value)
                                                  <option value="{{$value['id']}}">{{$value['name']}}</option>
                                                  @endforeach
                                             </select>
-                                            @error('institute_id')
+                                            @error('institute_for_id')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                        </div> -->
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Board Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Board Name">
@@ -55,7 +55,13 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="file" name="icon" class="form-control" >
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">

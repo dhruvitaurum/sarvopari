@@ -13,4 +13,8 @@ class Institute_for_model extends Model
     protected $fillable = [
         'name','icon', 'status', 'created_by', 'updated_by',
     ];
+    public function boards()
+    {
+        return $this->hasMany(board::class, 'institute_for_id');
+    }
 }

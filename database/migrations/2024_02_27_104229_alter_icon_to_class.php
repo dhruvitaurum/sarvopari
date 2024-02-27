@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('board', function (Blueprint $table) {
-           
-            $table->unsignedBigInteger('institute_for_id')->after('id');
+        Schema::table('class', function (Blueprint $table) {
             $table->string('icon')->after('name');
         });
     }
@@ -23,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('board', function (Blueprint $table) {
+        Schema::table('class', function (Blueprint $table) {
             //
         });
     }

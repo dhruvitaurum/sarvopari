@@ -18,12 +18,16 @@ class MediumController extends Controller
     }
     function medium_list_save(Request $request){
         $request->validate([
+            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('medium', 'name')],
             'status'=>'required',
     ]);
+    $iconFile = $request->file('icon');
+    $imagePath = $iconFile->store('icon', 'public');
 
     Medium_model::create([
         'name'=>$request->input('name'),
+        'icon'=>$imagePath,
         'status'=>$request->input('status'),
     ]);
 
@@ -40,12 +44,19 @@ class MediumController extends Controller
         $id=$request->input('medium_id');
         $medium = Medium_model::find($id);
         $request->validate([
+            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('medium', 'name')->ignore($id)],
             'status'=>'required',
        ]);
-      
+       $iconFile = $request->file('icon');
+        if(!empty($iconFile)){
+            $imagePath = $iconFile->store('icon', 'public');
+        }else{
+            $imagePath=$request->input('old_icon');
+        }
         $medium->update([
-           'name'=>$request->input('name'),
+            'name'=>$request->input('name'),
+            'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
         return redirect()->route('medium.list')->with('success', 'Medium Updated successfully');
