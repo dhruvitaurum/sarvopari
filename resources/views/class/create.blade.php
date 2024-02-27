@@ -31,7 +31,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('class-list/save') }}">
+                        <form method="post" action="{{ url('class-list/save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -55,7 +55,13 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="file" name="icon" class="form-control" >
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">

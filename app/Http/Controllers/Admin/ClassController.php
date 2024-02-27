@@ -31,13 +31,16 @@ class ClassController extends Controller
     function class_list_save(Request $request){
         $request->validate([
             'board_id' => 'required',
+            'icon' => 'required|image|mimes:svg|max:2048',
             'name' => ['required', 'string', 'max:255', Rule::unique('class', 'name')],
             'status' => 'required',
     ]);
-
+    $iconFile = $request->file('icon');
+    $imagePath = $iconFile->store('icon', 'public');
     Class_model::create([
         'board_id'=>$request->input('board_id'),
         'name'=>$request->input('name'),
+        'icon'=>$imagePath,
         'status'=>$request->input('status'),
     ]);
 
@@ -56,13 +59,20 @@ class ClassController extends Controller
         $class = Class_model::find($id);
         $request->validate([
             'board_id'=>'required',
+            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('board', 'name')->ignore($id)],
             'status'=>'required',
        ]);
-      
+       $iconFile = $request->file('icon');
+        if(!empty($iconFile)){
+            $imagePath = $iconFile->store('icon', 'public');
+        }else{
+            $imagePath=$request->input('old_icon');
+        }
         $class->update([
             'board_id'=>$request->input('board_id'),
             'name'=>$request->input('name'),
+            'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
         return redirect()->route('class.list')->with('success', 'Class Updated successfully');

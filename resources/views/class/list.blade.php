@@ -38,6 +38,7 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
+                    <th style="width: 200px">Icon</th>
                     <th style="width: 200px">Board</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
@@ -49,6 +50,7 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
                     <td>{{$value->board_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
@@ -94,7 +96,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('class/update') }}">
+      <form method="post" action="{{ url('class/update') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -118,6 +120,17 @@
                                             @error('name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="hidden" name="old_icon" id="old_icon">
+                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -157,8 +170,11 @@
         })
         .then(response => {
           var reponse_data = response.data.class_list;
+          var iconSrc ='{{ asset('') }}' + reponse_data.icon;
+
           $('#class_id').val(reponse_data.id);
           $('#board_id').val(reponse_data.board_id);
+          $('#icon').attr('src', iconSrc);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -199,6 +215,19 @@
     });
   });
   
-  
+  function previewFile() {
+  const preview = document.getElementById("icon");
+  const fileInput = document.querySelector("input[type=file]");
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
 </script>
 @include('layouts/footer ')

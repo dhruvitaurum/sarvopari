@@ -1,6 +1,5 @@
 @include('layouts/header')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -12,10 +11,8 @@
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v1</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+          </div></div><!-- /.row -->
+      </div></div>
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -154,7 +151,6 @@
                     <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
-                      Is this template really for free? That's unbelievable!
                     </div>
                     <!-- /.direct-chat-text -->
                   </div>

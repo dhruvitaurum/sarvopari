@@ -13,4 +13,8 @@ class Subject_model extends Model
     protected $fillable = [
         'standard_id', 'stream_id', 'name', 'status', 'created_by', 'updated_by',
     ];
+    public function stream()
+    {
+        return $this->belongsTo(Stream_model::class, 'stream_id');
+    }
 }

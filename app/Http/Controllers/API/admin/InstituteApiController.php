@@ -39,68 +39,60 @@ class InstituteApiController extends Controller
 
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            $institute_for = Institute_for_model::get();
-            foreach ($institute_for as $value) {
-                $institute_for_response[] = array(
-                    'id' => $value->id,
-                    'name' => $value->name,
-                    'status' => $value->status,
+            $institute_for = Institute_for_model::with('boards.classes.standards.streams.subjects')->get();
 
-                );
-            }
-            $Institute_board = Board::get();
-            $Institute_board_response = [];
-            $Institute_class_response = [];
-
-            foreach ($Institute_board as $board) {
-                $boardData = [
-                    'id' => $board->id,
-                    'name' => $board->name,
-                    'status' => $board->status,
-                ];
-
-                $Institute_board_response[] = $boardData;
-
-                $classlist = Class_model::where('board_id', $board->id)->get();
-
-                foreach ($classlist as $value) {
-                    $standards = Standard_model::where('class_id', $value->id)->get()->map(function ($standard) {
-                        $streams = Stream_model::where('standard_id', $standard->id)->get()->map(function ($stream) {
-                            $subjects = Subject_model::where('stream_id', $stream->id)->get()->map(function ($subject) {
+            $institute_for_response = $institute_for->map(function ($institute) {
+                $boards = $institute->boards->map(function ($board) {
+                    $classes = $board->classes->map(function ($class) {
+                        $standards = $class->standards->map(function ($standard) {
+                            $streams = $standard->streams->map(function ($stream) {
+                                $subjects = $stream->subjects->map(function ($subject) {
+                                    return [
+                                        'id' => $subject->id,
+                                        'name' => $subject->name,
+                                        'status' => $subject->status,
+                                    ];
+                                });
+            
                                 return [
-                                    'id' => $subject->id,
-                                    'name' => $subject->name,
-                                    'status' => $subject->status,
+                                    'id' => $stream->id,
+                                    'name' => $stream->name,
+                                    'status' => $stream->status,
+                                    'subjects' => $subjects,
                                 ];
                             });
-
+            
                             return [
-                                'id' => $stream->id,
-                                'name' => $stream->name,
-                                'status' => $stream->status,
-                                'subjects' => $subjects,
+                                'id' => $standard->id,
+                                'name' => $standard->name,
+                                'status' => $standard->status,
+                                'streams' => $streams,
                             ];
                         });
-
+            
                         return [
-                            'id' => $standard->id,
-                            'name' => $standard->name,
-                            'status' => $standard->status,
-                            'streams' => $streams,
+                            'id' => $class->id,
+                            'name' => $class->name,
+                            'status' => $class->status,
+                            'standards' => $standards,
                         ];
                     });
-
-
-                    $classData = [
-                        'id' => $value->id,
-                        'name' => $value->name,
-                        'status' => $value->status,
-                        'standards' => $standards->toArray(),
+            
+                    return [
+                        'id' => $board->id,
+                        'name' => $board->name,
+                        'status' => $board->status,
+                        'classes' => $classes,
                     ];
-
-                    $Institute_class_response[] = $classData;
-                }
-            }
+                });
+            
+                return [
+                    'id' => $institute->id,
+                    'name' => $institute->name,
+                    'status' => $institute->status,
+                    'boards' => $boards,
+                ];
+            });
             $Institute_medium = Medium_model::get();
             foreach ($Institute_medium as $value) {
                 $institute_medium_response[] = array(
@@ -119,12 +111,13 @@ class InstituteApiController extends Controller
 
                 );
             }
+        
             return response()->json([
                 'status' => 200,
                 'message' => 'Successfully fetch data.',
                 'institute_for' => $institute_for_response,
-                'institute_board' => $Institute_board_response,
-                'institute_class' => $Institute_class_response,
+                // 'institute_board' => $boards,
+                // 'institute_class' => $Institute_class_response,
                 'institute_medium' => $institute_medium_response,
                 'do_business_with' => $dobusinesswith_response,
 
