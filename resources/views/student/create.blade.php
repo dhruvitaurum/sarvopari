@@ -53,9 +53,17 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <label for="exampleInputEmail1">Name  : </label>
-                                            <input type="text" name="name" class="form-control" placeholder="Enter Name">
-                                            @error('name')
+                                            <label for="exampleInputEmail1">First Name  : </label>
+                                            <input type="text" name="firstname" class="form-control" placeholder="Enter First Name">
+                                            @error('firstname')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="exampleInputEmail1">Last Name  : </label>
+                                            <input type="text" name="lastname" class="form-control" placeholder="Enter Last Name">
+                                            @error('lastname')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>

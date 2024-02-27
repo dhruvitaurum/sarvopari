@@ -67,7 +67,7 @@
                   @foreach($student as $value)
                   <tr>
                     <td>{{$i}}</td>
-                    <td>{{$value->name}}</td>
+                    <td>{{$value->firstname .' '.$value->lastname}}</td>
                     <td>{{$value->email}}</td>
                     <td>{{$value->mobile}}</td>
                     <td>{{$value->status}}</td>
@@ -75,10 +75,15 @@
                       <div class="d-flex">
                       <input type="submit" class="btn btn-info editButton" data-student-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
                       &nbsp;&nbsp;
-                      <input type="submit" class="btn btn-success viewButton" data-student-id="{{ $value->id }}" value="View">&nbsp;&nbsp;
+                    <form method="post" action="{{url('/student/view')}}">
+                      @csrf
+                      <input type="submit" class="btn btn-success viewButton" value="View">
+                      <input type="hidden" id="institute_id" name="institute_id" value="{{ $institute_id }}">
+                      <input type="hidden" name="student_id" value="{{ $value->id }}">
+                    </form>&nbsp;&nbsp;
                       &nbsp;&nbsp;
                       <input type="submit" class="btn btn-danger deletebutton" data-student-id="{{ $value->id }}" value="Delete">
-                      <input type="hidden" id="institute_id" value="{{ $institute_id }}">
+                      
                       </div>
                   </tr>
                   @php $i++ @endphp
@@ -115,9 +120,17 @@
                                     <input type="hidden" name="Student_detail_id" id="Student_detail_id">
                                     <input type="hidden" name="student_id" id="student_id">
                                         <div class="col-md-4">
-                                            <label for="exampleInputEmail1">Name  : </label>
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
-                                            @error('name')
+                                            <label for="exampleInputEmail1">First Name  : </label>
+                                            <input type="text" name="firstname" id="firstname" class="form-control" placeholder="Enter First Name">
+                                            @error('firstname')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="exampleInputEmail1">Last Name  : </label>
+                                            <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter Last Name">
+                                            @error('lastname')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -279,7 +292,8 @@
 
           if (reponse_student !== null) {
           $('#student_id').val(reponse_student.id);
-          $('#name').val(reponse_student.name);
+          $('#firstname').val(reponse_student.firstname);
+          $('#lastname').val(reponse_student.lastname);
           $('#email').val(reponse_student.email);
           $('#mobile').val(reponse_student.mobile);
           $('#address').val(reponse_student.address);
@@ -304,22 +318,7 @@
         });
     });
   });
-  document.querySelectorAll('.viewButton').forEach(function(button) {
-    button.addEventListener('click', function() {
-      var student_id = this.getAttribute('data-student-id');
-      var institute_id = $('#institute_id').val();
-      axios.post('/student/view', {
-        student_id: student_id,
-        institute_id: institute_id
-        })
-        .then(response => {
-         
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    });
-  });
+  
   document.querySelectorAll('.deletebutton').forEach(function(button) {
     button.addEventListener('click', function(event) {
       event.preventDefault(); // Prevent the default form submission

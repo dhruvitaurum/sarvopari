@@ -59,7 +59,8 @@ class StudentsController extends Controller
 
        
         $validator=$request->validate([
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'mobile'=>'required',
         ]);
@@ -71,7 +72,8 @@ class StudentsController extends Controller
         }
 
         $student = User::create([
-        'name' => $request->name,
+        'firstname' => $request->firstname,
+        'lastname' => $request->lastname,
         'email' => $request->email,
         'mobile'=>  $request->mobile,
         'address'=> $request->address,
@@ -125,12 +127,13 @@ class StudentsController extends Controller
         $studentUP = User::find($student_id);
 
         $validator = $request->validate([
-            'name' => [
+            'firstname' => [
             'required',
             'string',
             'max:255',
             Rule::unique('users', 'email')->ignore($studentUP),
             ],
+            'lastname' => 'required|string|max:255',
         ]);
       
         //image
@@ -146,7 +149,8 @@ class StudentsController extends Controller
         //update
         
         $studentUP->update([
-            'name' => $request->input('name'),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
             'email' => $request->input('email'),
             'mobile' => $request->input('mobile'),
             'address'=>$request->input('address'),
@@ -177,6 +181,7 @@ class StudentsController extends Controller
         ->where('students_details.institute_id',$institute_id)
         ->select('users.*')->paginate(10); 
         return view('student.view', compact('student'));
+        
     }
 
     public function delete_student(Request $request){

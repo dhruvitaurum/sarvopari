@@ -10,9 +10,15 @@
         <div class="card-body">
         <div class="form-group">
         <div class="mb-3">
-        <label for="setting-input" class="form-label">Contact Name</label>
-            <x-text-input id="name" name="name" type="text" class="form-control" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        <label for="setting-input" class="form-label">First Name</label>
+            <x-text-input id="firstname" name="firstname" type="text" class="form-control" :value="old('firstname', $user->firstname)" required autofocus autocomplete="firstname" />
+            <x-input-error class="mt-2" :messages="$errors->get('firstname')" />
+        </div>
+
+        <div class="mb-3">
+        <label for="setting-input" class="form-label">Last Name</label>
+            <x-text-input id="lastname" name="lastname" type="text" class="form-control" :value="old('lastname', $user->lastname)" required autofocus autocomplete="lastname" />
+            <x-input-error class="mt-2" :messages="$errors->get('lastname')" />
         </div>
 
         <div class="mb-3">
