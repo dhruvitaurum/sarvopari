@@ -73,7 +73,9 @@
                     <td>{{$value->status}}</td>
                     <td>
                       <div class="d-flex">
-                      <input type="submit" class="btn btn-primary editButton" data-student-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      <input type="submit" class="btn btn-info editButton" data-student-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      &nbsp;&nbsp;
+                      <input type="submit" class="btn btn-success viewButton" data-student-id="{{ $value->id }}" value="View">&nbsp;&nbsp;
                       &nbsp;&nbsp;
                       <input type="submit" class="btn btn-danger deletebutton" data-student-id="{{ $value->id }}" value="Delete">
                       <input type="hidden" id="institute_id" value="{{ $institute_id }}">
@@ -296,6 +298,22 @@
           $('#subject_id').val(reponse_studentdetail.subject_id);
           }
           $('#usereditModal').modal('show');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    });
+  });
+  document.querySelectorAll('.viewButton').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var student_id = this.getAttribute('data-student-id');
+      var institute_id = $('#institute_id').val();
+      axios.post('/student/view', {
+        student_id: student_id,
+        institute_id: institute_id
+        })
+        .then(response => {
+         
         })
         .catch(error => {
           console.error(error);

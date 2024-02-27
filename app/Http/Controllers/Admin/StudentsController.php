@@ -168,6 +168,17 @@ class StudentsController extends Controller
         return Redirect::route('student.list')->with('success', 'profile-created');
     }
 
+    public function view_student(Request $request){
+        $sid = $request->student_id;
+        $institute_id = $request->institute_id;
+        
+        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')
+        ->where('users.id',$sid)
+        ->where('students_details.institute_id',$institute_id)
+        ->select('users.*')->paginate(10); 
+        return view('student.view', compact('student'));
+    }
+
     public function delete_student(Request $request){
         $did=$request->input('student_id');
         $student = User::find($did);
