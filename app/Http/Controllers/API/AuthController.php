@@ -25,7 +25,8 @@ class AuthController extends Controller
         $validator = \Validator::make(
             $request->all(),
             [
-                'name' => 'required',
+                'firstname' => 'required',
+                'lastname' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|min:6',
                 'mobile' => 'required|min:10',
@@ -73,7 +74,8 @@ class AuthController extends Controller
         $rndno = rand(100000, 999999);
         $user = User::create([
 
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'mobile' => $request->mobile,
@@ -117,7 +119,7 @@ class AuthController extends Controller
                 foreach ($user as $value) {
                     $data = array(
                         'user_id' => $value->id,
-                        'user_name' => $value->name,
+                        'user_name' => $value->firstname.' '.$value->lastname,
                         'mobile' => $value->mobile,
                         'user_email' => $value->email,
                         'user_image' => $photo,
@@ -176,7 +178,7 @@ class AuthController extends Controller
                 'message' => 'Login successful',
                 'data' => [
                     'user_id' => $user->id,
-                    'user_name' => $user->name,
+                    'user_name' => $user->firstname.' '.$user->lastname,
                     'mobile_no' => $user->mobile,
                     'user_email' => $user->email,
                     'user_image' => $photo,
