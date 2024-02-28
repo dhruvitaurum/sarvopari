@@ -68,12 +68,9 @@ class StudentsController extends Controller
         ->get();
 
         if(!empty($boardDT)) {
-            $user_id = Auth::id();
-            
-            $studentdetailsDT = Student_detail::where('student_id', $student_id) ->where('institute_id', $institute_id)->where('user_id', $user_id)->first();
-            return response()->json(['studentDT' => $studentDT, 'studentsdetailsDT' => $studentdetailsDT]);
+            return response()->json(['boards' => $boardDT]);
         } else {
-            return response()->json(['error' => 'Student not found'], 404);
+            return response()->json(['error' => 'Data not found'], 404);
         }
     }
 
