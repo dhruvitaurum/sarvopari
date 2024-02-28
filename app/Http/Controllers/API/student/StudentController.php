@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API\student;
 use App\Http\Controllers\Controller;
 use App\Models\Banner_model;
+use App\Models\board;
+use App\Models\Subject_sub;
 use App\Models\Institute_detail;
 use App\Models\Student_detail;
 use App\Models\Search_history;
@@ -93,7 +95,7 @@ class StudentController extends Controller
             
             //requested institute
             $requestnstitute =Student_detail::join('institute_detail','institute_detail.id','=','students_details.institute_id')->
-            where('students_details.status','inactive')
+            where('students_details.status','!=','approved')
             ->where('students_details.student_id',$user_id)->paginate($perPage);
            
             $requested_institute = [];
@@ -102,6 +104,7 @@ class StudentController extends Controller
                     'id' => $value->id,
                     'institute_name' => $value->institute_name,
                     'address'=>$value->address,
+                    'status'=>$value->status,
                 );
             }
 
@@ -109,6 +112,7 @@ class StudentController extends Controller
             $joininstitute =Institute_detail::where('status','active') ->whereIn('id', function($query) use ($user_id) {
                 $query->select('institute_id')
               ->where('student_id', $user_id)
+              ->where('status','=', 'approved')
               ->from('students_details');
             })->paginate($perPage);
             $join_with = [];
@@ -135,13 +139,13 @@ class StudentController extends Controller
                 'message' => 'Invalid token.',
             ], 400);
         }
-    }catch (\Exception $e) {
-        return response()->json([
-            'success' => 500,
-            'message' => 'Error creating institute',
-            'error' => $e->getMessage(),
-        ], 500);
-    }
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function student_searchhistory_add(Request $request){
@@ -172,13 +176,13 @@ class StudentController extends Controller
             'message' => 'Serach History Added',
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => 500,
-            'message' => 'Error creating institute',
-            'error' => $e->getMessage(),
-        ], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function student_add_institute_request(Request $request){
@@ -205,20 +209,70 @@ class StudentController extends Controller
             'user_id' => $getuid->user_id,
             'institute_id' => $request->input('institute_id'),
             'student_id' => $request->input('user_id'),
-            'status' => 'inactive',
+            'status' => 'pending',
         ]);
 
         return response()->json([
             'success' => 200,
-            'message' => 'Add into Serach History',
+            'message' => 'Request added successfully',
         ], 200);
 
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => 500,
-            'message' => 'Error creating institute',
-            'error' => $e->getMessage(),
-        ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+
+    //institute detail
+    public function institute_detail(Request $request){
+
+        $validator = \Validator::make($request->all(), [
+            'institute_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessages = array_values($validator->errors()->all());
+            return response()->json([
+                'success' => 400,
+                'message' => 'Validation error',
+                'errors' => $errorMessages,
+            ], 400);
+        }
+
+        try{
+            $institute_id = $request->institute_id;
+            $institute_data = [];
+            $boards = [];
+
+            $institutedeta = Institute_detail::where('id',$institute_id)->select('id','institute_name','address')->get();
+            $boards = board::join('board_sub','board_sub.board_id','=','board.id')
+           ->where('board_sub.institute_id',$institute_id)->select('board.name')->get();
+
+            $stdcount = Student_detail::where('institute_id',$institute_id)->count();
+            $subcount = Subject_sub::where('institute_id',$institute_id)->count();
+            
+            
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully fetch data.',
+                'institute_data'=>$institutedeta,
+                'boards'=>$boards,
+                'students'=>$stdcount,
+                'subject'=>$subcount,
+                'total_board'=>count($boards),
+                'teacher'=>0,
+            ], 200, [], JSON_NUMERIC_CHECK);
+        }catch(\Exception $e) {
+            return response()->json([
+                'success' => 500,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+        
+        
     }
 }

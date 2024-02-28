@@ -169,12 +169,13 @@
                                         
                                         <div class="col-md-4">
                                             <label for="exampleInputEmail1">Image  : </label>
-                                            <input type="file" name="image"  class="form-control" placeholder="Image">
+                                            <input type="file" name="image" onchange="previewFile()" class="form-control" placeholder="Image">
                                             <input type="hidden" name="uploded_image" id="uploded_image">
-                                            <img id="image">
+                                           
                                             @error('image')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                            <img src="" id="image"  alt="image" class="mt-4"  style="width:150px; height:150px">
                                         </div>
                                         
 
@@ -253,9 +254,9 @@
                                         <div class="col-md-4">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status" id="status">
-                                                 <option value=" ">Select Option</option>
-                                                 <option value="active">Active</option>
-                                                 <option value="inactive">Inactive</option>
+                                                  <option value="pending">Pending</option>
+                                                  <option value="denied">Denied</option>
+                                                  <option value="approved">Approved</option>
                                             </select>
                                             @error('status')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -291,6 +292,8 @@
           var reponse_studentdetail = response.data.studentsdetailsDT;
 
           if (reponse_student !== null) {
+          var imgsrc =   'http://127.0.0.1:8000/'+reponse_student.image;
+         
           $('#student_id').val(reponse_student.id);
           $('#firstname').val(reponse_student.firstname);
           $('#lastname').val(reponse_student.lastname);
@@ -298,7 +301,7 @@
           $('#mobile').val(reponse_student.mobile);
           $('#address').val(reponse_student.address);
           $('#dob').val(reponse_student.dob);
-          $('#image').attr('src', reponse_student.image);
+          $('#image').attr('src',imgsrc);
           $('#uploded_image').val(reponse_student.image);
           }
           if (reponse_studentdetail !== null) {
@@ -351,6 +354,22 @@
     });
   });
   
-  
+  //image preview
+  function previewFile() {
+        $("#image").show();
+
+        const preview = document.getElementById("image");
+        const fileInput = document.querySelector("input[type=file]");
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+        }
 </script>
 @include('layouts/footer ')

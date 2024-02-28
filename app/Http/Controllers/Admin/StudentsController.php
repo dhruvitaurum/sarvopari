@@ -29,7 +29,10 @@ class StudentsController extends Controller
         $id = Auth::id();
         $institute_id = $request->institute_id;
 
-        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')->where('users.role_type',[4])->where('students_details.institute_id',$institute_id)->select('users.*')->paginate(10); 
+        $student = User::leftjoin('students_details','users.id','=','students_details.student_id')
+        ->where('users.role_type',[4])
+        ->where('students_details.institute_id',$institute_id)
+        ->select('users.*','students_details.status')->paginate(10); 
         
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
@@ -62,6 +65,7 @@ class StudentsController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'password'=>'required|max:16|min:8',
             'mobile'=>'required',
         ]);
         
@@ -79,7 +83,7 @@ class StudentsController extends Controller
         'address'=> $request->address,
         'dob'=> $request->dob,
         'image'=>'public/profile/'.$imageName,
-        //'password' => Hash::make($request->password),
+        'password' => Hash::make($request->password),
         'role_type' =>4,
         'status'=>$request->status,
         ]);
@@ -100,7 +104,7 @@ class StudentsController extends Controller
             'status'=>$request->status,
             ]);
 
-        return Redirect::route('student.list')->with('success', 'profile-created');
+        return Redirect::route('student.create')->with('success', 'profile-created');
     }
 
     public function edit_student(Request $request){
