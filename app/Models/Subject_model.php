@@ -17,4 +17,8 @@ class Subject_model extends Model
     {
         return $this->belongsTo(Stream_model::class, 'stream_id');
     }
+    public function standard()
+    {
+        return $this->belongsTo(Standard_model::class, 'standard_id');
+    }
 }
