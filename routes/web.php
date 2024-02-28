@@ -142,6 +142,7 @@ Route::middleware('auth')->group(function () {
     Route::post('subject-list/save', [SubjectController::class, 'subject_list_save'])->name('subject_list.save');
     Route::post('/subject/delete', [SubjectController::class, 'subject_delete'])->name('subject.delete');
     Route::post('/subject/edit', [SubjectController::class, 'subject_edit'])->name('subject.edit');
+    Route::post('subject/update', [SubjectController::class, 'subject_update'])->name('subject.update');
     
     //do-business-with
     Route::get('do-business-with-list', [DoBusinessWithController::class, 'list'])->name('do_business_with.list');
