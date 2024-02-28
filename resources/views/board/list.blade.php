@@ -174,6 +174,7 @@
           var iconSrc ='{{ asset('') }}' + reponse_data.icon;
           $('#board_id').val(reponse_data.id);
           $('#institute_for_id').val(reponse_data.institute_for_id);
+          $('#old_icon').val(reponse_data.icon);
 
           $('#name').val(reponse_data.name);
           $('#icon').attr('src', iconSrc);

@@ -55,11 +55,11 @@ class BoardController extends Controller
         
     }
     public function board_update(Request $request){
+        // dd($request->all());exit;
         $id=$request->input('board_id');
         $role = board::find($id);
         $request->validate([
             'institute_for_id' => 'required',
-            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')->ignore($id)],
             'status'=>'required',
        ]);
