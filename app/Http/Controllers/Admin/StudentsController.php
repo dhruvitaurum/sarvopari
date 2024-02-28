@@ -58,6 +58,25 @@ class StudentsController extends Controller
         return view('student.create',compact('institute_id','institute_for','board','medium','class','stream','subject','standard'));
     }
 
+    public function createformdata(Request $request){
+        $inst_id = $request->institute_id;
+        $instfor_id = $request->institutefor_id;
+        $boardDT = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')
+        ->where('board_sub.institute_id',$inst_id)
+        ->where('board.institute_for_id',$instfor_id)
+        ->select('board.*')
+        ->get();
+
+        if(!empty($boardDT)) {
+            $user_id = Auth::id();
+            
+            $studentdetailsDT = Student_detail::where('student_id', $student_id) ->where('institute_id', $institute_id)->where('user_id', $user_id)->first();
+            return response()->json(['studentDT' => $studentDT, 'studentsdetailsDT' => $studentdetailsDT]);
+        } else {
+            return response()->json(['error' => 'Student not found'], 404);
+        }
+    }
+
     public function save_student(Request $request){
 
        

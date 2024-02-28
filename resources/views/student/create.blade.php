@@ -119,7 +119,7 @@
                                         
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute For  : </label>
-                                            <select name="institute_for_id" class="form-control" onchange="">
+                                            <select name="institute_for_id" id="institute_for_id" class="form-control" onchange="boardlist()">
                                             <option value="">Select Institute For</option>
                                                 @foreach($institute_for as $stage)
                                                     <option value="{{ $stage->id }}">{{ $stage->name }}</option>
@@ -132,7 +132,7 @@
                                         <input type="hidden" name="institute_id" value="{{ $institute_id }}">
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Board  : </label>
-                                            <select name="board_id" class="form-control">
+                                            <select name="board_id" id="board_id" class="form-control">
                                             <option value="">Select Board</option>
                                                 @foreach($board as $instituteboard)
                                                     <option value="{{ $instituteboard->id }}">{{ $instituteboard->name }}</option>
@@ -255,6 +255,20 @@
         if (file) {
             reader.readAsDataURL(file);
         }
+        }
+
+        function boardlist(){
+            var institutefor_id = $('#institute_for_id').val();
+            axios.post('/student/create-form-data', {
+                institute_id: institute_id,
+                institutefor_id:institutefor_id
+                })
+            .then(response => {
+                $('#board_id').val();
+            })
+            .catch(error => {
+            console.error(error);
+            });  
         }
 </script>
 @include('layouts/footer')

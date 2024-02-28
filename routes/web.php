@@ -158,7 +158,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/student/save', [StudentsController::class, 'save_student'])->name('student.save');
     Route::post('/student/edit', [StudentsController::class, 'edit_student'])->name('student.edit');
     Route::post('/student/update', [StudentsController::class, 'update_student'])->name('student.update');
-    Route::post('/student/view', [StudentsController::class, 'view_student'])->name('student.view');
+    Route::post('/student/view', [StudentsController::class, 'view_student'])->name('create_form_data.view');
+    Route::get('/student/create-form-data', [StudentsController::class, 'createformdata'])->name('student.view');
     //banner
     Route::get('banner-list', [BannerController::class, 'list_banner'])->name('banner.list');
     Route::get('create/banner-list', [BannerController::class, 'create_banner'])->name('banner_list.create');
