@@ -53,26 +53,37 @@ class InstituteApiController extends Controller
                                         'status' => $subject->status,
                                     ];
                                 });
-            
+                        
                                 return [
                                     'id' => $stream->id,
                                     'name' => $stream->name,
                                     'status' => $stream->status,
-                                    'subjects' => $subjects,
+                                    'subjects' => $subjects->toArray(),
                                 ];
                             });
-            
+                        
+                            // If there are no streams, include subjects directly at the standard level
+                            $subjectsAtStandardLevel = $standard->subjects->map(function ($subject) {
+                                return [
+                                    'id' => $subject->id,
+                                    'name' => $subject->name,
+                                    'status' => $subject->status,
+                                ];
+                            });
+                        
                             return [
                                 'id' => $standard->id,
                                 'name' => $standard->name,
                                 'status' => $standard->status,
-                                'streams' => $streams,
+                                'streams' => $streams->isEmpty() ? [] : $streams->toArray(),
+                                'subjects' => $streams->isEmpty() ? $subjectsAtStandardLevel->toArray() : [],
                             ];
                         });
             
                         return [
                             'id' => $class->id,
                             'name' => $class->name,
+                            'icon' =>asset($class->icon),
                             'status' => $class->status,
                             'standards' => $standards,
                         ];
@@ -81,6 +92,7 @@ class InstituteApiController extends Controller
                     return [
                         'id' => $board->id,
                         'name' => $board->name,
+                        'icon' =>asset($board->icon),
                         'status' => $board->status,
                         'classes' => $classes,
                     ];
@@ -89,6 +101,7 @@ class InstituteApiController extends Controller
                 return [
                     'id' => $institute->id,
                     'name' => $institute->name,
+                    'icon' =>asset($institute->icon),
                     'status' => $institute->status,
                     'boards' => $boards,
                 ];
@@ -98,6 +111,7 @@ class InstituteApiController extends Controller
                 $institute_medium_response[] = array(
                     'id' => $value->id,
                     'name' => $value->name,
+                    'icon' =>asset($value->icon),
                     'status' => $value->status,
 
                 );
