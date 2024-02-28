@@ -43,6 +43,7 @@ class BannerController extends Controller
                 'user_id' => Auth::user()->id,
                 'institute_id'=>$institute_id,
                 'banner_image' => $imagePath,
+                'url'=>$request->input('url'),
                 'status' => $request->input('status'),
             ]);
         }

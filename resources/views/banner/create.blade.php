@@ -58,6 +58,13 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Url  : </label>
+                                            <input type="text" name="url" class="form-control" placeholder="Enter url">
+                                            @error('url')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                         
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>

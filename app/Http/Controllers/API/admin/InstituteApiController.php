@@ -49,6 +49,7 @@ class InstituteApiController extends Controller
                                 $subjects = $stream->subjects->map(function ($subject) {
                                     return [
                                         'id' => $subject->id,
+                                        'stream_id'=>$subject->stream_id,
                                         'name' => $subject->name,
                                         'status' => $subject->status,
                                     ];
@@ -56,6 +57,7 @@ class InstituteApiController extends Controller
                         
                                 return [
                                     'id' => $stream->id,
+                                    'standard_id'=>$stream->id,
                                     'name' => $stream->name,
                                     'status' => $stream->status,
                                     'subjects' => $subjects->toArray(),
@@ -66,6 +68,7 @@ class InstituteApiController extends Controller
                             $subjectsAtStandardLevel = $standard->subjects->map(function ($subject) {
                                 return [
                                     'id' => $subject->id,
+                                    'standard_id' => $subject->standard_id,
                                     'name' => $subject->name,
                                     'status' => $subject->status,
                                 ];
@@ -73,6 +76,7 @@ class InstituteApiController extends Controller
                         
                             return [
                                 'id' => $standard->id,
+                                'class_id'=>$standard->class_id,
                                 'name' => $standard->name,
                                 'status' => $standard->status,
                                 'streams' => $streams->isEmpty() ? [] : $streams->toArray(),
@@ -82,6 +86,7 @@ class InstituteApiController extends Controller
             
                         return [
                             'id' => $class->id,
+                            'board_id'=>$class->board_id,
                             'name' => $class->name,
                             'icon' =>asset($class->icon),
                             'status' => $class->status,
@@ -91,6 +96,7 @@ class InstituteApiController extends Controller
             
                     return [
                         'id' => $board->id,
+                        'institute_id'=>$board->institute_for_id,
                         'name' => $board->name,
                         'icon' =>asset($board->icon),
                         'status' => $board->status,
