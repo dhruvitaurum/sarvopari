@@ -41,7 +41,7 @@
                 <!-- left column -->
                 <div class="col-md-12">
                     <!-- general form elements -->
-                    <div class="card card-info">
+                    <div class="card card-success">
                         <div class="card-header">
                             <h3 class="card-title">Create Student</h3>
                         </div>
@@ -85,6 +85,14 @@
                                         </div>
 
                                         <div class="col-md-3">
+                                            <label for="exampleInputpassword">Password  : </label>
+                                            <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                                            @error('password')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-3">
                                             <label for="exampleInputEmail1">Address  : </label>
                                             <textarea name="address" class="form-control" placeholder="Address"></textarea>
                                             @error('address')
@@ -102,14 +110,16 @@
                                         
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Image  : </label>
-                                            <input type="file" name="image" class="form-control" placeholder="Image">
+                                            <input type="file" name="image" onchange="previewFile()" class="form-control" placeholder="Image">
                                             @error('image')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
+                                            <img src="" id="image"  alt="image" class="mt-4" style="display: none; width:150px; height:150px">
                                         </div>
+                                        
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Institute For  : </label>
-                                            <select name="institute_for_id" class="form-control">
+                                            <select name="institute_for_id" class="form-control" onchange="">
                                             <option value="">Select Institute For</option>
                                                 @foreach($institute_for as $stage)
                                                     <option value="{{ $stage->id }}">{{ $stage->name }}</option>
@@ -199,9 +209,9 @@
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
-                                                 <option value=" ">Select Option</option>
-                                                 <option value="1">Active</option>
-                                                 <option value="0">Inactive</option>
+                                                 <option value="pending">Pending</option>
+                                                 <option value="denied">Denied</option>
+                                                 <option value="approved">Approved</option>
                                             </select>
                                             @error('status')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -213,7 +223,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info" style="float: right;">Submit</button>
+                                <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
                             </div>
                     </div>
                 </div>
@@ -229,5 +239,22 @@
 </div>
 </section>
 </div>
+<script>
+    function previewFile() {
+        $("#image").show();
 
+        const preview = document.getElementById("image");
+        const fileInput = document.querySelector("input[type=file]");
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", () => {
+            preview.src = reader.result;
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+        }
+</script>
 @include('layouts/footer')
