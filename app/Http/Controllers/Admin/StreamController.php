@@ -28,7 +28,7 @@ class StreamController extends Controller
     public function stream_list_save(Request $request){
         $request->validate([
             'standard_id' => 'required',
-            'name' => ['required', 'string', 'max:255', Rule::unique('stream', 'name')],
+            'name' => ['required', 'string', 'max:255'],
             'status' => 'required',
     ]);
 
@@ -52,7 +52,7 @@ class StreamController extends Controller
         $class = Stream_model::find($id);
         $request->validate([
             'standard_id'=>'required',
-            'name'=>['required','string','max:255',Rule::unique('stream', 'name')->ignore($id)],
+            'name'=>['required','string','max:255'],
             'status'=>'required',
        ]);
       
