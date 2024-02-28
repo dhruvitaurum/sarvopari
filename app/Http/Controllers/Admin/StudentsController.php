@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Institute_for_model;
 use App\Models\Medium_model;
-use App\Models\class_model;
+use App\Models\Class_model;
 use App\Models\Stream_model;
 use App\Models\subject;
 use App\Models\institute_for_sub;
