@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('students_details', function (Blueprint $table) {
-            $table->string('institute_id')->after('id');
+        Schema::table('banner', function (Blueprint $table) {
+            $table->string('url')->nullable()->change();
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('students_details', function (Blueprint $table) {
+        Schema::table('banner', function (Blueprint $table) {
             //
         });
     }

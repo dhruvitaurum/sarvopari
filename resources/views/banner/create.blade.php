@@ -36,7 +36,21 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                  
+                                        @if(auth::user()->role_type == '3')
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Select Institute  : </label>
+                                            <select name="institute_id" class="form-control">
+                                                <option value="">Select option</option>
+                                                 @foreach($institute_list as $value)
+                                                   <option value="{{$value->id}}">{{$value->institute_name}}</option>
+                                                 @endforeach
+                                            </select>
+                                            @error('banner_image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                             
+                                        @endif
                                        <div class="col-md-6">
                                             <label for="exampleInputEmail1">Banner_image  : </label>
                                             <input type="file" name="banner_image[]" class="form-control" multiple>
