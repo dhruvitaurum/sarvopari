@@ -161,7 +161,6 @@
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {
       var subject_id = this.getAttribute('data-user-id');
-
       axios.post('/subject/edit', {
         subject_id: subject_id
         })
