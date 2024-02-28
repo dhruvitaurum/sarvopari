@@ -312,45 +312,79 @@ class InstituteApiController extends Controller
             $token = substr($token, 7);
         }
 
-
+        $boards = Board::whereHas('boardSub', function ($query) use ($institute_id) {
+            $query->where('institute_id', $institute_id);
+        })
+        ->with(['classes.standards.subjects'])
+        ->paginate(10);
+        
+        $board_array = [];
+        
+        foreach ($boards as $board) {
+            $class_array = [];
+        
+            foreach ($board->classes as $class) {
+                $standard_array = [];
+        
+                foreach ($class->standards as $standard) {
+                    $subject_array = $standard->subjects->map(function ($subject) {
+                        return [
+                            'subject_id' => $subject->id,
+                            'subject_name' => $subject->name,
+                        ];
+                    })->all();
+        
+                    $standard_array[] = [
+                        'standard_id' => $standard->id,
+                        'standard_name' => $standard->name,
+                        'subject_array' => $subject_array,
+                    ];
+                }
+        
+                $class_array[] = [
+                    'class_id' => $class->id,
+                    'class_name' => $class->name,
+                    'standard_array' => $standard_array,
+                ];
+            }
+        
+            $board_array[] = [
+                'board_id' => $board->id,
+                'board_name' => $board->name,
+                'class_array' => $class_array,
+            ];
+        }
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            $boardlist = DB::table('board_sub')
-                ->join('board', 'board_sub.board_id', '=', 'board.id', 'left')
-                ->where('board_sub.institute_id', $institute_id)
-                ->paginate(10);
-            if (!empty($boardlist)) {
-                foreach ($boardlist as $value) {
-                    $board_array[] = array(
-                        'board_id' => $value->id,
-                        'board_name' => $value->name
+        
+            $bannerlist=Banner_model::where('user_id',$user_id)->get();
+            if($bannerlist){
+                foreach($bannerlist as $value){
+                    $banner_array[] = array(
+                        'banner_url' => asset($value->banner_image),
+                        
                     );
                 }
-                $bannerlist=Banner_model::where('user_id',$user_id)->get();
-                if($bannerlist){
-                    foreach($bannerlist as $value){
-                        $banner_array[] = array(
-                            'banner_url' => asset($value->banner_image),
-                        );
-                    }
-                }
-               
-                return response()->json([
-                    'success' => 200,
-                    'message' => 'Fetch board successfully',
-                    'data' => [
-                        'boardlist' =>  $board_array,
-                        'bannerlist' => $banner_array
-                    ]
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => 500,
-                    'message' => 'No found data.',
-                ], 500);
             }
+     
+            return response()->json([
+                'status' => 200,
+                'message' => 'Successfully fetch data.',
+                'institute_for' => '',
+                'banner_array' => $banner_array,
+                'board_array' =>$board_array
+
+
+            ], 200, [], JSON_NUMERIC_CHECK);
+        } 
+        else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Invalid token.',
+            ], 400);
         }
-    }
+            }
+            
     function get_class(Request $request){
         $institute_id = $request->input('institute_id');
         $user_id = $request->input('user_id');

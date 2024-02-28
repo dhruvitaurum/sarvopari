@@ -11,6 +11,6 @@ class Banner_model extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'banner';
     protected $fillable = [
-        'user_id', 'banner_image', 'status', 'created_by', 'updated_by',
+        'user_id','institute_id', 'banner_image','url', 'status', 'created_by', 'updated_by',
     ];
 }

@@ -13,6 +13,10 @@ class board extends Model
     protected $fillable = [
         'institute_for_id', 'name', 'icon','status', 'created_by', 'updated_by'
     ];
+    public function boardSub()
+    {
+        return $this->hasMany(Institute_board_sub::class, 'board_id');
+    }
     public function classes()
     {
         return $this->hasMany(Class_model::class, 'board_id');

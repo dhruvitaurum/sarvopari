@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner_model;
+use App\Models\Institute_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,8 @@ class BannerController extends Controller
         return view('banner/list',compact('banner_list'));
     }
     public function create_banner(){
-        return view('banner/create');
+        $institute_list = Institute_detail::paginate(10);
+        return view('banner/create',compact('institute_list'));
     }
     public function save_banner(Request $request){
         $request->validate([
@@ -30,11 +32,16 @@ class BannerController extends Controller
                 $bannerImages[] = $imagePath;
             }
         }
-        
-        // Assuming you want to associate each image with the same status
+        if(!empty($request->input('institute_id'))){
+          $institute_id = $request->input('institute_id');
+        }else{
+            $institute_id = '';
+           
+        }   
         foreach ($bannerImages as $imagePath) {
             Banner_model::create([
                 'user_id' => Auth::user()->id,
+                'institute_id'=>$institute_id,
                 'banner_image' => $imagePath,
                 'status' => $request->input('status'),
             ]);
