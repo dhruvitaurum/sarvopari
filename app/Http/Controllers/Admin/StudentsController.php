@@ -34,7 +34,7 @@ class StudentsController extends Controller
         $institute_for = Institute_for_model::join('institute_for_sub', 'institute_for.id', '=', 'institute_for_sub.institute_for_id')->where('institute_for_sub.institute_id',$id)->select('institute_for.*')->get(); 
         $board = board::join('board_sub', 'board.id', '=', 'board_sub.board_id')->where('board_sub.institute_id',$id)->select('board.*')->get();
         $medium = Medium_model::join('medium_sub', 'medium.id', '=', 'medium_sub.medium_id')->where('medium_sub.institute_id',$id)->select('medium.*')->get();
-        $class = class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->select('class.*')->get();
+        $class = Class_model::join('class_sub', 'class.id', '=', 'class_sub.class_id')->where('class_sub.institute_id',$id)->select('class.*')->get();
         $stream = Stream_model::join('stream_sub', 'stream.id', '=', 'stream_sub.stream_id')->where('stream_sub.institute_id',$id)->select('stream.*')->get();
         $subject = Subject_model::join('subject_sub', 'subject.id', '=', 'subject_sub.subject_id')->where('subject_sub.institute_id',$id)->select('subject.*')->get(); 
         $standard = Standard_model::join('standard_sub', 'standard.id', '=', 'standard_sub.standard_id')->where('standard_sub.institute_id',$id)->select('standard.*')->get(); 
