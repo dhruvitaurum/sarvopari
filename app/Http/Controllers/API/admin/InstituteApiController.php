@@ -83,6 +83,7 @@ class InstituteApiController extends Controller
                         return [
                             'id' => $class->id,
                             'name' => $class->name,
+                            'icon' =>$class->icon,
                             'status' => $class->status,
                             'standards' => $standards,
                         ];
@@ -91,6 +92,7 @@ class InstituteApiController extends Controller
                     return [
                         'id' => $board->id,
                         'name' => $board->name,
+                        'icon' =>$board->icon,
                         'status' => $board->status,
                         'classes' => $classes,
                     ];
@@ -99,6 +101,7 @@ class InstituteApiController extends Controller
                 return [
                     'id' => $institute->id,
                     'name' => $institute->name,
+                    'icon' =>$institute->icon,
                     'status' => $institute->status,
                     'boards' => $boards,
                 ];
@@ -108,6 +111,7 @@ class InstituteApiController extends Controller
                 $institute_medium_response[] = array(
                     'id' => $value->id,
                     'name' => $value->name,
+                    'icon' =>$value->icon,
                     'status' => $value->status,
 
                 );
