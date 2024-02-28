@@ -17,6 +17,11 @@ class Standard_model extends Model
     {
         return $this->hasMany(Stream_model::class, 'standard_id');
     }
+    public function subjects()
+    {
+        return $this->hasMany(Subject_model::class, 'standard_id');
+    }
+
 
     public function class()
     {

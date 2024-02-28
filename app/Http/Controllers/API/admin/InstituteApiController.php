@@ -53,20 +53,30 @@ class InstituteApiController extends Controller
                                         'status' => $subject->status,
                                     ];
                                 });
-            
+                        
                                 return [
                                     'id' => $stream->id,
                                     'name' => $stream->name,
                                     'status' => $stream->status,
-                                    'subjects' => $subjects,
+                                    'subjects' => $subjects->toArray(),
                                 ];
                             });
-            
+                        
+                            // If there are no streams, include subjects directly at the standard level
+                            $subjectsAtStandardLevel = $standard->subjects->map(function ($subject) {
+                                return [
+                                    'id' => $subject->id,
+                                    'name' => $subject->name,
+                                    'status' => $subject->status,
+                                ];
+                            });
+                        
                             return [
                                 'id' => $standard->id,
                                 'name' => $standard->name,
                                 'status' => $standard->status,
-                                'streams' => $streams,
+                                'streams' => $streams->isEmpty() ? [] : $streams->toArray(),
+                                'subjects' => $streams->isEmpty() ? $subjectsAtStandardLevel->toArray() : [],
                             ];
                         });
             
