@@ -174,6 +174,7 @@
 
           $('#class_id').val(reponse_data.id);
           $('#board_id').val(reponse_data.board_id);
+          $('#old_icon').val(reponse_data.icon);
           $('#icon').attr('src', iconSrc);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);

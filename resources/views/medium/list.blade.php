@@ -157,6 +157,7 @@
           
           $('#medium_id').val(reponse_data.id);
           $('#name').val(reponse_data.name);
+          $('#old_icon').val(reponse_data.icon);
           $('#icon').attr('src', iconSrc);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
