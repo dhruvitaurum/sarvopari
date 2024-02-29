@@ -30,7 +30,8 @@ class Users extends Controller
         // print_r($request->all());exit;
         $validator=$request->validate([
             'role_type'=>'required',
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
@@ -38,7 +39,8 @@ class Users extends Controller
         // Create sub-admin
         
         $subAdmin = User::create([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'mobile'=>  $request->mobile,
             'password' => Hash::make($request->password),
