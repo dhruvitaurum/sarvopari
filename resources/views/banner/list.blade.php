@@ -37,6 +37,10 @@
                 <thead>
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
+                    @if(auth::user()->role_type == '3')
+                    <th style="width: 10px"><Sr class="No">Institute Name</Sr></th>
+                    <th style="width: 10px"><Sr class="No">Url</Sr></th>
+                    @endif
                     <th style="width: 200px">Banner_image</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
@@ -47,6 +51,10 @@
                   @foreach($banner_list as $value)
                   <tr>
                     <td>{{$i}}</td>
+                    @if(auth::user()->role_type == '3')
+                    <td>{{$value->institute_name}}</td>
+                    <td>{{$value->url}}</td>
+                    @endif
                     <td><img src="{{asset($value->banner_image) }}" alt="banner" style="width:100px;height:100px;"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
@@ -110,7 +118,6 @@
                                         <div class="col-md-3">
                                              <img src="" id="banner_image"  alt="banner" class="mt-4" style="width:100px;height:100px;">
                                         </div>
-                                       
                                         <div class="col-md-12">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status" id="status">

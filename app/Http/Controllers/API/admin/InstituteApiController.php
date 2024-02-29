@@ -336,12 +336,14 @@ class InstituteApiController extends Controller
                     $subject_array = $standard->subjects->map(function ($subject) {
                         return [
                             'subject_id' => $subject->id,
+                            'standard_id' =>$subject->standard_id,
                             'subject_name' => $subject->name,
                         ];
                     })->all();
         
                     $standard_array[] = [
                         'standard_id' => $standard->id,
+                        'class_id' =>$standard->class_id,
                         'standard_name' => $standard->name,
                         'subject_array' => $subject_array,
                     ];
@@ -349,6 +351,7 @@ class InstituteApiController extends Controller
         
                 $class_array[] = [
                     'class_id' => $class->id,
+                    'board_id' => $class->board_id,
                     'class_name' => $class->name,
                     'standard_array' => $standard_array,
                 ];
