@@ -79,7 +79,10 @@
                       </form>
                       &nbsp;&nbsp;
                       @canButton('delete', 'Role')
+                       
+                        @if($value->id !='1')
                       <input type="submit" class="btn btn-danger deletebutton" data-role-id="{{ $value->id }}" value="Delete">
+                        @endif
                       @endCanButton  
                     </div>
                   </tr>
