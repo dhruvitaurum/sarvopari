@@ -129,7 +129,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <input type="hidden" name="institute_id" value="{{ $institute_id }}">
+                                        <input type="hidden" name="institute_id" id="institute_id" value="{{ $institute_id }}">
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">Board  : </label>
                                             <select name="board_id" id="board_id" class="form-control">
@@ -259,12 +259,20 @@
 
         function boardlist(){
             var institutefor_id = $('#institute_for_id').val();
-            axios.post('/student/create-form-data', {
+            var institute_id = document.getElementById('institute_id').value;
+            
+            axios.get('/student/create-form-data', {
                 institute_id: institute_id,
                 institutefor_id:institutefor_id
                 })
             .then(response => {
-                $('#board_id').val();
+                
+                response.forEach(boards => {
+                    // Your loop body
+                    alert(response.boards.name);
+                    $('#board_id').val(response.name); // This line will execute in each iteration of the loop
+                });
+                
             })
             .catch(error => {
             console.error(error);
