@@ -23,13 +23,64 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card">
+      <div class="col-md-5">
+                    <!-- general form elements -->
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Class</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="{{ url('class-list/save') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                   
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">Class Name  : </label>
+                                            <input type="text" name="name" class="form-control" placeholder="Enter Board Name">
+                                            @error('name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-9">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="file" name="icon" onchange="previewFile_create()" class="form-control" >
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3">
+                                             <img src="" id="icon_create"  alt="Icon" class="mt-4" style="display: none;">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">status : </label>
+                                            <select class="form-control" name="status">
+                                                 <option value=" ">Select Option</option>
+                                                 <option value="active">Active</option>
+                                                 <option value="inactive">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+        <div class="col-md-7">
+          <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Class List</h3>
-              @canButton('add', 'Class')
-              <a href="{{url('create/class-list')}}" class="btn btn-success" style="float: right;">Create Class </a>
-              @endCanButton
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -111,13 +162,13 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            <input type="file" onchange="previewFile_update()" name="icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon"  alt="Icon" class="mt-4">
+                                             <img src="" id="icon_update"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -161,7 +212,7 @@
 
           $('#class_id').val(reponse_data.id);
           $('#old_icon').val(reponse_data.icon);
-          $('#icon').attr('src', iconSrc);
+          $('#icon_update').attr('src', iconSrc);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -202,8 +253,24 @@
     });
   });
   
-  function previewFile() {
-  const preview = document.getElementById("icon");
+  function previewFile_create() {
+    $("#icon_create").show();
+  const preview = document.getElementById("icon_create");
+  const fileInput = document.querySelector("input[type=file]");
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+function previewFile_update() {
+  $("#icon_update").show();
+  const preview = document.getElementById("icon_update");
   const fileInput = document.querySelector("input[type=file]");
   const file = fileInput.files[0];
   const reader = new FileReader();

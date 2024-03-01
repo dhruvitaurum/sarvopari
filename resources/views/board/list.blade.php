@@ -25,7 +25,7 @@
       <div class="row">
 
          <!-- create -->
-         <div class="col-md-6">
+         <div class="col-md-5">
                     <!-- general form elements -->
                     <div class="card card-success">
                         <div class="card-header">
@@ -45,17 +45,17 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="file" onchange="previewFile()" name="icon" id="nicon" class="form-control" >
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-4">
-                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none; height:80px;width:80px;">
+                                        
+                                        <div class="col-md-3">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none;">
                                         </div>
-
                                         <div class="col-md-12">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
@@ -67,7 +67,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
+                                     
                                     </div>
 
                                 </div>
@@ -80,7 +80,7 @@
           </div>
 
         <!-- list -->
-        <div class="col-md-6">
+        <div class="col-md-7">
           <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Board List</h3>

@@ -23,13 +23,56 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card">
+      <div class="col-md-5">
+                    <!-- general form elements -->
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Standard</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="{{ url('standard-list/save') }}">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                   
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">Standard Name  : </label>
+                                            <input type="text" name="name" class="form-control" placeholder="Enter Board Name">
+                                            @error('name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">status : </label>
+                                            <select class="form-control" name="status">
+                                                 <option value=" ">Select Option</option>
+                                                 <option value="active">Active</option>
+                                                 <option value="inactive">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+        <div class="col-md-7">
+          <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Standard List</h3>
-              @canButton('add', 'Standard')
-              <a href="{{url('create/standard-list')}}" class="btn btn-success" style="float: right;">Create Standard </a>
-              @endCanButton</div>
+              </div>
             <!-- /.card-header -->
             <div class="card-body">
               <table class="table table-bordered">
@@ -76,6 +119,7 @@
           </div>
 
         </div>
+        
   </section>
 
 </div>

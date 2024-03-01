@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label for="exampleInputEmail1">Stream Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Stream Name">
                                             @error('name')
@@ -44,7 +44,7 @@
                                             @enderror
                                         </div>
                                         
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
                                                  <option value=" ">Select Option</option>

@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- left column -->
-                <div class="col-md-12">
+                <div class="col-md-5">
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
@@ -73,6 +73,7 @@
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
                             </div>
+                        </form>
                     </div>
                 </div>
 
