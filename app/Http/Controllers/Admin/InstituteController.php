@@ -32,7 +32,8 @@ class InstituteController extends Controller
         return view('institute/create_institute',compact('institute_for','board_list','medium_list','class_list'));
     }
     public function create_institute_for(){
-        return view('institute/create_institute_for');
+        $institute_for = Institute_for_model::paginate(10); 
+        return view('institute/create_institute_for',compact('institute_for'));
     
     }
     public function list_institute_for(){
@@ -83,7 +84,7 @@ class InstituteController extends Controller
             'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
-        return redirect()->route('institute_for.list')->with('success', 'Institute For Updated successfully');
+        return redirect()->route('institute_for.create')->with('success', 'Institute For Updated successfully');
     }
     public function institute_for_delete(Request $request){
         $institute_id=$request->input('institute_id');
