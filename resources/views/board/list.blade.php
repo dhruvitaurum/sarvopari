@@ -169,13 +169,13 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            <input type="file" onchange="previewFile_update(this)" name="icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon"  alt="Icon" class="mt-4">
+                                             <img src="" id="icon_update"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -221,7 +221,7 @@
           $('#old_icon').val(reponse_data.icon);
 
           $('#name').val(reponse_data.name);
-          $('#icon').attr('src', iconSrc);
+          $('#icon_update').attr('src', iconSrc);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
         })
@@ -263,6 +263,7 @@
   
   
   function previewFile() {
+    $("#icon").show();
   const preview = document.getElementById("icon");
   const fileInput = document.querySelector("input[type=file]");
   const file = fileInput.files[0];
@@ -275,6 +276,19 @@
   if (file) {
     reader.readAsDataURL(file);
   }
+}
+function previewFile_update(inputElement) {
+    const preview = document.getElementById("icon_update");
+    const file = inputElement.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+        preview.src = reader.result;
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }
 </script>
 @include('layouts/footer')

@@ -156,7 +156,7 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="previewFile_update()" name="icon" class="form-control">
+                                            <input type="file" onchange="previewFile_update(this)" name="icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -260,20 +260,18 @@
     reader.readAsDataURL(file);
   }
 }
-function previewFile_update() {
-    $("#icon_update").show();
-  const preview = document.getElementById("icon_update");
-  const fileInput = document.querySelector("input[type=file]");
-  const file = fileInput.files[0];
-  const reader = new FileReader();
+function previewFile_update(inputElement) {
+    const preview = document.getElementById("icon_update");
+    const file = inputElement.files[0];
+    const reader = new FileReader();
 
-  reader.addEventListener("load", () => {
-    preview.src = reader.result;
-  }, false);
+    reader.addEventListener("load", () => {
+        preview.src = reader.result;
+    }, false);
 
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }
 </script>
 @include('layouts/footer')

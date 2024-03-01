@@ -16,6 +16,7 @@
             </div>
         </div>
     </div>
+    
     @include('alert')
     <section class="content">
         <div class="container-fluid">
@@ -24,6 +25,7 @@
                     <div class="card card-suceess">
                         <div class="card-header">
                             <h3 class="card-title">Create Institute For</h3>
+                            
                         </div>
                         <form method="post" action="{{ url('institute-for/save') }}" enctype="multipart/form-data">
                             @csrf
@@ -162,7 +164,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon_update"  alt="Icon" class="mt-4" style="height:80px;width:80px;">
+                                              <img src="" id="icon_update" alt="Icon" class="mt-4" style="height:80px;width:80px;">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -259,21 +261,19 @@
   if (file) {
     reader.readAsDataURL(file);
   }
-}
+}   
 function previewFile_update() {
-    // $("#icon_update").show();
-  const preview = document.getElementById("icon_update");
-  const fileInput = document.querySelector("input[type=file]");
-  const file = fileInput.files[0];
-  const reader = new FileReader();
+    const preview = document.getElementById("icon_update");
+    const file = inputElement.files[0];
+    const reader = new FileReader();
 
-  reader.addEventListener("load", () => {
-    preview.src = reader.result;
-  }, false);
+    reader.addEventListener("load", () => {
+        preview.src = reader.result;
+    }, false);
 
-  if (file) {
-    reader.readAsDataURL(file);
-  }
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }
 </script>
 @include('layouts/footer')
