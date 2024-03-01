@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
-                                            <input type="file" onchange="previewFile()" name="icon" class="form-control" >
+                                            <input type="file" onchange="previewFile()" name="icon" id="nicon" class="form-control" >
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -106,7 +106,7 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon" style="height:80px;width:80px;"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -261,11 +261,11 @@
     });
   });
   
-  
+  //create form function
   function previewFile() {
     $("#icon").show();
   const preview = document.getElementById("icon");
-  const fileInput = document.querySelector("input[type=file]");
+  const fileInput = document.getElementById("nicon");
   const file = fileInput.files[0];
   const reader = new FileReader();
 

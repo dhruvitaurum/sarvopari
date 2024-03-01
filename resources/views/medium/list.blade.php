@@ -45,9 +45,10 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                      
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
-                                            <input type="file" onchange="previewFile()" name="icon" class="form-control" >
+                                            <input type="file" onchange="previewFile()" name="icon" id="nicon" class="form-control" >
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -104,7 +105,7 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon" style="height:80px;width:80px;"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -162,13 +163,13 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="previewFile()" name="icon" class="form-control">
+                                            <input type="file" onchange="editpreviewFile()" name="icon" id="edit_icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon"  alt="Icon" class="mt-4">
+                                             <img src="" id="editicon"  alt="Icon" class="mt-4" style="height:80px;width:80px;">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -213,7 +214,7 @@
           $('#medium_id').val(reponse_data.id);
           $('#name').val(reponse_data.name);
           $('#old_icon').val(reponse_data.icon);
-          $('#icon').attr('src', iconSrc);
+          $('#editicon').attr('src', iconSrc);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
         })
@@ -253,9 +254,12 @@
     });
   });
   
+  //create form function
   function previewFile() {
+    $("#icon").show();
   const preview = document.getElementById("icon");
-  const fileInput = document.querySelector("input[type=file]");
+  //const fileInput = document.querySelector("input[type=file]");
+  const fileInput = document.getElementById("nicon");
   const file = fileInput.files[0];
   const reader = new FileReader();
 
@@ -265,6 +269,23 @@
 
   if (file) {
     reader.readAsDataURL(file);
+  }
+}
+
+//edit form function
+function editpreviewFile() {
+  const epreview = document.getElementById("editicon");
+  //const fileInput = document.querySelector("input[type=file]");
+  const efileInput = document.getElementById("edit_icon");
+  const efile = efileInput.files[0];
+  const ereader = new FileReader();
+
+  ereader.addEventListener("load", () => {
+    epreview.src = ereader.result;
+  }, false);
+
+  if (efile) {
+    ereader.readAsDataURL(efile);
   }
 }
 </script>
