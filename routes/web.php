@@ -98,9 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::get('board-create', [BoardController::class, 'create'])->name('board.create');
     Route::post('board-save', [BoardController::class, 'save'])->name('board.save');
     Route::post('board-edit', [BoardController::class, 'edit'])->name('board.edit');
-    Route::post('board-update', [BoardController::class, 'update'])->name('board.update');
-    
-    Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
+    Route::post('board-update', [BoardController::class, 'update'])->name('board.update');    
+    Route::post('board-delete', [BoardController::class, 'delete'])->name('board.delete');
    
     //class
     Route::get('class-list', [ClassController::class, 'list_class'])->name('class.list');
@@ -131,11 +130,11 @@ Route::middleware('auth')->group(function () {
 
      //stream
     Route::get('stream-list', [StreamController::class, 'list_stream'])->name('stream.list');
-    Route::get('create/stream-list', [StreamController::class, 'create_stream'])->name('stream.create');
-    Route::post('stream-list/save', [StreamController::class, 'stream_list_save'])->name('stream_list.save');
-    Route::post('/stream-list/edit', [StreamController::class, 'stream_list_edit'])->name('stream_list.edit');
-    Route::post('stream/update', [StreamController::class, 'stream_update'])->name('stream.update');
-    Route::post('/stream/delete', [StreamController::class, 'stream_delete'])->name('stream.delete');
+    Route::get('stream-create', [StreamController::class, 'create_stream'])->name('stream.create');
+    Route::post('stream-save', [StreamController::class, 'stream_list_save'])->name('stream_list.save');
+    Route::post('stream-edit', [StreamController::class, 'stream_list_edit'])->name('stream_list.edit');
+    Route::post('stream-update', [StreamController::class, 'stream_update'])->name('stream.update');
+    Route::post('stream-delete', [StreamController::class, 'stream_delete'])->name('stream.delete');
    
     //subject
     Route::get('subject-list', [SubjectController::class, 'list_subject'])->name('subject.list');
