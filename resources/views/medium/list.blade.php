@@ -24,7 +24,7 @@
     <div class="container-fluid">
       <div class="row">
         <!-- create -->
-        <div class="col-md-6">
+        <div class="col-md-5">
                     <!-- general form elements -->
                     <div class="card card-success">
                         <div class="card-header">
@@ -38,22 +38,24 @@
                                 <div class="form-group">
                                     <div class="row">
                                     
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <label for="exampleInputEmail1">Medium Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Medium Name">
                                             @error('name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="file" onchange="previewFile()" name="icon" class="form-control" >
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none;">
+                                        </div>
+                                        <div class="col-md-12">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
                                                  <option value=" ">Select Option</option>
@@ -64,9 +66,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-2">
-                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none;">
-                                        </div>
+                                        
                                     </div>
 
                                 </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
         <!-- list -->
-        <div class="col-md-6">
+        <div class="col-md-7">
           <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Medium List</h3>

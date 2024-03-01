@@ -25,7 +25,8 @@ class ClassController extends Controller
         return view('class.list', compact('classlist'));
     }
     function create_class(){
-        return view('class.create');
+        $classlist = Class_model::paginate(10);
+        return view('class.create',compact('classlist'));
     }
     function class_list_save(Request $request){
         $request->validate([

@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-5">
-                    <div class="card card-primary">
+                    <div class="card card-suceess">
                         <div class="card-header">
                             <h3 class="card-title">Create Institute For</h3>
                         </div>
@@ -45,7 +45,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon_create"  alt="Icon" class="mt-4" style="display: none;">
+                                             <img src="" id="icon_create"  alt="Icon" class="mt-4" style="display: none;height:80px;width:80px;">
                                         </div>
                                         <div class="col-md-12">
                                             <label for="exampleInputEmail1">status : </label>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-md-7">
           <div class="card">
-          <div class="card card-primary">
+          <div class="card card-suceess">
             <div class="card-header">
               <h3 class="card-title">Institute For List</h3>
             </div> 
@@ -94,7 +94,7 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
+                    <td><img src="{{asset($value->icon) }}" alt="Icon" style="height:80px;width:80px;">></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -162,7 +162,7 @@
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="icon_update"  alt="Icon" class="mt-4">
+                                             <img src="" id="icon_update"  alt="Icon" class="mt-4" style="height:80px;width:80px;">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -261,7 +261,7 @@
   }
 }
 function previewFile_update() {
-    $("#icon_update").show();
+    // $("#icon_update").show();
   const preview = document.getElementById("icon_update");
   const fileInput = document.querySelector("input[type=file]");
   const file = fileInput.files[0];
