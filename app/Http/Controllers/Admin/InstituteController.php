@@ -57,7 +57,7 @@ class InstituteController extends Controller
             'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
-      return redirect()->route('institute_for.create')->with('success', 'Institute For Created Successfully');
+      return redirect()->route('institute_for.list')->with('success', 'Institute For Created Successfully');
    
     }
     public function institute_for_edit(Request $request){
@@ -84,7 +84,7 @@ class InstituteController extends Controller
             'icon'=>$imagePath,
             'status'=>$request->input('status'),
         ]);
-        return redirect()->route('institute_for.create')->with('success', 'Institute For Updated successfully');
+        return redirect()->route('institute_for.list')->with('success', 'Institute For Updated successfully');
     }
     public function institute_for_delete(Request $request){
         $institute_id=$request->input('institute_id');
