@@ -38,7 +38,6 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Institute name</th>
                     <th style="width: 200px">Icon</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
@@ -50,7 +49,6 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->institute_name}}</td>
                     <td><img src="{{asset($value->icon) }}" alt="Icon"></td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
@@ -96,23 +94,11 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('board/update') }}" enctype="multipart/form-data">
+      <form method="post" action="{{ url('board-update') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-12">
-                                            <label for="exampleInputEmail1">Select Institute : </label>
-                                            <select class="form-control" name="institute_for_id" id="institute_for_id">
-                                                 <option value=" ">Select Institute</option>
-                                                 @foreach($institute_list as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('institute_for_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                         <div class="col-md-12">
                                             <input type="hidden" id="board_id" name="board_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -165,15 +151,14 @@
     button.addEventListener('click', function() {
       var board_id = this.getAttribute('data-user-id');
 
-      axios.post('/board-list/edit', {
+      axios.post('board-edit', {
         board_id: board_id
         })
         .then(response => {
           
           var reponse_data = response.data.board_list;
-          var iconSrc ='{{ asset('') }}' + reponse_data.icon;
+          var iconSrc ='{{ asset(' + reponse_data.icon + ') }}';
           $('#board_id').val(reponse_data.id);
-          $('#institute_for_id').val(reponse_data.institute_for_id);
           $('#old_icon').val(reponse_data.icon);
 
           $('#name').val(reponse_data.name);

@@ -63,10 +63,12 @@ class StudentController extends Controller
                             ->orWhereIn('institute_id', explode(',',$instuser_ids))
                             ->paginate($perPage);
             $banners_data = [];
+            
             foreach ($banners as $value) {
+                $imgpath = asset($value->banner_image);
                 $banners_data[] = array(
                     'id' => $value->id,
-                    'banner_image' => $value->banner_image,
+                    'banner_image' => $imgpath,
                 );
             }
 

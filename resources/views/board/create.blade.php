@@ -31,23 +31,11 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('board-list/save') }}" enctype="multipart/form-data">
+                        <form method="post" action="{{ url('board-save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Select Institute : </label>
-                                            <select class="form-control" name="institute_for_id">
-                                                 <option value=" ">Select Institute</option>
-                                                 @foreach($institute_list as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('institute_for_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">Board Name  : </label>
                                             <input type="text" name="name" class="form-control" placeholder="Enter Board Name">

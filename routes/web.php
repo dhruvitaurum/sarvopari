@@ -93,11 +93,13 @@ Route::middleware('auth')->group(function () {
     Route::post('institute/register', [InstituteController::class, 'institute_register'])->name('institute_register.delete');
 
     //board
-    Route::get('board-list', [BoardController::class, 'list_board'])->name('board.list');
-    Route::get('create/board-list', [BoardController::class, 'create_board'])->name('board.create');
-    Route::post('board-list/save', [BoardController::class, 'board_list_save'])->name('board_list.save');
-    Route::post('/board-list/edit', [BoardController::class, 'board_list_edit'])->name('board_list.edit');
-    Route::post('board/update', [BoardController::class, 'board_update'])->name('board.update');
+
+    Route::get('board-list', [BoardController::class, 'list'])->name('board.list');
+    Route::get('board-create', [BoardController::class, 'create'])->name('board.create');
+    Route::post('board-save', [BoardController::class, 'save'])->name('board.save');
+    Route::post('board-edit', [BoardController::class, 'edit'])->name('board.edit');
+    Route::post('board-update', [BoardController::class, 'update'])->name('board.update');
+    
     Route::post('/board/delete', [BoardController::class, 'board_delete'])->name('board.delete');
    
     //class

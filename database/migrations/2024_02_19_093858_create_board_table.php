@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('board', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('icon');
             $table->enum('status',['active','inactive']);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
