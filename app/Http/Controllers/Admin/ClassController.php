@@ -59,7 +59,6 @@ class ClassController extends Controller
         $class = Class_model::find($id);
         $request->validate([
             'board_id'=>'required',
-            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('board', 'name')->ignore($id)],
             'status'=>'required',
        ]);

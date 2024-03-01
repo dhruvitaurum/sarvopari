@@ -71,10 +71,19 @@ function clearFormData() {
                     </div>
                   </div> 
                   <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">firstname</label>
                     <div class="col-sm-10">
-                      <input type="text" id="name" name="name" class="form-control"   placeholder="Name">
-                    @error('name')
+                      <input type="text" id="firstname" name="firstname" class="form-control"   placeholder="Name">
+                    @error('firstname')
+                     <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">lastname</label>
+                    <div class="col-sm-10">
+                      <input type="text" id="lastname" name="lastname" class="form-control"   placeholder="Name">
+                    @error('lastname')
                      <div class="text-danger">{{ $message }}</div>
                     @enderror
                     </div>

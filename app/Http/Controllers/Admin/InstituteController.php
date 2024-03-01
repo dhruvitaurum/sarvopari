@@ -68,7 +68,6 @@ class InstituteController extends Controller
         $id=$request->input('institute_id');
         $role = Institute_for_model::find($id);
         $request->validate([
-            'icon' =>'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')->ignore($id)],
             'status'=>'required',
        ]);

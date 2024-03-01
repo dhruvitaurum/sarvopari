@@ -60,7 +60,7 @@ class BoardController extends Controller
         $role = board::find($id);
         $request->validate([
             'institute_for_id' => 'required',
-            'name'=>['required','string','max:255',Rule::unique('institute_for', 'name')->ignore($id)],
+            'name'=>['required','string','max:255'],
             'status'=>'required',
        ]);
         $iconFile = $request->file('icon');

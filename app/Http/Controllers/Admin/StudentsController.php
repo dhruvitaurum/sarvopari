@@ -75,8 +75,7 @@ class StudentsController extends Controller
     }
 
     public function save_student(Request $request){
-
-       
+        //  echo "<pre>";print_r($request->all());exit;    
         $validator=$request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',

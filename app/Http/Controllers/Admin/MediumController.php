@@ -44,7 +44,6 @@ class MediumController extends Controller
         $id=$request->input('medium_id');
         $medium = Medium_model::find($id);
         $request->validate([
-            'icon' => 'required|image|mimes:svg|max:2048',
             'name'=>['required','string','max:255',Rule::unique('medium', 'name')->ignore($id)],
             'status'=>'required',
        ]);

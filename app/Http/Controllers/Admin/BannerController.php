@@ -7,10 +7,18 @@ use App\Models\Banner_model;
 use App\Models\Institute_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BannerController extends Controller
 {
     public function list_banner(){
+        // $banner_list = DB::table('banner')
+        // ->join('institute_detail', 'banner.institute_id', '=', 'institute_detail.id')
+        // ->select('banner.*','institute_detail.institute_name')
+        // ->whereNull('banner.deleted_at')
+        // ->where('banner.user_id', Auth::user()->id)
+        // ->paginate(10);
+        // $institute_list = Institute_detail::get();
         $banner_list = Banner_model::where('user_id', Auth::user()->id)->paginate(10);
         return view('banner/list',compact('banner_list'));
     }

@@ -114,7 +114,7 @@
                                             @error('image')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
-                                            <img src="" id="image"  alt="image" class="mt-4" style="display: none; width:150px; height:150px">
+                                            <img src="" id="image"  alt="image" class="mt-4" style="display: none; width:80px; height:80px">
                                         </div>
                                         
                                         <div class="col-md-3">
@@ -209,6 +209,8 @@
                                         <div class="col-md-3">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
+                                                 <option value="">Select option</option>
+
                                                  <option value="pending">Pending</option>
                                                  <option value="denied">Denied</option>
                                                  <option value="approved">Approved</option>
