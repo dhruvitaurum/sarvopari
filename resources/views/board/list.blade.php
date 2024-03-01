@@ -169,13 +169,13 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="editpreviewFile()" name="icon" id="edit_icon" class="form-control">
+                                            <input type="file" onchange="previewFile_update(this)" name="icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col-md-3">
-                                             <img src="" id="editicon"  alt="Icon" class="mt-4" style="height:80px;width:80px;">
+                                             <img src="" id="icon_update"  alt="Icon" class="mt-4">
                                         </div>
                                        
                                         <div class="col-md-12">
@@ -221,7 +221,7 @@
           $('#old_icon').val(reponse_data.icon);
 
           $('#name').val(reponse_data.name);
-          $('#editicon').attr('src', iconSrc);
+          $('#icon_update').attr('src', iconSrc);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
         })
@@ -277,22 +277,18 @@
     reader.readAsDataURL(file);
   }
 }
+function previewFile_update(inputElement) {
+    const preview = document.getElementById("icon_update");
+    const file = inputElement.files[0];
+    const reader = new FileReader();
 
-//edit form function
-function editpreviewFile() {
-  const epreview = document.getElementById("editicon");
-  //const fileInput = document.querySelector("input[type=file]");
-  const efileInput = document.getElementById("edit_icon");
-  const efile = efileInput.files[0];
-  const ereader = new FileReader();
+    reader.addEventListener("load", () => {
+        preview.src = reader.result;
+    }, false);
 
-  ereader.addEventListener("load", () => {
-    epreview.src = ereader.result;
-  }, false);
-
-  if (efile) {
-    ereader.readAsDataURL(efile);
-  }
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }
 </script>
 @include('layouts/footer')
