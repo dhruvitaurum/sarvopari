@@ -37,36 +37,93 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Select Standard : </label>
-                                            <select class="form-control" name="standard_id" id="standard_id">
-                                                 <option value=" ">Select Standard</option>
-                                                 @foreach($standardlist as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1" id="stream_label"> Select Stream : </label>
-                                            <select class="form-control" name="stream_id" id="secondDropdown2" style="display: none;">
-                                                 <option value=" ">Select stream</option>
-                                               
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Subject Name  : </label>
-                                            <input type="text" name="name" class="form-control" placeholder="Enter Subject Name">
-                                            @error('name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                    <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Institute For : </label>
+                                        <br>
+                                        @foreach($institute_for as $insval)
+                                        <input type="radio" name="institute_for" value="{{$insval->id}}">{{$insval->name}} &nbsp;
+                                       @endforeach
+                                        @error('institute_id')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Board : </label>
+                                        <br>
+                                        @foreach($board as $insval)
+                                        <input type="radio" name="board" value="{{$insval->id}}">{{$insval->name}} &nbsp;
+                                       @endforeach
+                                        @error('board')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Medium : </label>
+                                        <br>
+                                        @foreach($medium as $insval)
+                                        <input type="radio" name="medium" value="{{$insval->id}}">{{$insval->name}} &nbsp;
+                                       @endforeach
+                                        @error('medium')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-12">
+                                    <label for="exampleInputEmail1">Institute For Class : </label>
+                                        <br>
+                                        @foreach($class as $insval)
+                                        <input type="radio" name="class" value="{{$insval->id}}">{{$insval->name}} &nbsp;
+                                       @endforeach
+                                        @error('class')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                         
+                                    <div class="col-md-12">
+                                        <label for="exampleInputEmail1">Select Standard : </label>
+                                        <select class="form-control" name="standard">
+                                            <option value=" ">Select Option</option>
+                                            @foreach($standard as $insval)
+                                                <option value="{{$insval->id}}">{{$insval->name}}</option>
+                                            @endforeach        
+                                        </select>
+                                        @error('standard')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="exampleInputEmail1">Stream (optional) : </label>
+                                        <select class="form-control" name="stream">
+                                            <option value=" ">Select Option</option>
+                                            @foreach($stream as $insval)
+                                                <option value="{{$insval->id}}">{{$insval->name}}</option>
+                                            @endforeach        
+                                        </select>
+                                        @error('stream')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                        <br>
+                                        <div class="col-md-12">
+                                        <div class="col-md-3" id="container">
+                                                <label for="exampleInputEmail1">Subject Name  : 
+                                                    <a class="btn btn-success" id="addmore">
+                                                        <i class="fas fa-plus"></i>
+                                                    </a>
+                                                </label>
+                                                    
+                                                <input type="text" name="subject[]" id="subject" class="form-control" placeholder="Enter Subject Name">
+                                                <a class="btn btn-success" id="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>   
+                                                @error('subject')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>    
+                                        </div>
+
                                         <div class="col-md-6">
                                             <label for="exampleInputEmail1">status : </label>
                                             <select class="form-control" name="status">
@@ -318,5 +375,26 @@
         });
     });
     
+    //add more
+
+$(document).ready(function(){
+  var maxFields = 10; // Maximum number of input fields
+  var addButton = $('#addmore'); // Add button selector
+  var container = $('#container'); // Container selector
+
+  var x = 1; // Initial input field counter
+
+  // Triggered on click of add button
+  $(addButton).click(function(){
+    // Check maximum number of input fields
+    if(x < maxFields){ 
+      x++; // Increment field counter
+      // Add input field
+      $(container).append('<input type="text" name="subject[]" class="form-control" placeholder="Enter Subject Name"/><a class="btn btn-success" id="delete"><i class="fas fa-trash"></i></a>');
+    } else{
+      alert('Maximum '+maxFields+' input fields allowed.'); // Alert when maximum is reached
+    }
+  });
+});
 </script>
 @include('layouts/footer ')

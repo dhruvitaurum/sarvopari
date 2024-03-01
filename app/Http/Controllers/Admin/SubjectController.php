@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Institute_for_model;
+use App\Models\board;
+use App\Models\Medium_model;
+use App\Models\Class_model;
 use App\Models\Standard_model;
 use App\Models\Stream_model;
 use App\Models\Subject_model;
@@ -22,7 +26,13 @@ class SubjectController extends Controller
         $standardlist = Standard_model::get()->toArray();
         $streamlist = Stream_model::get()->toArray();
 
-        return view('subject.list',compact('streamlist','standardlist','subjectlist'));
+        $institute_for = Institute_for_model::where('status','active')->get();
+        $board = board::where('status','active')->get();
+        $medium = Medium_model::where('status','active')->get();
+        $class = Class_model::where('status','active')->get();
+        $standard = Standard_model::where('status','active')->get();
+        $stream = Stream_model::where('status','active')->get();
+        return view('subject.list',compact('streamlist','standardlist','subjectlist','institute_for','board','medium','class','standard','stream'));
     }
     function create_subject(){
         $standardlist = Standard_model::get()->toArray();
