@@ -39,7 +39,7 @@
                                         </div>
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
-                                            <input type="file" onchange="previewFile_create()" name="icon" class="form-control">
+                                            <input type="file" onchange="previewFile_create()" name="icon" id="icon" class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -156,7 +156,7 @@
                                         <div class="col-md-9">
                                             <label for="exampleInputEmail1">Icon  : </label>
                                             <input type="hidden" name="old_icon" id="old_icon">
-                                            <input type="file" onchange="previewFile_update()" name="icon" class="form-control">
+                                            <input type="file"  onchange="previewFile_update()" name="icon" id="edit_icon"   class="form-control">
                                             @error('icon')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -248,7 +248,7 @@
   function previewFile_create() {
     $("#icon_create").show();
   const preview = document.getElementById("icon_create");
-  const fileInput = document.querySelector("input[type=file]");
+  const efileInput = document.getElementById("icon");
   const file = fileInput.files[0];
   const reader = new FileReader();
 
@@ -261,18 +261,18 @@
   }
 }
 function previewFile_update() {
-    // $("#icon_update").show();
-  const preview = document.getElementById("icon_update");
-  const fileInput = document.querySelector("input[type=file]");
-  const file = fileInput.files[0];
-  const reader = new FileReader();
+  const epreview = document.getElementById("icon_update");
+  //const fileInput = document.querySelector("input[type=file]");
+  const efileInput = document.getElementById("edit_icon");
+  const efile = efileInput.files[0];
+  const ereader = new FileReader();
 
-  reader.addEventListener("load", () => {
-    preview.src = reader.result;
+  ereader.addEventListener("load", () => {
+    epreview.src = ereader.result;
   }, false);
 
-  if (file) {
-    reader.readAsDataURL(file);
+  if (efile) {
+    ereader.readAsDataURL(efile);
   }
 }
 </script>

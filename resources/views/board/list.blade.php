@@ -280,18 +280,18 @@
 
 //edit form function
 function editpreviewFile() {
-  const preview = document.getElementById("editicon");
+  const epreview = document.getElementById("editicon");
   //const fileInput = document.querySelector("input[type=file]");
-  const fileInput = document.getElementById("edit_icon");
-  const file = fileInput.files[0];
-  const reader = new FileReader();
+  const efileInput = document.getElementById("edit_icon");
+  const efile = efileInput.files[0];
+  const ereader = new FileReader();
 
-  reader.addEventListener("load", () => {
-    preview.src = reader.result;
+  ereader.addEventListener("load", () => {
+    epreview.src = ereader.result;
   }, false);
 
-  if (file) {
-    reader.readAsDataURL(file);
+  if (efile) {
+    ereader.readAsDataURL(efile);
   }
 }
 </script>
