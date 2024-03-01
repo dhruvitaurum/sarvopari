@@ -19,17 +19,74 @@
   <!-- /.content-header -->
   @include('alert')
   <!-- Main content -->
-
+  
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card">
+
+         <!-- create -->
+         <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Board</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="{{ url('board-save') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Board Name  : </label>
+                                            <input type="text" name="name" class="form-control" placeholder="Enter Board Name">
+                                            @error('name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Icon  : </label>
+                                            <input type="file" onchange="previewFile()" name="icon" class="form-control" >
+                                            @error('icon')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">status : </label>
+                                            <select class="form-control" name="status">
+                                                 <option value=" ">Select Option</option>
+                                                 <option value="active">Active</option>
+                                                 <option value="inactive">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                             <img src="" id="icon"  alt="Icon" class="mt-4" style="display: none;">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+                            </div>
+                            </form>
+                    </div>
+          </div>
+
+        <!-- list -->
+        <div class="col-md-6">
+          <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Board List</h3>
-              @canButton('add', 'Board')
+              <!-- @canButton('add', 'Board')
               <a href="{{url('board-create')}}" class="btn btn-success" style="float: right;">Create Board </a>
-              @endCanButton
+              @endCanButton -->
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -81,6 +138,8 @@
           </div>
 
         </div>
+
+     
   </section>
 
 </div>

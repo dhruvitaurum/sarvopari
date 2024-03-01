@@ -23,13 +23,59 @@
   <section class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
-          <div class="card">
+        <!-- create -->
+        <div class="col-md-6">
+                    <!-- general form elements -->
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Create Stream</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="post" action="{{ url('stream-save') }}">
+                            @csrf
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">Stream Name  : </label>
+                                            <input type="text" name="name" class="form-control" placeholder="Enter Stream Name">
+                                            @error('name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <label for="exampleInputEmail1">status : </label>
+                                            <select class="form-control" name="status">
+                                                 <option value=" ">Select Option</option>
+                                                 <option value="active">Active</option>
+                                                 <option value="inactive">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+
+        <!-- list -->
+        <div class="col-md-6">
+          <div class="card card-success">
             <div class="card-header">
               <h3 class="card-title">Stream List</h3>
-              @canButton('add', 'Stream')
+              <!-- @canButton('add', 'Stream')
               <a href="{{url('stream-create')}}" class="btn btn-success" style="float: right;">Create Stream </a>
-              @endCanButton
+              @endCanButton -->
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -58,7 +104,7 @@
                     <td>
                       <div class="d-flex">
                       @canButton('edit', 'Stream')
-                      <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
+                      <input type="submit" class="btn btn-success editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
                       @endCanButton
                       &nbsp;&nbsp;
                       @canButton('delete', 'Stream')
