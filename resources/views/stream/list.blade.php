@@ -28,7 +28,7 @@
             <div class="card-header">
               <h3 class="card-title">Stream List</h3>
               @canButton('add', 'Stream')
-              <a href="{{url('create/stream-list')}}" class="btn btn-success" style="float: right;">Create Stream </a>
+              <a href="{{url('stream-create')}}" class="btn btn-success" style="float: right;">Create Stream </a>
               @endCanButton
             </div>
             <!-- /.card-header -->
@@ -38,7 +38,6 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Name</th>
-                    <th style="width: 200px">Standard</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
@@ -49,7 +48,6 @@
                   <tr>
                     <td>{{$i}}</td>
                     <td>{{$value->name}}</td>
-                    <td>{{$value->standard_name}}</td>
                     <td>@if($value->status == 'active')
                             <input type="button" value="Active" class="btn btn-success">
                         @else
@@ -94,23 +92,11 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ url('stream/update') }}">
+      <form method="post" action="{{ url('stream-update') }}">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
                                     <div class="row">
-                                    <div class="col-md-12">
-                                             <label for="exampleInputEmail1">Select standard : </label>
-                                            <select class="form-control" name="standard_id" id="standard_id">
-                                                 <option value=" ">Select standard</option>
-                                                 @foreach($standardlist as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('board_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                         <div class="col-md-12">
                                             <input type="hidden" id="stream_id" name="stream_id">
                                             <label for="exampleInputEmail1">Name  : </label>
@@ -152,13 +138,12 @@
     button.addEventListener('click', function() {
       var stream_id = this.getAttribute('data-user-id');
 
-      axios.post('/stream-list/edit', {
+      axios.post('stream-edit', {
         stream_id: stream_id
         })
         .then(response => {
           var reponse_data = response.data.straemlist;
           $('#stream_id').val(reponse_data.id);
-          $('#standard_id').val(reponse_data.standard_id);
           $('#name').val(reponse_data.name);
           $('#status').val(reponse_data.status);
           $('#usereditModal').modal('show');
@@ -184,7 +169,7 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/stream/delete', {
+          axios.post('stream-delete', {
             stream_id: stream_id
             })
             .then(response => {

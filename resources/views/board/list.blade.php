@@ -28,7 +28,7 @@
             <div class="card-header">
               <h3 class="card-title">Board List</h3>
               @canButton('add', 'Board')
-              <a href="{{url('create/board-list')}}" class="btn btn-success" style="float: right;">Create Board </a>
+              <a href="{{url('board-create')}}" class="btn btn-success" style="float: right;">Create Board </a>
               @endCanButton
             </div>
             <!-- /.card-header -->
@@ -157,7 +157,7 @@
         .then(response => {
           
           var reponse_data = response.data.board_list;
-          var iconSrc ='{{ asset(' + reponse_data.icon + ') }}';
+          var iconSrc ='{{ asset('') }}' + reponse_data.icon ;
           $('#board_id').val(reponse_data.id);
           $('#old_icon').val(reponse_data.icon);
 
@@ -187,7 +187,7 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post('/board/delete', {
+          axios.post('board-delete', {
             board_id: board_id
             })
             .then(response => {
@@ -218,4 +218,4 @@
   }
 }
 </script>
-@include('layouts/footer ')
+@include('layouts/footer')
