@@ -13,7 +13,6 @@ class BoardController extends Controller
 {
     public function list(){
         $board_list = board::whereNull('deleted_at')->paginate(10);
-
         return view('board.list', compact('board_list'));
     }
 
@@ -36,7 +35,8 @@ class BoardController extends Controller
             'status'=>$request->input('status'),
         ]);
 
-        return redirect()->route('board.create')->with('success', 'Board Created Successfully');
+        $board_list = board::whereNull('deleted_at')->paginate(10);
+        return redirect()->route('board.list')->with('success', 'Board Created Successfully','board_list');
 
     }
 

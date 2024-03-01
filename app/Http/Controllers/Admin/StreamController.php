@@ -27,8 +27,8 @@ class StreamController extends Controller
         'name'=>$request->input('name'),
         'status'=>$request->input('status'),
     ]);
-
-       return redirect()->route('stream.create')->with('success', 'Stream Created Successfully');
+        $straemlist =Stream_model::whereNull('deleted_at')->paginate(10);
+       return redirect()->route('stream.list')->with('success', 'Stream Created Successfully','straemlist');
 
     }
     public function stream_list_edit(Request $request){
