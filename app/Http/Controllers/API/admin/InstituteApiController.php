@@ -63,7 +63,7 @@ class InstituteApiController extends Controller
                                 ->leftJoin('medium', 'medium.id', '=', 'base_table.medium')
                                 ->select('medium.name as medium_name','base_table.id')
                                 ->whereNull('base_table.deleted_at')
-                                ->where('base_table.board',$board_array_value->id)
+                                ->where('base_table.id',$board_array_value->id)
                                 ->get();
                                 $medium = [];
                                 foreach ($medium_array as $medium_array_value) {
@@ -96,7 +96,7 @@ class InstituteApiController extends Controller
                                             foreach ($stream_array as $stream_array_value) {
 
                                                 $subject_array = DB::table('base_table')
-                                                    ->Join('subject', 'subject.base_table_id', '=', 'base_table.id')
+                                                    ->leftJoin('subject', 'subject.base_table_id', '=', 'base_table.id')
                                                     ->select('subject.name as subject_name')
                                                     ->whereNull('base_table.deleted_at')
                                                     ->where('base_table.id',$standard_array_value->id)
