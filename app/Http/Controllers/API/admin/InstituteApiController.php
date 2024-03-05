@@ -43,110 +43,111 @@ class InstituteApiController extends Controller
         if ($existingUser) {
          
         $institute_for_array = DB::table('base_table')
-            ->leftJoin('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
-            ->select('institute_for.name as institute_for_name')
+            ->leftJoin('institute_for', 'institute_for.id', '=', 'base_table.institute_for')
+            ->select('institute_for.name as institute_for_name','institute_for.id')
             ->whereNull('base_table.deleted_at')
-            ->groupBy('institute_for.name')
             ->get();
+
+            $institute_for = [];
+            foreach ($institute_for_array as $institute_for_array_value) {
+                 $board_array = DB::table('base_table')
+                    ->leftJoin('board', 'board.id', '=', 'base_table.board')
+                    ->select('board.name as board_name','board.id')
+                    ->whereNull('base_table.deleted_at')
+                    ->where('base_table.institute_for',$institute_for_array_value->id)
+                    ->get();
+                    
+                            $board = [];
+                            foreach ($board_array as $board_array_value) {
+                                $medium_array = DB::table('base_table')
+                                ->leftJoin('medium', 'medium.id', '=', 'base_table.medium')
+                                ->select('medium.name as medium_name','medium.id')
+                                ->whereNull('base_table.deleted_at')
+                                ->where('base_table.board',$board_array_value->id)
+                                ->get();
+                                $medium = [];
+                                foreach ($medium_array as $medium_array_value) {
+                                    $class_array = DB::table('base_table')
+                                    ->leftJoin('class', 'class.id', '=', 'base_table.institute_for_class')
+                                    ->select('class.name as class_name','class.id')
+                                    ->whereNull('base_table.deleted_at')
+                                    ->where('base_table.medium',$medium_array_value->id)
+                                    ->get();
+                                    $class = [];
+                                    foreach ($class_array as $class_array_value) {
+                                        $standard_array = DB::table('base_table')
+                                        ->leftJoin('standard', 'standard.id', '=', 'base_table.standard')
+                                        ->select('standard.name as standard_name','standard.id')
+                                        ->whereNull('base_table.deleted_at')
+                                        ->where('base_table.institute_for_class',$class_array_value->id)
+                                        ->get();
+
+                                        $standard = [];
+                                        foreach ($standard_array as $standard_array_value) {
+
+                                            $stream_array = DB::table('base_table')
+                                            ->leftJoin('stream', 'stream.id', '=', 'base_table.stream')
+                                            ->select('stream.name as stream_name','stream.id')
+                                            ->whereNull('base_table.deleted_at')
+                                            ->where('base_table.standard',$standard_array_value->id)
+                                            ->get();
+                                            $stream = [];
         
-        $board_array = DB::table('base_table')
-            ->leftJoin('board', 'board.id', '=', 'base_table.board','left')
-            ->select('board.name as board_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('board.name')
-            ->get();
+                                            foreach ($stream_array as $stream_array_value) {
+
+                                                $subject_array = DB::table('base_table')
+                                                    ->leftJoin('subject', 'subject.base_table_id', '=', 'base_table.id')
+                                                    ->select('subject.name as subject_name')
+                                                    ->whereNull('base_table.deleted_at')
+                                                    ->where('base_table.stream',$class_array_value->id)
+                                                    ->get();
+                                                    $subject = [];
+                                                    foreach ($subject_array as $value) {
+                                                        $subject[] = [
+                                                            'subject' => $value->subject_name
+                                                        ];
+                                                    }
+                                                $stream[] = [
+                                                    'stream' => $stream_array_value->stream_name,
+                                                    // 'subject' => $subject_array
+                                                ];
+                                            }
+                                        
+
+                                            $standard[] = [
+                                                'standard' => $standard_array_value->standard_name,
+                                                'stream' => $stream,
+                                                'subject' => $subject
+                                            ];
+                                        }
+
+                                        $class[] = [
+                                            'class' => $class_array_value->class_name,
+                                            'standard' => $standard,
+                                        ];
+                                    }
+                                    
+                                    $medium[] = [
+                                        'medium' => $medium_array_value->medium_name,
+                                        'class' => $class,
+                                    ];
+                                }
+
+                                $board[] = [
+                                    'board' => $board_array_value->board_name,
+                                    'medium' => $medium,
+                                ];
+                            }
         
-        $medium_array = DB::table('base_table')
-            ->leftJoin('medium', 'medium.id', '=', 'base_table.medium','left')
-            ->select('medium.name as medium_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('medium.name')
-            ->get();
-        
-        $class_array = DB::table('base_table')
-            ->leftJoin('class', 'class.id', '=', 'base_table.institute_for_class','left')
-            ->select('class.name as class_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('class.name')
-            ->get();
-        
-        $standard_array = DB::table('base_table')
-            ->leftJoin('standard', 'standard.id', '=', 'base_table.standard','left')
-            ->select('standard.name as standard_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('standard.name')
-            ->get();
-        
-        $stream_array = DB::table('base_table')
-            ->leftJoin('stream', 'stream.id', '=', 'base_table.stream','left')
-            ->select('stream.name as stream_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('stream.name')
-            ->get();
-        
-        $subject_array = DB::table('base_table')
-            ->leftJoin('subject', 'subject.base_table_id', '=', 'base_table.id','left')
-            ->select('subject.name as subject_name')
-            ->whereNull('base_table.deleted_at')
-            ->groupBy('subject.name')
-            ->get();
-        $subject = [];
-        foreach ($subject_array as $value) {
-            $subject[] = [
-                'subject' => $value->subject_name
-            ];
-        }
-        $stream = [];
-        
-        foreach ($stream_array as $value) {
-            $stream[] = [
-                'stream' => $value->stream_name,
-                // 'subject' => $subject_array
-            ];
-        }
-        
-        $standard = [];
-        foreach ($standard_array as $value) {
-            $standard[] = [
-                'standard' => $value->standard_name,
-                'stream' => $stream,
-                'subject' => $subject
-            ];
-        }
-        
-        $class = [];
-        foreach ($class_array as $value) {
-            $class[] = [
-                'class' => $value->class_name,
-                'standard' => $standard,
-            ];
-        }
-        
-        $medium = [];
-        foreach ($medium_array as $value) {
-            $medium[] = [
-                'medium' => $value->medium_name,
-                'class' => $class,
-            ];
-        }
-        
-        $board = [];
-        foreach ($board_array as $value) {
-            $board[] = [
-                'board' => $value->board_name,
-                'medium' => $medium,
-            ];
-        }
-        
-        $institute_for = [];
-        foreach ($institute_for_array as $value) {
-            $institute_for[] = [
-                'institute_for' => $value->institute_for_name,
-                'board_detail' => $board,
-            ];
-        }
-        
-        return response()->json([
+               
+                $institute_for[] = [
+                    'institute_for' => $institute_for_array_value->institute_for_name,
+                    'board_detail' => $board,
+                ];
+
+            }
+            
+       return response()->json([
             'success' => true,
             'message' => 'Fetch Data Successfully',
             'data' => $institute_for,
