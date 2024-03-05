@@ -46,6 +46,7 @@ class InstituteApiController extends Controller
             ->leftJoin('institute_for', 'institute_for.id', '=', 'base_table.institute_for')
             ->select('institute_for.name as institute_for_name','institute_for.id')
             ->whereNull('base_table.deleted_at')
+            ->groupBy('base_table.institute_for')
             ->get();
 
             $institute_for = [];
@@ -71,14 +72,17 @@ class InstituteApiController extends Controller
                                     ->leftJoin('class', 'class.id', '=', 'base_table.institute_for_class')
                                     ->select('class.name as class_name','class.id')
                                     ->whereNull('base_table.deleted_at')
+                                    ->where('base_table.board',$board_array_value->id)
                                     ->where('base_table.medium',$medium_array_value->id)
                                     ->get();
                                     $class = [];
                                     foreach ($class_array as $class_array_value) {
                                         $standard_array = DB::table('base_table')
-                                        ->leftJoin('standard', 'standard.id', '=', 'base_table.standard')
+                                        ->join('standard', 'standard.id', '=', 'base_table.standard')
                                         ->select('standard.name as standard_name','standard.id')
                                         ->whereNull('base_table.deleted_at')
+                                        ->where('base_table.board',$board_array_value->id)
+                                        ->where('base_table.medium',$medium_array_value->id)
                                         ->where('base_table.institute_for_class',$class_array_value->id)
                                         ->get();
 
@@ -89,6 +93,10 @@ class InstituteApiController extends Controller
                                             ->leftJoin('stream', 'stream.id', '=', 'base_table.stream')
                                             ->select('stream.name as stream_name','stream.id')
                                             ->whereNull('base_table.deleted_at')
+                                            ->where('base_table.institute_for',$institute_for_array_value->id)
+                                            ->where('base_table.board',$board_array_value->id)
+                                            ->where('base_table.medium',$medium_array_value->id)
+                                            ->where('base_table.institute_for_class',$class_array_value->id)
                                             ->where('base_table.standard',$standard_array_value->id)
                                             ->get();
                                             $stream = [];
@@ -96,10 +104,16 @@ class InstituteApiController extends Controller
                                             foreach ($stream_array as $stream_array_value) {
 
                                                 $subject_array = DB::table('base_table')
-                                                    ->leftJoin('subject', 'subject.base_table_id', '=', 'base_table.id')
+                                                    ->Join('subject', 'subject.base_table_id', '=', 'base_table.id')
                                                     ->select('subject.name as subject_name')
                                                     ->whereNull('base_table.deleted_at')
-                                                    ->where('base_table.stream',$class_array_value->id)
+                                                    ->where('base_table.institute_for',$institute_for_array_value->id)
+                                                    ->where('base_table.board',$board_array_value->id)
+                                                    ->where('base_table.medium',$medium_array_value->id)
+                                                    ->where('base_table.institute_for_class',$class_array_value->id)
+                                                    ->where('base_table.standard',$standard_array_value->id)
+                                                    ->where('subject.base_table_id',$institute_for_array_value->id)
+                                                    ->orWhere('base_table.stream',$stream_array_value->id)
                                                     ->get();
                                                     $subject = [];
                                                     foreach ($subject_array as $value) {
