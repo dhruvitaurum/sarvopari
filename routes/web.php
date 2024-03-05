@@ -140,7 +140,7 @@ Route::middleware('auth')->group(function () {
     Route::get('subject-list', [SubjectController::class, 'list_subject'])->name('subject.list');
     Route::get('create/subject-list', [SubjectController::class, 'create_subject'])->name('subject.create');
     Route::POST('get/standard_wise_stream', [SubjectController::class, 'standard_wise_stream'])->name('standard_wise_stream.list');
-    Route::post('subject-list/save', [SubjectController::class, 'subject_list_save'])->name('subject_list.save');
+    Route::post('subject-save', [SubjectController::class, 'subject_list_save'])->name('subject_list.save');
     Route::post('/subject/delete', [SubjectController::class, 'subject_delete'])->name('subject.delete');
     Route::post('/subject/edit', [SubjectController::class, 'subject_edit'])->name('subject.edit');
     Route::post('subject/update', [SubjectController::class, 'subject_update'])->name('subject.update');

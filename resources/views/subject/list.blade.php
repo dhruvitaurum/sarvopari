@@ -32,7 +32,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form method="post" action="{{ url('subject-list/save') }}">
+                        <form method="post" action="{{ url('subject-save') }}">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -73,9 +73,9 @@
                                     <label for="exampleInputEmail1">Institute For Class : </label>
                                         <br>
                                         @foreach($class as $insval)
-                                        <input type="radio" name="class" value="{{$insval->id}}">{{$insval->name}} &nbsp;
+                                        <input type="radio" name="institute_for_class" value="{{$insval->id}}">{{$insval->name}} &nbsp;
                                        @endforeach
-                                        @error('class')
+                                        @error('institute_for_class')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -146,142 +146,58 @@
                     </div>
                 </div>
 
-        <div class="col-md-12">
+                <div class="col-md-12">
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Subject List</h3>
-              @canButton('add', 'Subject')
-              <a href="{{url('create/subject-list')}}" class="btn btn-success" style="float: right;">Create subject </a>
-              @endCanButton
             </div>
-            <!-- /.card-header -->
             <div class="card-body">
-              <table class="table table-bordered">
+            <table class="table table-bordered">
                 <thead>
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
-                    <th style="width: 200px">Name</th>
                     <th style="width: 200px">Standard</th>
                     <th style="width: 200px">Stream</th>
+                    <th style="width: 200px">Subjects</th>
                     <th style="width: 500px">Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  @php $i=1 @endphp
-                  @foreach($subjectlist as $value)
-                  <tr>
-                    <td>{{$i}}</td>
-                    <td>{{$value->name}}</td>
-                    <td>{{$value->standard_name}}</td>
-                    <td>{{$value->stream_name}}</td>
-                    <td>@if($value->status == 'active')
-                            <input type="button" value="Active" class="btn btn-success">
-                        @else
-                        <input type="button" value="Inactive" class="btn btn-danger">
-
-                        @endif</td>
-                   
-                    <td>
-                      <div class="d-flex">
-                      @canButton('edit', 'Subject')
-                      <input type="submit" class="btn btn-primary editButton" data-user-id="{{ $value->id }}" value="Edit">&nbsp;&nbsp;
-                      @endCanButton &nbsp;&nbsp;
-                      @canButton('delete', 'Subject')
-                      <input type="submit" class="btn btn-danger deletebutton" data-user-id="{{ $value->id }}" value="Delete">
-                      @endCanButton</div>
-                  </tr>
-                  @php $i++ @endphp
-                  @endforeach
-               </tbody>
+                @php $i=1 @endphp
+                @foreach($addsubstandard as $value)
+                
+                
+                <tr>
+                <td>{{$i}}</td>
+                <td>{{$value->name .' ('.$value->medium .','. $value->board.')' }}</td>
+                <td>{{$value->sname}}</td>
+                <td>
+                @foreach($subject_list as $subvalue)
+                @if($value->base_id == $subvalue->baset_id)
+                {{$subvalue->name}}<br>
+                @endif
+                
+                @endforeach
+                </td>
+                
+                <td>{{$value->status}}</td>
+                </tr>
+                
+                @php $i++ @endphp
+               
+                @endforeach
+                </tbody>
               </table>
-            </div>
-
+            </div>  
             <div class="d-flex justify-content-end">
-              {!! $subjectlist->withQueryString()->links('pagination::bootstrap-5') !!}
-
+             
             </div>
+            </div> 
+            </div>
+            </section>
           </div>
 
-        </div>
-
-        
-  </section>
-
-</div>
-<div class="modal fade" id="usereditModal" tabindex="-1" aria-labelledby="usereditModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="usereditModalLabel">Edit Stream </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form method="post" action="{{ url('subject/update') }}">
-                            @csrf
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                    <div class="col-md-12">
-                                             <label for="exampleInputEmail1">Select standard : </label>
-                                            <select class="form-control" name="standard_id" id="standard_id">
-                                                 <option value=" ">Select standard</option>
-                                                 @foreach($standardlist as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('board_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1" id="stream_label"> Select Stream : </label>
-                                            <select class="form-control" name="stream_id" id="secondDropdown2" style="display: none;">
-                                                 <option value=" ">Select stream</option>
-                                               
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="hidden" id="subject_id" name="subject_id">
-                                            <label for="exampleInputEmail1">Name  : </label>
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
-                                            @error('name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                       
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1">status : </label>
-                                            <select class="form-control" name="status" id="status">
-                                                 <option value=" ">Select Option</option>
-                                                 <option value="active">Active</option>
-                                                 <option value="inactive">Inactive</option>
-                                            </select>
-                                            @error('status')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" style="float: right;">Update</button>
-                            </div>
-                    </div>
-                </div>
-                </form>
-      </div>
-
-    </div>
-  </div>
-</div>
 <script>
   document.querySelectorAll('.editButton').forEach(function(button) {
     button.addEventListener('click', function() {

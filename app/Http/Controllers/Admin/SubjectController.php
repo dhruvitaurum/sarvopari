@@ -9,22 +9,29 @@ use App\Models\Medium_model;
 use App\Models\Class_model;
 use App\Models\Standard_model;
 use App\Models\Stream_model;
+use App\Models\Base_table;
 use App\Models\Subject_model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
     function list_subject(){
-        $subjectlist =DB::table('subject')
-        ->join('standard', 'subject.standard_id', '=', 'standard.id')
-        ->join('stream', 'subject.stream_id', '=', 'stream.id','left')
-        ->select('subject.*', 'standard.name as standard_name','stream.name as stream_name')
-        ->whereNull('subject.deleted_at')
-        ->paginate(10);
-        $standardlist = Standard_model::get()->toArray();
-        $streamlist = Stream_model::get()->toArray();
+        $addsubstandard = Standard_model::join('base_table','standard.id','=','base_table.standard')
+        ->leftjoin('stream','stream.id','=','base_table.stream')
+        ->leftjoin('medium','medium.id','=','base_table.medium')
+        ->leftjoin('board','board.id','=','base_table.board')
+        ->select('stream.name as sname','standard.*','medium.name as medium',
+        'board.name as board','base_table.id as base_id')
+        ->where('standard.status','active')->get();
+
+        $subject_list = Base_table::join('subject','subject.base_table_id','=','base_table.id')
+        ->select('subject.*','base_table.standard','base_table.id as baset_id')
+        ->where('base_table.status','active')->get();
+
+        
 
         $institute_for = Institute_for_model::where('status','active')->get();
         $board = board::where('status','active')->get();
@@ -32,8 +39,47 @@ class SubjectController extends Controller
         $class = Class_model::where('status','active')->get();
         $standard = Standard_model::where('status','active')->get();
         $stream = Stream_model::where('status','active')->get();
-        return view('subject.list',compact('streamlist','standardlist','subjectlist','institute_for','board','medium','class','standard','stream'));
+        return view('subject.list',compact('institute_for','board','medium','class','standard','stream','subject_list','addsubstandard'));
     }
+    function subject_list_save(Request $request){
+        $request->validate([
+            'institute_for' => 'required',
+            'board' => 'required',
+            'medium' => 'required',
+            'institute_for_class' => 'required',
+            'standard' => 'required',
+            //'stream' => 'required',
+            //'subject' => 'required',
+            'status' => 'required',
+    ]);
+
+    $base_table = Base_table::create([
+        'institute_for' => $request->input('institute_for'),
+        'board' => $request->input('board'),
+        'medium' => $request->input('medium'),
+        'institute_for_class' => $request->input('institute_for_class'),
+        'standard' => $request->input('standard'),
+        'stream' => $request->input('stream'),
+        'subject' => $request->input('subject'),
+        'status' => $request->input('status'),
+        'created_by' => Auth::id(),
+    ]);
+    
+    $base_table_id = $base_table->id;
+    
+    foreach ($request->input('subject') as $subject) {
+        //print_r($base_table_id);exit;
+        Subject_model::create([
+            'base_table_id' => $base_table_id,
+            'name' => $subject,
+            'status' => 'active',
+            'created_by' => Auth::id(),
+        ]);
+    }
+
+    return redirect()->route('subject.list')->with('success', 'Subject Created Successfully');
+    }
+
     function create_subject(){
         $standardlist = Standard_model::get()->toArray();
         $streamlist = Stream_model::get()->toArray();
@@ -44,22 +90,7 @@ class SubjectController extends Controller
         $streamlist = Stream_model::where('standard_id',$id)->get()->toArray();
         return response()->json(['streamlist'=>$streamlist]);
     }
-    function subject_list_save(Request $request){
-        $request->validate([
-            'standard_id' => 'required',
-            'name' => ['required', 'string', 'max:255'],
-            'status' => 'required',
-    ]);
-
-    Subject_model::create([
-        'standard_id'=>$request->input('standard_id'),
-        'stream_id'=>$request->input('stream_id'),
-        'name'=>$request->input('name'),
-        'status'=>$request->input('status'),
-    ]);
-
-    return redirect()->route('subject.create')->with('success', 'Subject Created Successfully');
-    }
+    
     function subject_edit(Request $request){
         $id = $request->input('subject_id');
         $standardlist = Standard_model::get()->toArray();

@@ -25,9 +25,11 @@ use App\Models\User;
 use App\Models\Insutitute_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Base_table;
 
 class InstituteApiController extends Controller
 {
+    
     function get_institute_reponse(Request $request)
     {
         $token = $request->header('Authorization');
@@ -128,7 +130,6 @@ class InstituteApiController extends Controller
                     'id' => $value->id,
                     'name' => $value->name,
                     'status' => $value->status,
-
                 );
             }
         
