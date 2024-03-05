@@ -173,12 +173,12 @@
                 <td>{{$value->name .' ('.$value->medium .','. $value->board.')' }}</td>
                 <td>{{$value->sname}}</td>
                 <td>
-                @foreach($subject_list as $subvalue)
-                @if($value->base_id == $subvalue->baset_id)
-                {{$subvalue->name}}<br>
-                @endif
-                
-                @endforeach
+                  @foreach($subject_list as $subvalue)
+                  @if($value->base_id == $subvalue->baset_id)
+                  {{$subvalue->name}}<br>
+                  @endif
+                  
+                  @endforeach
                 </td>
                 
                 <td>{{$value->status}}</td>
