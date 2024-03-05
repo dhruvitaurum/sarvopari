@@ -25,7 +25,7 @@ class SubjectController extends Controller
         ->leftjoin('board','board.id','=','base_table.board')
         ->select('stream.name as sname','standard.*','medium.name as medium',
         'board.name as board','base_table.id as base_id')
-        ->where('standard.status','active')->get();
+        ->where('standard.status','active')->paginate(10);
 
         $subject_list = Base_table::join('subject','subject.base_table_id','=','base_table.id')
         ->select('subject.*','base_table.standard','base_table.id as baset_id')

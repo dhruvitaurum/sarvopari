@@ -191,7 +191,7 @@
               </table>
             </div>  
             <div class="d-flex justify-content-end">
-             
+            {!! $addsubstandard->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
             </div> 
             </div>
