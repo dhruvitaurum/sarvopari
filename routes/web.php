@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\StandardController;
 use App\Http\Controllers\Admin\StreamController;
 use App\Http\Controllers\Admin\StudentsController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\ChapterController;
+
 use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -145,6 +147,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/subject/edit', [SubjectController::class, 'subject_edit'])->name('subject.edit');
     Route::post('subject/update', [SubjectController::class, 'subject_update'])->name('subject.update');
     
+    //chapter
+    Route::get('add-lists', [ChapterController::class, 'add_lists'])->name('chapter.list');
     //do-business-with
     Route::get('do-business-with-list', [DoBusinessWithController::class, 'list'])->name('do_business_with.list');
     Route::get('create/do-business-with', [DoBusinessWithController::class, 'create'])->name('do_business_with.create');
