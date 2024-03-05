@@ -41,86 +41,117 @@ class InstituteApiController extends Controller
 
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            // $classlist = DB::table('base_table')
-            // ->join('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
-            // ->join('board', 'board.id', '=', 'base_table.board','left')
-            // ->join('medium', 'medium.id', '=', 'base_table.medium','left')
-            // ->join('class', 'class.id', '=', 'base_table.institute_for_class','left')
-            // ->join('standard', 'standard.id', '=', 'base_table.standard','left')
-            // ->join('stream', 'stream.id', '=', 'base_table.stream','left')
-            // ->join('subject','subject.base_table_id','=','base_table.id','left')
-            // ->select('institute_for.name as institute_for_name', 'board.name as board_name',
-            //          'medium.name as medium_name', 'class.name as class_name',
-            //          'standard.name as standard_name', 'stream.name as stream_name','subject.name
-            //          as subject_name')
-            // ->whereNull('base_table.deleted_at')
-            // ->get();
-            //  foreach($classlist as $value){
-            //     $data[]= array(
-            //      'institute_for'=>$value->institute_for_name,
-            //      'board'=>$value->board_name,
-            //      'medium'=>$value->medium_name,
-            //      'class'=>$value->class_name,
-            //      'standard'=>$value->standard_name,
-            //      'stream'=>$value->stream_name,
-            //      'subject_name'=>$value->subject_name
-            //     );
-            //  }
-            //  return response()->json([
-            //     'success' => 200,
-            //     'message' => 'Fetch Data Successfully',
-            //     'data' => $data
-            // ], 200);
-            $institute_for_array = DB::table('base_table')
-            ->join('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
+         
+        $institute_for_array = DB::table('base_table')
+            ->leftJoin('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
             ->select('institute_for.name as institute_for_name')
             ->whereNull('base_table.deleted_at')
+            ->groupBy('institute_for.name')
             ->get();
-
-            $board_array = DB::table('base_table')
-            ->join('board', 'board.id', '=', 'base_table.board','left')
+        
+        $board_array = DB::table('base_table')
+            ->leftJoin('board', 'board.id', '=', 'base_table.board','left')
             ->select('board.name as board_name')
             ->whereNull('base_table.deleted_at')
-            ->get();  
-            $medium_array = DB::table('base_table')
-            ->join('medium', 'medium.id', '=', 'base_table.medium')
+            ->groupBy('board.name')
+            ->get();
+        
+        $medium_array = DB::table('base_table')
+            ->leftJoin('medium', 'medium.id', '=', 'base_table.medium','left')
             ->select('medium.name as medium_name')
             ->whereNull('base_table.deleted_at')
-            ->get(); 
-            $class_array = DB::table('base_table')
-            ->join('class', 'class.id', '=', 'base_table.class')
+            ->groupBy('medium.name')
+            ->get();
+        
+        $class_array = DB::table('base_table')
+            ->leftJoin('class', 'class.id', '=', 'base_table.institute_for_class','left')
             ->select('class.name as class_name')
             ->whereNull('base_table.deleted_at')
-            ->get(); 
-            // echo "<pre>";print_r($medium_array);exit; 
-            foreach($class_array as $value){
-                $class[]=array(
-                    'class' =>$value->class_name
-             );
-              }
-            foreach($medium_array as $value){
-                $medium[]=array(
-                    'medium' =>$value->medium_name,
-                    'class'=>$class
-             );
-              }
-              foreach($board_array as $value){
-                $board[] =array(
-                    'board' =>$value->board_name,
-                    'medium'=>$medium,
-             );
-              } 
-             foreach($institute_for_array as $value){
-                $institute_for[] =array(
-                       'institute_for' =>$value->institute_for_name,
-                       'board_detail'=>$board
-                );
-                return response()->json([
-                    'success' => 200,
-                    'message' => 'Fetch Data Successfully',
-                    'data' => $institute_for
-                ], 200);
-             }
+            ->groupBy('class.name')
+            ->get();
+        
+        $standard_array = DB::table('base_table')
+            ->leftJoin('standard', 'standard.id', '=', 'base_table.standard','left')
+            ->select('standard.name as standard_name')
+            ->whereNull('base_table.deleted_at')
+            ->groupBy('standard.name')
+            ->get();
+        
+        $stream_array = DB::table('base_table')
+            ->leftJoin('stream', 'stream.id', '=', 'base_table.stream','left')
+            ->select('stream.name as stream_name')
+            ->whereNull('base_table.deleted_at')
+            ->groupBy('stream.name')
+            ->get();
+        
+        $subject_array = DB::table('base_table')
+            ->leftJoin('subject', 'subject.base_table_id', '=', 'base_table.id','left')
+            ->select('subject.name as subject_name')
+            ->whereNull('base_table.deleted_at')
+            ->groupBy('subject.name')
+            ->get();
+        $subject = [];
+        foreach ($subject_array as $value) {
+            $subject[] = [
+                'subject' => $value->subject_name
+            ];
+        }
+        $stream = [];
+        
+        foreach ($stream_array as $value) {
+            $stream[] = [
+                'stream' => $value->stream_name,
+                // 'subject' => $subject_array
+            ];
+        }
+        
+        $standard = [];
+        foreach ($standard_array as $value) {
+            $standard[] = [
+                'standard' => $value->standard_name,
+                'stream' => $stream,
+                'subject' => $subject
+            ];
+        }
+        
+        $class = [];
+        foreach ($class_array as $value) {
+            $class[] = [
+                'class' => $value->class_name,
+                'standard' => $standard,
+            ];
+        }
+        
+        $medium = [];
+        foreach ($medium_array as $value) {
+            $medium[] = [
+                'medium' => $value->medium_name,
+                'class' => $class,
+            ];
+        }
+        
+        $board = [];
+        foreach ($board_array as $value) {
+            $board[] = [
+                'board' => $value->board_name,
+                'medium' => $medium,
+            ];
+        }
+        
+        $institute_for = [];
+        foreach ($institute_for_array as $value) {
+            $institute_for[] = [
+                'institute_for' => $value->institute_for_name,
+                'board_detail' => $board,
+            ];
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Fetch Data Successfully',
+            'data' => $institute_for,
+        ], 200);
+        
         } else {
             return response()->json([
                 'status' => 400,
