@@ -17,8 +17,9 @@ return new class extends Migration
             $table->dropColumn('standard_id');
             $table->dropColumn('stream_id');
 
-            $table->foreign('base_table_id')->references('id')->on('base_table');
+           
             $table->integer('base_table_id')->after('id');
+            $table->foreign('base_table_id')->references('id')->on('base_table');
         });
     }
 
