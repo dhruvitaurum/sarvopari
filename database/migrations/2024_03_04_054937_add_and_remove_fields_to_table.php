@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('subject', function (Blueprint $table) {
-           
+            $table->dropForeign(['standard_id']);
+            $table->dropForeign(['stream_id']);
+            $table->dropColumn('standard_id');
+            $table->dropColumn('stream_id');
+
             $table->foreign('base_table_id')->references('id')->on('base_table');
             $table->integer('base_table_id')->after('id');
         });
