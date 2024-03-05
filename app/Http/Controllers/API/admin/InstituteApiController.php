@@ -108,7 +108,7 @@ class InstituteApiController extends Controller
                                                         ];
                                                     }
                                                 $stream[] = [
-                                                    'stream' => $stream_array_value->stream_name,
+                                                    'stream' => $stream_array_value->stream_name.'',
                                                     // 'subject' => $subject_array
                                                 ];
                                             }
