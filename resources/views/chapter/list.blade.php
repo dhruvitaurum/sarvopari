@@ -27,20 +27,24 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Subject List</h3>
-              <!-- @canButton('add', 'Subject')
-              <a href="{{url('create/subject-list')}}" class="btn btn-success" style="float: right;">Create subject </a>
-              @endCanButton -->
+             
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+            <div class="col-md-6">
+                <label for="exampleInputEmail1">status : </label>
+                <select class="form-control" name="status">
+                        <option value=" ">Select Option</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                </select>
+            </div>
               <table class="table table-bordered">
                 <thead>
-                    <tr>
-                    <th style="width: 200px">Board</th>
-                    <th style="width: 200px">Medium</th>
-                    <th style="width: 200px">Standard</th>
-                    <th style="width: 200px">Stream</th>
-                    </tr>
+                    <tr style="width: 200px" id="board">Board :</tr>
+                    <tr style="width: 200px" id="medium">Medium :</tr>
+                    <tr style="width: 200px" id="standard">Standard :</tr>
+                    <tr style="width: 200px" id="stream">Stream :</tr>
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Subject</th>
@@ -55,8 +59,6 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              {!! $subjectlist->withQueryString()->links('pagination::bootstrap-5') !!}
-
             </div>
           </div>
 
@@ -72,67 +74,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        <!-- <div class="modal-body">
-        <form method="post" action="{{ url('subject/update') }}">
-                            @csrf
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                    <div class="col-md-12">
-                                             <label for="exampleInputEmail1">Select standard : </label>
-                                            <select class="form-control" name="standard_id" id="standard_id">
-                                                 <option value=" ">Select standard</option>
-                                                 @foreach($standardlist as $value)
-                                                 <option value="{{$value['id']}}">{{$value['name']}}</option>
-                                                 @endforeach
-                                            </select>
-                                            @error('board_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1" id="stream_label"> Select Stream : </label>
-                                            <select class="form-control" name="stream_id" id="secondDropdown2" style="display: none;">
-                                                 <option value=" ">Select stream</option>
-                                               
-                                            </select>
-                                            @error('institute_id')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="hidden" id="subject_id" name="subject_id">
-                                            <label for="exampleInputEmail1">Name  : </label>
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
-                                            @error('name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                       
-                                        <div class="col-md-12">
-                                            <label for="exampleInputEmail1">status : </label>
-                                            <select class="form-control" name="status" id="status">
-                                                 <option value=" ">Select Option</option>
-                                                 <option value="active">Active</option>
-                                                 <option value="inactive">Inactive</option>
-                                            </select>
-                                            @error('status')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" style="float: right;">Update</button>
-                            </div>
-                    </div>
-                </div>
-                </form>
-      </div> -->
-
+       
     </div>
   </div>
 </div>
