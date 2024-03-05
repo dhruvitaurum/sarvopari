@@ -205,7 +205,12 @@ class StudentController extends Controller
         
         try {
         $instituteid = $request->institute_id;
-        $getuid = Institute_detail::where('id',$instituteid)->select('user_id')->first();
+        $getsid = Student_detail::where('student_id',$request->user_id)
+        ->where('institute_id',$instituteid)->first();
+        if($getsid){
+            
+        }else{
+            $getuid = Institute_detail::where('id',$instituteid)->select('user_id')->first();
         
         $search_add = Student_detail::create([
             'user_id' => $getuid->user_id,
@@ -214,6 +219,8 @@ class StudentController extends Controller
             'status' => 'pending',
         ]);
 
+        }
+        
         return response()->json([
             'success' => 200,
             'message' => 'Request added successfully',

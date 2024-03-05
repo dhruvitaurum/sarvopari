@@ -157,6 +157,7 @@
                   <tr>
                     <th style="width: 10px"><Sr class="No">No</Sr></th>
                     <th style="width: 200px">Standard</th>
+                    <th style="width: 200px">Board/Medium</th>
                     <th style="width: 200px">Stream</th>
                     <th style="width: 200px">Subjects</th>
                     <th style="width: 500px">Status</th>
@@ -170,7 +171,8 @@
                 
                 <tr>
                 <td>{{$i}}</td>
-                <td>{{$value->name .' ('.$value->medium .','. $value->board.')' }}</td>
+                <td>{{$value->name}}</td>
+                <td>{{ $value->board.'-'.$value->medium}}</td>
                 <td>{{$value->sname}}</td>
                 <td>
                   @foreach($subject_list as $subvalue)
