@@ -41,109 +41,86 @@ class InstituteApiController extends Controller
 
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
-            $institute_for = Institute_for_model::with('boards.classes.standards.streams.subjects')->get();
+            // $classlist = DB::table('base_table')
+            // ->join('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
+            // ->join('board', 'board.id', '=', 'base_table.board','left')
+            // ->join('medium', 'medium.id', '=', 'base_table.medium','left')
+            // ->join('class', 'class.id', '=', 'base_table.institute_for_class','left')
+            // ->join('standard', 'standard.id', '=', 'base_table.standard','left')
+            // ->join('stream', 'stream.id', '=', 'base_table.stream','left')
+            // ->join('subject','subject.base_table_id','=','base_table.id','left')
+            // ->select('institute_for.name as institute_for_name', 'board.name as board_name',
+            //          'medium.name as medium_name', 'class.name as class_name',
+            //          'standard.name as standard_name', 'stream.name as stream_name','subject.name
+            //          as subject_name')
+            // ->whereNull('base_table.deleted_at')
+            // ->get();
+            //  foreach($classlist as $value){
+            //     $data[]= array(
+            //      'institute_for'=>$value->institute_for_name,
+            //      'board'=>$value->board_name,
+            //      'medium'=>$value->medium_name,
+            //      'class'=>$value->class_name,
+            //      'standard'=>$value->standard_name,
+            //      'stream'=>$value->stream_name,
+            //      'subject_name'=>$value->subject_name
+            //     );
+            //  }
+            //  return response()->json([
+            //     'success' => 200,
+            //     'message' => 'Fetch Data Successfully',
+            //     'data' => $data
+            // ], 200);
+            $institute_for_array = DB::table('base_table')
+            ->join('institute_for', 'institute_for.id', '=', 'base_table.institute_for','left')
+            ->select('institute_for.name as institute_for_name')
+            ->whereNull('base_table.deleted_at')
+            ->get();
 
-            $institute_for_response = $institute_for->map(function ($institute) {
-                $boards = $institute->boards->map(function ($board) {
-                    $classes = $board->classes->map(function ($class) {
-                        $standards = $class->standards->map(function ($standard) {
-                            $streams = $standard->streams->map(function ($stream) {
-                                $subjects = $stream->subjects->map(function ($subject) {
-                                    return [
-                                        'id' => $subject->id,
-                                        'stream_id'=>$subject->stream_id,
-                                        'name' => $subject->name,
-                                        'status' => $subject->status,
-                                    ];
-                                });
-                        
-                                return [
-                                    'id' => $stream->id,
-                                    'standard_id'=>$stream->id,
-                                    'name' => $stream->name,
-                                    'status' => $stream->status,
-                                    'subjects' => $subjects->toArray(),
-                                ];
-                            });
-                        
-                            // If there are no streams, include subjects directly at the standard level
-                            $subjectsAtStandardLevel = $standard->subjects->map(function ($subject) {
-                                return [
-                                    'id' => $subject->id,
-                                    'standard_id' => $subject->standard_id,
-                                    'name' => $subject->name,
-                                    'status' => $subject->status,
-                                ];
-                            });
-                        
-                            return [
-                                'id' => $standard->id,
-                                'class_id'=>$standard->class_id,
-                                'name' => $standard->name,
-                                'status' => $standard->status,
-                                'streams' => $streams->isEmpty() ? [] : $streams->toArray(),
-                                'subjects' => $streams->isEmpty() ? $subjectsAtStandardLevel->toArray() : [],
-                            ];
-                        });
-            
-                        return [
-                            'id' => $class->id,
-                            'board_id'=>$class->board_id,
-                            'name' => $class->name,
-                            'icon' =>asset($class->icon),
-                            'status' => $class->status,
-                            'standards' => $standards,
-                        ];
-                    });
-            
-                    return [
-                        'id' => $board->id,
-                        'institute_id'=>$board->institute_for_id,
-                        'name' => $board->name,
-                        'icon' =>asset($board->icon),
-                        'status' => $board->status,
-                        'classes' => $classes,
-                    ];
-                });
-            
-                return [
-                    'id' => $institute->id,
-                    'name' => $institute->name,
-                    'icon' =>asset($institute->icon),
-                    'status' => $institute->status,
-                    'boards' => $boards,
-                ];
-            });
-            $Institute_medium = Medium_model::get();
-            foreach ($Institute_medium as $value) {
-                $institute_medium_response[] = array(
-                    'id' => $value->id,
-                    'name' => $value->name,
-                    'icon' =>asset($value->icon),
-                    'status' => $value->status,
-
+            $board_array = DB::table('base_table')
+            ->join('board', 'board.id', '=', 'base_table.board','left')
+            ->select('board.name as board_name')
+            ->whereNull('base_table.deleted_at')
+            ->get();  
+            $medium_array = DB::table('base_table')
+            ->join('medium', 'medium.id', '=', 'base_table.medium')
+            ->select('medium.name as medium_name')
+            ->whereNull('base_table.deleted_at')
+            ->get(); 
+            $class_array = DB::table('base_table')
+            ->join('class', 'class.id', '=', 'base_table.class')
+            ->select('class.name as class_name')
+            ->whereNull('base_table.deleted_at')
+            ->get(); 
+            // echo "<pre>";print_r($medium_array);exit; 
+            foreach($class_array as $value){
+                $class[]=array(
+                    'class' =>$value->class_name
+             );
+              }
+            foreach($medium_array as $value){
+                $medium[]=array(
+                    'medium' =>$value->medium_name,
+                    'class'=>$class
+             );
+              }
+              foreach($board_array as $value){
+                $board[] =array(
+                    'board' =>$value->board_name,
+                    'medium'=>$medium,
+             );
+              } 
+             foreach($institute_for_array as $value){
+                $institute_for[] =array(
+                       'institute_for' =>$value->institute_for_name,
+                       'board_detail'=>$board
                 );
-            }
-            $dobusinesswith = Dobusinesswith_Model::get();
-            foreach ($dobusinesswith as $value) {
-                $dobusinesswith_response[] = array(
-                    'id' => $value->id,
-                    'name' => $value->name,
-                    'status' => $value->status,
-                );
-            }
-        
-            return response()->json([
-                'status' => 200,
-                'message' => 'Successfully fetch data.',
-                'institute_for' => $institute_for_response,
-                // 'institute_board' => $boards,
-                // 'institute_class' => $Institute_class_response,
-                'institute_medium' => $institute_medium_response,
-                'do_business_with' => $dobusinesswith_response,
-
-
-            ], 200, [], JSON_NUMERIC_CHECK);
+                return response()->json([
+                    'success' => 200,
+                    'message' => 'Fetch Data Successfully',
+                    'data' => $institute_for
+                ], 200);
+             }
         } else {
             return response()->json([
                 'status' => 400,
