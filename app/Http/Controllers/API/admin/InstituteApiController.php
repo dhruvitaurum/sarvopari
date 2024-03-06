@@ -42,13 +42,15 @@ class InstituteApiController extends Controller
         $existingUser = User::where('token', $token)->first();
         if ($existingUser) {
          
-        $institute_for_array = DB::table('base_table')
+            $institute_for_array = DB::table('base_table')
             ->leftJoin('institute_for', 'institute_for.id', '=', 'base_table.institute_for')
-            ->select('institute_for.name as institute_for_name','base_table.id','institute_for.id as institute_id')
+            ->select('institute_for.name as institute_for_name', 'base_table.id', 'institute_for.id as institute_id')
             ->whereNull('base_table.deleted_at')
+            ->groupBy('institute_for.name', 'base_table.id', 'institute_for.id')
             ->get();
+        
 
-            $institute_for = [];
+            $institute_for = [];    
             foreach ($institute_for_array as $institute_for_array_value) {
                  $board_array = DB::table('base_table')
                     ->leftJoin('board', 'board.id', '=', 'base_table.board')
@@ -146,11 +148,25 @@ class InstituteApiController extends Controller
                             }
         
                
-                $institute_for[] = [
-                    'institute_id'=>$institute_for_array_value->id,
-                    'institute_for' => $institute_for_array_value->institute_for_name,
-                    'board_detail' => $board,
-                ];
+                // $institute_for[] = [
+                //     'institute_id'=>$institute_for_array_value->id,
+                //     'institute_for' => $institute_for_array_value->institute_for_name,
+                //     'board_detail' => $board,
+                // ];
+                    $institute_for_name = $institute_for_array_value->institute_for_name;
+
+                    if (!isset($institute_for[$institute_for_name])) {
+                        $institute_for[$institute_for_name] = [
+                            'institute_id' => $institute_for_array_value->id,
+                            'institute_for' => $institute_for_name,
+                            'board_details' => [$board],
+                        ];
+                    } else {
+                        $institute_for[$institute_for_name]['board_details'][] = $board;
+                    }
+                    // $institute_for = array_values($institute_for);
+
+
 
             }
             
