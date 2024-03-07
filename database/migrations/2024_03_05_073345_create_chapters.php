@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('subject_id');
             $table->foreign('subject_id')->references('id')->on('subject');
+            $table->unsignedBigInteger('base_table_id');
+            $table->foreign('base_table_id')->references('id')->on('base_table');
             $table->string('chapter_name');
             $table->string('chapter_no');
             $table->string('chapter_image');

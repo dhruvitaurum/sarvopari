@@ -149,8 +149,9 @@ Route::middleware('auth')->group(function () {
     
     //chapter
     Route::get('add-lists', [ChapterController::class, 'add_lists'])->name('chapter.list');
-    Route::post('chapter/get-subject', [ChapterController::class, 'get_subjects'])->name('chapter.list');
-    
+    Route::post('chapter/get-subject', [ChapterController::class, 'get_subjects']);
+    Route::post('chapter-save', [ChapterController::class, 'chapter_save'])->name('chapter.save');
+    Route::post('chapter-list', [ChapterController::class, 'chapter_lists']);
     //do-business-with
     Route::get('do-business-with-list', [DoBusinessWithController::class, 'list'])->name('do_business_with.list');
     Route::get('create/do-business-with', [DoBusinessWithController::class, 'create'])->name('do_business_with.create');
