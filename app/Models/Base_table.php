@@ -13,4 +13,5 @@ class Base_table extends Model
     protected $fillable = [
         'institute_for', 'board', 'medium','institute_for_class','standard','stream','status','created_by','updated_by','updated_by','updated_by'
     ];
+    
 }

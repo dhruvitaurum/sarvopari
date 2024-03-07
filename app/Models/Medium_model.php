@@ -13,4 +13,5 @@ class Medium_model extends Model
     protected $fillable = [
          'name', 'icon','status', 'created_by', 'updated_by'
     ];
+    
 }
